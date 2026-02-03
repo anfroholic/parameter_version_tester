@@ -45,7 +45,15 @@ CREATE TABLE file_types (
 INSERT INTO file_types (name) VALUES
     ('js'),
     ('py'),
-    ('md')
+    ('md'),
+    ('json'),
+    ('txt'),
+    ('html'),
+    ('css'),
+    ('csv'),
+    ('png'),
+    ('ico'),
+    ('dependencies')
 ON CONFLICT DO NOTHING;
 
 -- =========================================================
