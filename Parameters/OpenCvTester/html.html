@@ -1,0 +1,554 @@
+<div class="parameter" style="resize: width; overflow:auto; min-width: 800px;">
+  <style>
+    .opencv-container {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      padding: 10px;
+    }
+    .opencv-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding-bottom: 10px;
+      border-bottom: 1px solid #444;
+    }
+    .opencv-source-panel {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      padding: 10px;
+      background: #2a2a3a;
+      border-radius: 5px;
+      align-items: center;
+    }
+    .opencv-source-options {
+      display: flex;
+      gap: 15px;
+      align-items: center;
+    }
+    .opencv-source-controls {
+      display: flex;
+      gap: 8px;
+      align-items: center;
+      flex-wrap: wrap;
+    }
+    .opencv-main {
+      display: flex;
+      gap: 15px;
+    }
+    .opencv-canvas-container {
+      flex: 1;
+      min-width: 400px;
+      background: #1a1a2a;
+      border-radius: 5px;
+      padding: 10px;
+      text-align: center;
+      position: relative;
+    }
+    .opencv-canvas {
+      max-width: 100%;
+      border: 1px solid #444;
+      border-radius: 3px;
+      background: #000;
+    }
+    .opencv-video {
+      max-width: 100%;
+      border: 1px solid #444;
+      border-radius: 3px;
+      background: #000;
+      display: none;
+    }
+    .opencv-controls {
+      width: 280px;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+    .opencv-panel {
+      background: #2a2a3a;
+      border-radius: 5px;
+      padding: 10px;
+    }
+    .opencv-panel h4 {
+      margin: 0 0 10px 0;
+      color: #8af;
+      font-size: 14px;
+    }
+    .opencv-mode-list {
+      display: flex;
+      flex-direction: column;
+      gap: 5px;
+    }
+    .opencv-mode-item {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      padding: 5px;
+      cursor: pointer;
+      border-radius: 3px;
+    }
+    .opencv-mode-item:hover {
+      background: #3a3a4a;
+    }
+    .opencv-mode-item.active {
+      background: #3a5a7a;
+    }
+    .opencv-settings {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+    .opencv-setting-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 12px;
+    }
+    .opencv-setting-row input[type="range"] {
+      width: 100px;
+    }
+    .opencv-setting-row input[type="number"] {
+      width: 60px;
+      padding: 2px 5px;
+      background: #1a1a2a;
+      border: 1px solid #444;
+      color: #fff;
+      border-radius: 3px;
+    }
+    .opencv-panel-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 10px;
+    }
+    .opencv-panel-header h4 {
+      margin: 0;
+    }
+    .opencv-help-toggle {
+      width: 20px;
+      height: 20px;
+      border-radius: 50%;
+      border: 1px solid #8af;
+      background: transparent;
+      color: #8af;
+      font-size: 12px;
+      font-weight: bold;
+      cursor: pointer;
+      padding: 0;
+      line-height: 18px;
+    }
+    .opencv-help-toggle:hover {
+      background: #8af;
+      color: #1a1a2a;
+    }
+    .opencv-help-toggle.active {
+      background: #8af;
+      color: #1a1a2a;
+    }
+    .opencv-help-content {
+      display: none;
+      background: #1a1a2a;
+      border-radius: 4px;
+      padding: 10px;
+      margin-bottom: 10px;
+      font-size: 11px;
+      line-height: 1.5;
+      color: #aaa;
+    }
+    .opencv-help-content.visible {
+      display: block;
+    }
+    .opencv-help-content dt {
+      color: #8af;
+      font-weight: bold;
+      margin-top: 8px;
+    }
+    .opencv-help-content dt:first-child {
+      margin-top: 0;
+    }
+    .opencv-help-content dd {
+      margin: 2px 0 0 0;
+      color: #999;
+    }
+    /* Processing overlay */
+    .opencv-processing-overlay {
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: rgba(0, 0, 0, 0.7);
+      display: none;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      border-radius: 5px;
+      z-index: 10;
+    }
+    .opencv-processing-overlay.visible {
+      display: flex;
+    }
+    .opencv-spinner {
+      width: 50px;
+      height: 50px;
+      border: 4px solid #333;
+      border-top-color: #8af;
+      border-radius: 50%;
+      animation: opencv-spin 1s linear infinite;
+    }
+    @keyframes opencv-spin {
+      to { transform: rotate(360deg); }
+    }
+    .opencv-processing-text {
+      margin-top: 15px;
+      color: #8af;
+      font-size: 14px;
+      font-weight: bold;
+    }
+    /* Button processing state */
+    .opencv-btn.processing {
+      background: #666;
+      cursor: wait;
+      animation: opencv-pulse 1.5s ease-in-out infinite;
+    }
+    .opencv-btn.processing:hover {
+      background: #666;
+    }
+    @keyframes opencv-pulse {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0.5; }
+    }
+    /* Status processing state */
+    .opencv-status.processing {
+      color: #8af;
+      animation: opencv-status-glow 1.5s ease-in-out infinite;
+    }
+    @keyframes opencv-status-glow {
+      0%, 100% {
+        text-shadow: 0 0 5px #8af;
+        color: #8af;
+      }
+      50% {
+        text-shadow: 0 0 15px #8af, 0 0 25px #8af;
+        color: #adf;
+      }
+    }
+    .opencv-results {
+      background: #2a2a3a;
+      border-radius: 5px;
+      padding: 10px;
+      max-height: 200px;
+      overflow-y: auto;
+    }
+    .opencv-results h4 {
+      margin: 0 0 10px 0;
+      color: #8af;
+      font-size: 14px;
+    }
+    .opencv-results-table {
+      width: 100%;
+      font-size: 11px;
+      border-collapse: collapse;
+    }
+    .opencv-results-table th,
+    .opencv-results-table td {
+      padding: 4px 8px;
+      text-align: left;
+      border-bottom: 1px solid #444;
+    }
+    .opencv-results-table th {
+      background: #1a1a2a;
+      color: #8af;
+    }
+    .opencv-btn {
+      padding: 6px 12px;
+      border: none;
+      border-radius: 3px;
+      cursor: pointer;
+      font-size: 12px;
+    }
+    .opencv-btn-primary {
+      background: #4a9;
+      color: #fff;
+    }
+    .opencv-btn-primary:hover {
+      background: #5ba;
+    }
+    .opencv-btn-secondary {
+      background: #666;
+      color: #fff;
+    }
+    .opencv-btn-secondary:hover {
+      background: #777;
+    }
+    .opencv-btn-danger {
+      background: #a44;
+      color: #fff;
+    }
+    .opencv-btn-danger:hover {
+      background: #b55;
+    }
+    .opencv-btn-webcam {
+      background: #47a;
+      color: #fff;
+    }
+    .opencv-btn-webcam:hover {
+      background: #58b;
+    }
+    .opencv-status {
+      font-size: 11px;
+      color: #888;
+      padding: 5px;
+    }
+    .opencv-file-input {
+      display: none;
+    }
+    .opencv-url-input {
+      flex: 1;
+      min-width: 150px;
+      padding: 5px;
+      background: #1a1a2a;
+      border: 1px solid #444;
+      color: #fff;
+      border-radius: 3px;
+    }
+  </style>
+  <span style="font-size: large;">${param.name}</span>
+  <span style="float:right;">pid: ${param.pid}</span>
+  <button class="toggler" onclick="toggleCollapsible(this)"
+    style="float:right;">-</button>
+  <div class="opencv-container">
+    <!-- Header -->
+    <div class="opencv-header">
+      
+    </div>
+
+    <!-- Source Panel -->
+    <div class="opencv-source-panel">
+      <div class="opencv-source-options">
+        <label>
+          <input type="radio" name="${param.pid}_source" value="upload" checked id="${param.pid}_source_upload">
+          Upload
+        </label>
+        <label>
+          <input type="radio" name="${param.pid}_source" value="webcam" id="${param.pid}_source_webcam">
+          USB Webcam
+        </label>
+        <label>
+          <input type="radio" name="${param.pid}_source" value="url" id="${param.pid}_source_url">
+          URL Stream
+        </label>
+      </div>
+      <input type="text" id="${param.pid}_camera_url" placeholder="Camera stream URL" class="opencv-url-input"
+             value="${param.camera_url || ''}">
+      <input type="file" id="${param.pid}_file_input" accept="image/*" class="opencv-file-input">
+      <div class="opencv-source-controls">
+        <button class="opencv-btn opencv-btn-primary" id="${param.pid}_browse_btn">Browse...</button>
+        <button class="opencv-btn opencv-btn-webcam" id="${param.pid}_start_webcam_btn">Start Webcam</button>
+        <button class="opencv-btn opencv-btn-danger" id="${param.pid}_stop_webcam_btn" style="display:none;">Stop Webcam</button>
+        <button class="opencv-btn opencv-btn-secondary" id="${param.pid}_capture_btn">Capture</button>
+        <button class="opencv-btn opencv-btn-primary" id="${param.pid}_process_btn">Process</button>
+      </div>
+    </div>
+
+    <!-- Main Content -->
+    <div class="opencv-main">
+      <!-- Canvas Area -->
+      <div class="opencv-canvas-container">
+        <video id="${param.pid}_video" class="opencv-video" autoplay playsinline></video>
+        <img id="${param.pid}_canvas" class="opencv-canvas"
+             src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='640' height='480'%3E%3Crect fill='%23222' width='640' height='480'/%3E%3Ctext x='320' y='240' text-anchor='middle' fill='%23666' font-family='sans-serif'%3ENo image loaded%3C/text%3E%3C/svg%3E"
+             style="max-width: 100%; height: auto;">
+        <canvas id="${param.pid}_temp_canvas" style="display: none;"></canvas>
+        <div class="opencv-processing-overlay" id="${param.pid}_processing_overlay">
+          <div class="opencv-spinner"></div>
+          <div class="opencv-processing-text">Processing...</div>
+        </div>
+        <div class="opencv-status" id="${param.pid}_status">Ready - Select an image source</div>
+      </div>
+
+      <!-- Controls Panel -->
+      <div class="opencv-controls">
+        <!-- Detection Mode -->
+        <div class="opencv-panel">
+          <h4>Detection Mode</h4>
+          <div class="opencv-mode-list" id="${param.pid}_mode_list">
+            <div class="opencv-mode-item active" data-mode="qrcode">
+              <input type="radio" name="${param.pid}_mode" value="qrcode" checked>
+              <span>QR Codes</span>
+            </div>
+            <div class="opencv-mode-item" data-mode="contour">
+              <input type="radio" name="${param.pid}_mode" value="contour">
+              <span>Contour Detection</span>
+            </div>
+            <div class="opencv-mode-item" data-mode="color">
+              <input type="radio" name="${param.pid}_mode" value="color">
+              <span>Color Segmentation</span>
+            </div>
+            <div class="opencv-mode-item" data-mode="shape">
+              <input type="radio" name="${param.pid}_mode" value="shape">
+              <span>Shape Detection</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Mode Settings -->
+        <div class="opencv-panel" id="${param.pid}_settings_panel">
+          <div class="opencv-panel-header">
+            <h4>Mode Settings</h4>
+            <button class="opencv-help-toggle" id="${param.pid}_help_toggle" title="Toggle help">?</button>
+          </div>
+
+          <!-- Help Content (collapsible) -->
+          <div class="opencv-help-content" id="${param.pid}_help_qrcode">
+            <dl>
+              <dt>QR Code Detection</dt>
+              <dd>Automatically detects and decodes QR codes in the image. No configuration needed - the detector finds QR codes of any size and orientation.</dd>
+            </dl>
+          </div>
+
+          <div class="opencv-help-content" id="${param.pid}_help_contour">
+            <dl>
+              <dt>Canny Low / High</dt>
+              <dd>Edge detection thresholds. Low values detect more edges (more noise), high values detect fewer edges (cleaner). Typical range: 50-150.</dd>
+              <dt>Min Area</dt>
+              <dd>Minimum contour area in pixels. Filters out small noise. Increase to ignore small objects.</dd>
+              <dt>Max Area</dt>
+              <dd>Maximum contour area in pixels. Filters out large regions. Decrease to ignore background areas.</dd>
+            </dl>
+          </div>
+
+          <div class="opencv-help-content" id="${param.pid}_help_color">
+            <dl>
+              <dt>H (Hue): 0-180</dt>
+              <dd>Color tone. Red=0/180, Yellow=30, Green=60, Cyan=90, Blue=120, Magenta=150. Set range to isolate specific colors.</dd>
+              <dt>S (Saturation): 0-255</dt>
+              <dd>Color intensity. 0=gray/white, 255=pure color. Lower values include washed-out colors.</dd>
+              <dt>V (Value): 0-255</dt>
+              <dd>Brightness. 0=black, 255=bright. Lower values include darker shades.</dd>
+            </dl>
+          </div>
+
+          <div class="opencv-help-content" id="${param.pid}_help_shape">
+            <dl>
+              <dt>Min/Max Radius</dt>
+              <dd>Circle detection size range in pixels. Adjust based on expected object sizes in your image.</dd>
+              <dt>Min Distance</dt>
+              <dd>Minimum distance between detected circle centers. Prevents overlapping detections.</dd>
+              <dt>Sensitivity</dt>
+              <dd>Circle detection threshold (1-100). Lower=more detections (more false positives), Higher=fewer detections (more strict).</dd>
+            </dl>
+          </div>
+
+          <!-- QR Code Settings (default) -->
+          <div class="opencv-settings" id="${param.pid}_qrcode_settings">
+            <div class="opencv-setting-row">
+              <span style="color: #8a8">No additional settings needed</span>
+            </div>
+          </div>
+
+          <!-- Contour Settings -->
+          <div class="opencv-settings" id="${param.pid}_contour_settings" style="display: none;">
+            <div class="opencv-setting-row">
+              <span>Canny Low:</span>
+              <input type="number" id="${param.pid}_canny_low" value="50" min="0" max="255">
+            </div>
+            <div class="opencv-setting-row">
+              <span>Canny High:</span>
+              <input type="number" id="${param.pid}_canny_high" value="150" min="0" max="255">
+            </div>
+            <div class="opencv-setting-row">
+              <span>Min Area:</span>
+              <input type="number" id="${param.pid}_min_area" value="100" min="0">
+            </div>
+            <div class="opencv-setting-row">
+              <span>Max Area:</span>
+              <input type="number" id="${param.pid}_max_area" value="50000" min="0">
+            </div>
+          </div>
+
+          <!-- Color Settings -->
+          <div class="opencv-settings" id="${param.pid}_color_settings" style="display: none;">
+            <div class="opencv-setting-row">
+              <span>H Low:</span>
+              <input type="range" id="${param.pid}_h_low" value="0" min="0" max="180">
+              <span id="${param.pid}_h_low_val">0</span>
+            </div>
+            <div class="opencv-setting-row">
+              <span>H High:</span>
+              <input type="range" id="${param.pid}_h_high" value="180" min="0" max="180">
+              <span id="${param.pid}_h_high_val">180</span>
+            </div>
+            <div class="opencv-setting-row">
+              <span>S Low:</span>
+              <input type="range" id="${param.pid}_s_low" value="50" min="0" max="255">
+              <span id="${param.pid}_s_low_val">50</span>
+            </div>
+            <div class="opencv-setting-row">
+              <span>S High:</span>
+              <input type="range" id="${param.pid}_s_high" value="255" min="0" max="255">
+              <span id="${param.pid}_s_high_val">255</span>
+            </div>
+            <div class="opencv-setting-row">
+              <span>V Low:</span>
+              <input type="range" id="${param.pid}_v_low" value="50" min="0" max="255">
+              <span id="${param.pid}_v_low_val">50</span>
+            </div>
+            <div class="opencv-setting-row">
+              <span>V High:</span>
+              <input type="range" id="${param.pid}_v_high" value="255" min="0" max="255">
+              <span id="${param.pid}_v_high_val">255</span>
+            </div>
+          </div>
+
+          <!-- Shape Settings -->
+          <div class="opencv-settings" id="${param.pid}_shape_settings" style="display: none;">
+            <div class="opencv-setting-row">
+              <span>Min Radius:</span>
+              <input type="number" id="${param.pid}_min_radius" value="10" min="1">
+            </div>
+            <div class="opencv-setting-row">
+              <span>Max Radius:</span>
+              <input type="number" id="${param.pid}_max_radius" value="100" min="1">
+            </div>
+            <div class="opencv-setting-row">
+              <span>Min Distance:</span>
+              <input type="number" id="${param.pid}_min_dist" value="30" min="1">
+            </div>
+            <div class="opencv-setting-row">
+              <span>Sensitivity:</span>
+              <input type="number" id="${param.pid}_param2" value="30" min="1" max="100">
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Results Panel -->
+    <div class="opencv-results">
+      <div style="display: flex; justify-content: space-between; align-items: center;">
+        <h4>Detection Results</h4>
+        <div>
+          <button class="opencv-btn opencv-btn-secondary" id="${param.pid}_export_btn">Export JSON</button>
+          <button class="opencv-btn opencv-btn-secondary" id="${param.pid}_send_btn">Send to Output</button>
+          <button class="opencv-btn opencv-btn-danger" id="${param.pid}_clear_btn">Clear</button>
+        </div>
+      </div>
+      <table class="opencv-results-table">
+        <thead>
+          <tr>
+            <th>ID</th>
+            <th>Type</th>
+            <th>X</th>
+            <th>Y</th>
+            <th>Details</th>
+          </tr>
+        </thead>
+        <tbody id="${param.pid}_results_body">
+          <tr><td colspan="5" style="text-align: center; color: #666;">No detections yet</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>

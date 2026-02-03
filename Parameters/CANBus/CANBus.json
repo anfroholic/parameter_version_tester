@@ -1,0 +1,57 @@
+{
+  "CANBus": {
+    "ports": {
+      "terminal_debug": {
+        "datatype": "bool",
+        "default": false,
+        "direction": "input"
+      },
+      "self": {
+        "datatype": "bus",
+        "default": null,
+        "direction": "output"
+      }
+    },
+    "constants": {
+      "rx": {
+        "type": "number",
+        "state": "0",
+        "help": "rx pin number"
+      },
+      "tx": {
+        "type": "number",
+        "state": "0",
+        "help": "tx pin number"
+      },
+      "adr": {
+        "type": "number",
+        "state": "0",
+        "help": "can address\n this will be changed eventually to be handled differently"
+      },
+      "bus": {
+        "type": "number",
+        "state": "0",
+        "help": "bus ID"
+      },
+      "baud": {
+        "type": "number",
+        "state": 250000,
+        "help": "baudrate for can bus"
+      },
+      "rx_queue": {
+        "type": "number",
+        "state": 25,
+        "help": "receive queue size"
+      }
+    },
+    "size": [
+      85,
+      100
+    ],
+    "datatype": null,
+    "up": {
+      "can_go_up": false
+    },
+    "broadcast": false
+  }
+}

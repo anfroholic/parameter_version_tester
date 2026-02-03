@@ -1,0 +1,39 @@
+<div class="parameter">
+  <span style="font-size: large;">${param.name}</span>
+  <span style="float:right;">pid: ${param.pid}</span><button id="${param.pid}_toggler" class="toggler" onclick="toggleCollapsible(this)" style="float:right;">-</button>
+  <div>
+    <div>
+      <span>description</span><button class="toggler" onclick="toggleCollapsible(this)">-</button>
+      <div id="${param.pid}_description" style="border: #ccc solid 1px; border-radius:5px; height: fit-content; padding:5px; resize:both; overflow:auto">
+        ${param.description}
+      </div>
+      <br>
+    </div>
+
+    <div>
+      <span>code</span><button class="toggler" onclick="toggleCollapsible(this)">-</button>
+      <div>
+        <div id="${param.pid}_editor"  style="border: 2px solid black;">
+          <!-- Create a textarea for the CodeMirror editor -->
+          <textarea id="${param.pid}_code" name="${param.pid}_code">${param.state}</textarea>
+          <!-- Create a draggable bar for resizing -->
+          <div id="${param.pid}_resize-bar" style="cursor: row-resize; height: 6px; background-color: #ccc; position: relative; bottom: -6px; width: 100%;">
+          </div>
+        </div>
+      </div>
+    </div>
+    <div style="height: 7px;"></div>
+    <br>
+    <div id="${param.pid}_buttons">
+      ${this.make_buttons(param)}
+    </div>
+    <div>
+      <span>repl</span><button class="toggler" onclick="toggleCollapsible(this)">-</button>
+      <div>
+        <br>
+        <div id="${param.pid}_terminal" class="terminal" style="height: 130px;"></div>
+        <div id="${param.pid}_input" class="term_input" contenteditable="true"></div>
+      </div>
+    </div>
+  </div>
+</div>

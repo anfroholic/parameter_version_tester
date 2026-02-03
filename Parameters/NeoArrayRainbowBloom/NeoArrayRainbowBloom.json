@@ -1,0 +1,42 @@
+{
+  "NeoArrayRainbowBloom": {
+    "ports": {
+      "invert": {
+        "datatype": "bool",
+        "default": false,
+        "direction": "input"
+      },
+      "spin": {
+        "datatype": "bool",
+        "default": false,
+        "direction": "input"
+      },
+      "invert_spin": {
+        "datatype": "bool",
+        "default": false,
+        "direction": "input"
+      },
+      "step": {
+        "datatype": "int",
+        "default": 6,
+        "direction": "input"
+      },
+      "self": {
+        "datatype": "NeoArrayAnimation",
+        "default": null,
+        "direction": "output"
+      }
+    },
+    "size": [
+      85,
+      40
+    ],
+    "datatype": "rgb",
+    "up": {
+      "can_go_up": false,
+      "type": "input",
+      "order": 999
+    },
+    "broadcast": false
+  }
+}

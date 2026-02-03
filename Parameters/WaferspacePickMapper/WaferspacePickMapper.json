@@ -1,0 +1,42 @@
+{
+  "WaferspacePickMapper": {
+    "ports": {
+      "input": {
+        "datatype": "string",
+        "default": 0,
+        "direction": "input"
+      },
+      "reticle_layout": {
+        "datatype": "JSON",
+        "default": "",
+        "direction": "input"
+      },
+      "wafer_map": {
+        "datatype": "JSON",
+        "default": "",
+        "direction": "input"
+      },
+      "event": {
+        "datatype": "string",
+        "default": null,
+        "direction": "output"
+      },
+      "self": {
+        "datatype": "WaferspacePickMapper",
+        "default": null,
+        "direction": "output"
+      }
+    },
+    "size": [
+      85,
+      40
+    ],
+    "datatype": "string",
+    "up": {
+      "can_go_up": true,
+      "type": "output",
+      "order": 999
+    },
+    "broadcast": false
+  }
+}

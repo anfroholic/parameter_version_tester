@@ -1,0 +1,59 @@
+{
+  "Max6675": {
+    "ports": {
+      "input": {
+        "datatype": "float",
+        "default": null,
+        "direction": "input"
+      },
+      "celsius": {
+        "datatype": "bool",
+        "default": true,
+        "direction": "input"
+      },
+      "delay": {
+        "datatype": "int",
+        "default": 250,
+        "direction": "input"
+      },
+      "event": {
+        "datatype": "float",
+        "default": 0,
+        "direction": "output"
+      },
+      "self": {
+        "datatype": "Max6675",
+        "default": null,
+        "direction": "output"
+      }
+    },
+    "constants": {
+      "sck_pin": {
+        "type": "number",
+        "state": "0",
+        "help": "physical pin on the mcu"
+      },
+      "cs_pin": {
+        "type": "number",
+        "state": "0",
+        "help": "physical pin on the mcu"
+      },
+      "so_pin": {
+        "type": "number",
+        "state": "0",
+        "help": "physical pin on the mcu"
+      }
+    },
+    "size": [
+      75,
+      40
+    ],
+    "datatype": "float",
+    "up": {
+      "can_go_up": true,
+      "type": "output",
+      "order": 999
+    },
+    "broadcast": true
+  }
+}

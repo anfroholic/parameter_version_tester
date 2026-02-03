@@ -1,0 +1,7 @@
+{
+  "micropython": false,
+  "micropython-pyscript": false,
+  "pyscript": true,
+  "FastAPI": true,
+  "dockercompose": true
+}

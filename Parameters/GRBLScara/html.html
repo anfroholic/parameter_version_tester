@@ -1,0 +1,118 @@
+<div style="max-width: 750px;" class="parameter">
+  <span style="font-size: large;">${param.name}</span>
+  <span style="float:right;">pid: ${param.pid}</span><button class="toggler" onclick="toggleCollapsible(this)" style="float:right;">-</button>
+  <div>
+    <div id="${param.pid}_tabs">
+      <button class="xsm_button green" id="${param.pid}_machine_button">Machine</button>
+      <button class="xsm_button grey" id="${param.pid}_work_offsets_button">Work Offsets</button>
+      <button class="xsm_button grey" id="${param.pid}_tool_offsets_button">Tool Offsets</button>
+      <button class="xsm_button grey" id="${param.pid}_term_button">Terminal</button>
+      <button class="xsm_button grey" id="${param.pid}_files_button">Files</button>
+    </div>
+    <div id="${param.pid}_term_tab" style="display: none">
+      <div><label class="checkbox_container">show status messages<input id="${param.pid}_show_status" type="checkbox"><span
+                                                                                                                            class="checkmark"></span></label></div>
+      <div id="${param.pid}_terminal" class="terminal"></div>
+      <div id="${param.pid}_input" class="term_input" contenteditable="true"></div>
+      <span>GRBL COMS</span><button class="toggler" onclick="toggleCollapsible(this)">+</button>
+      <div style="display: none;">
+        <span style="font-size: 12px; color: grey;">please note this terminal is a direct line to GRBL. It is NOT for python
+          code input. please use regular terminal for that. </span><br><br>
+        <button id="${param.pid}_list_offsets" data-cmd="$GCode/Offsets">List Offsets: $GCode/Offsets</button><br>
+        <button id="${param.pid}_reset" data-cmd="$Bye">Reset GRBL: $Bye</button><br>
+        <button id="${param.pid}_list_errors" data-cmd="$Errors/List">List Errors: $Errors/List</button><br>
+        <button id="${param.pid}_list_modes" data-cmd="$GCode/Modes">List Modes: $GCode/Modes</button><br>
+        <button id="${param.pid}_list_files" data-cmd="$LocalFS/List">List Files: $LocalFS/List</button><br>
+        To change config type $Config/Filename=config_name.yaml in the terminal above<br><br>
+        
+        <table id="${param.pid}_grbl_coms_table">
+        </table>
+      </div>
+      
+    </div>
+    <div id="${param.pid}_machine_tab" style="display: block">
+      <div style="width: 95%;">
+        <table id="${param.pid}_machine_table" style="width: 100%;">
+          
+          </tr>
+        </table>
+      </div>
+      <button id="${param.pid}move_submit"
+              class="sm_button green">Move</button>
+      work_offset: <span id="${param.pid}_work_offset">error</span> | 
+      tool_offset: <span id="${param.pid}_tool_offset">error</span>        
+      <br>
+      cartesian position encoders: 
+      <span style="font-size: large;"> X: </span>
+      <span id="${param.pid}_cart_x">000.00</span>
+      <span style="font-size: large;"> Y: </span>
+      <span id="${param.pid}_cart_y">000.00</span>
+      <span style="font-size: large;"> Z: </span>
+      <span id="${param.pid}_cart_z">000.00</span>
+      <span style="font-size: large;"> A: </span>
+      <span id="${param.pid}_cart_a">000.00</span>  
+      <br>
+      cartesian position grbl: 
+      <span style="font-size: large;"> X: </span>
+      <span id="${param.pid}_cart_x_grbl">000.00</span>
+      <span style="font-size: large;"> Y: </span>
+      <span id="${param.pid}_cart_y_grbl">000.00</span>
+      <span style="font-size: large;"> Z: </span>
+      <span id="${param.pid}_cart_z_grbl">000.00</span>
+      <span style="font-size: large;"> A: </span>
+      <span id="${param.pid}_cart_a_grbl">000.00</span>  
+      <br>
+      <span id="${param.pid}_cart_dict">{}</span>
+      <br>
+    </div>
+    <div id="${param.pid}_work_offsets_tab" style="display: none">
+      <div style="width: 95%;">
+
+        <table id="${param.pid}_work_offsets_table" style="width: 100%;">
+        </table>
+      </div>
+    </div>
+    <div id="${param.pid}_tool_offsets_tab" style="display: none">
+      <div style="width: 95%;">
+        <table id="${param.pid}_tool_offsets_table" style="width: 100%;">
+        </table>
+      </div>
+    </div>
+    <div id="${param.pid}_files_tab" style="display: none">
+      <div style="width: 95%;">
+        <table style="width: 100%;" id="${param.pid}_files_table">
+          <tr>
+            <td>File</td>
+            <td>Size</td>
+            <td>Actions</td>
+          </tr>
+        </table>
+      </div>
+    </div>
+    <hr>
+
+    <button onclick="hermes.send_json(${param.pid}, {'cmd': 'disable_motors'})" class="sm_button red">disable_motors</button>
+    <button onclick="hermes.send_json(${param.pid}, {'cmd': 'enable_motors'})" class="sm_button green">enable_motors</button>
+    <button onclick="hermes.send_json(${param.pid}, {'cmd': 'unlock'})" class="sm_button blue">unlock</button>
+    <button onclick="hermes.send_json(${param.pid}, {'cmd': 'feed_hold'})" class="sm_button red">feed_hold</button>
+    <button onclick="hermes.send_json(${param.pid}, {'cmd': 'resume'})" class="sm_button green">resume</button>
+    <button onclick="hermes.send_json(${param.pid}, {'cmd': 'reset_grbl'})" class="sm_button red">reset</button>
+    <hr>
+    <span style="font-size:large">Home</span>
+    <button onclick="hermes.send_json(${param.pid}, {'cmd': 'home_x'})" class="sm_button blue">theta</button>
+    <button onclick="hermes.send_json(${param.pid}, {'cmd': 'home_y'})" class="sm_button blue">phi</button>
+    <button onclick="hermes.send_json(${param.pid}, {'cmd': 'home_z'})" class="sm_button blue">z</button>
+    <button onclick="hermes.send_json(${param.pid}, {'cmd': 'home_a'})" class="sm_button blue">a</button>
+    <button onclick="hermes.send_json(${param.pid}, {'cmd': 'home_b'})" class="sm_button blue">b</button>
+    <button onclick="hermes.send_json(${param.pid}, {'cmd': 'home_c'})" class="sm_button blue">c</button>
+    <button onclick="hermes.send_json(${param.pid}, {'cmd': 'reset_x'})" class="sm_button coral">reset_theta</button>
+    <button onclick="hermes.send_json(${param.pid}, {'cmd': 'reset_y'})" class="sm_button coral">reset_phi</button>
+    <hr>
+    <span style="font-size:large">Limits</span>
+
+    <hr>
+    <button onclick="hermes.send_json(${param.pid}, {'cmd': 'listdir'})" class="sm_button coral">listdir</button>
+    run script: <input style="width: 50%;" id="${param.pid}_script">
+    <button onclick="hermes.send_json(${param.pid}, {'cmd': 'run', 'script': gid('${param.pid}_script').value})" class="sm_button blue">open file</button>
+  </div>
+</div>

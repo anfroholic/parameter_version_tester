@@ -1,0 +1,33 @@
+<div class="parameter">
+  <span style="font-size: large;">${param.name}</span>
+  <span style="float:right;">pid: ${param.pid}</span><button class="toggler" onclick="toggleCollapsible(this)" style="float:right;">-</button>
+  <div>
+    <div id="Pcf8563_currentTime"></div><br>
+    <div id="${param.pid}_ts"></div><br>
+    alarm: <span id="${param.pid}_alarm"></span><br>
+    state: <span id="${param.pid}_state"></span><br>
+    current alarm: <span id="${param.pid}_current"></span><br>
+    <div id="${param.pid}_error"></div>
+    <label for="${param.pid}_callback">callback</label>
+    <input style="width:50%" type="text" id="${param.pid}_callback" value="pass"><br>
+    <label for="${param.pid}_datetimeInput">Select a date and time:</label>
+    <input style="width:50%" type="datetime-local" id="${param.pid}_datetimeInput">
+
+    <button id="${this.pid}_abs_alarm_button">Absolute Alarm</button>
+    <br><br>
+    Add A Relative Alarm: Alarm Time will be added to Current Time<br>
+    <form id="${param.pid}_timeform">
+      <label for="days">Days:</label>
+      <input style="width:100px" type="number" id="days" min="0" value="0">
+      <label for="hours">Hours:</label>
+      <input style="width:100px" type="number" id="hours" min="0" value="0">
+      <label for="minutes">Minutes:</label>
+      <input style="width:100px" type="number" id="minutes" min="0" max="59" value="0">
+      <button type="submit">Relative Alarm</button>
+    </form>
+
+    <h4>Current Alarms</h4>
+    <div style="border: 2px solid black; border-radius:5px; padding: 5px; width:fit-content" id="${param.pid}_alarms"></div>
+    <button onclick="Pcf8563.clear_alarms(${param.pid})">Clear All Alarms</button>
+  </div>    
+</div>

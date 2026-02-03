@@ -1,0 +1,44 @@
+{
+  "WeigandRFID": {
+    "ports": {
+      "input": {
+        "datatype": "int",
+        "default": null,
+        "direction": "input"
+      },
+      "event": {
+        "datatype": "int",
+        "default": 0,
+        "direction": "output"
+      },
+      "self": {
+        "datatype": "WeigandRFID",
+        "default": null,
+        "direction": "output"
+      }
+    },
+    "constants": {
+      "pin0": {
+        "type": "number",
+        "state": "0",
+        "help": "physical pin on the mcu"
+      },
+      "pin1": {
+        "type": "number",
+        "state": "0",
+        "help": "physical pin on the mcu"
+      }
+    },
+    "size": [
+      90,
+      45
+    ],
+    "datatype": "int",
+    "up": {
+      "can_go_up": true,
+      "type": "output",
+      "order": 999
+    },
+    "broadcast": true
+  }
+}

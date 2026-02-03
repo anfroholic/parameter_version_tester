@@ -1,0 +1,57 @@
+{
+  "DMX": {
+    "ports": {
+      "devices": {
+        "datatype": "DMXDevice",
+        "default": null,
+        "direction": "input"
+      },
+      "self": {
+        "datatype": "UART",
+        "default": null,
+        "direction": "output"
+      }
+    },
+    "constants": {
+      "rx_pin": {
+        "type": "number",
+        "state": "0",
+        "help": "rx pin on mcu"
+      },
+      "rx_en_pin": {
+        "type": "number",
+        "state": "0",
+        "help": "rx enable pin on mcu"
+      },
+      "tx_pin": {
+        "type": "number",
+        "state": "0",
+        "help": "tx pin on mcu"
+      },
+      "tx_en_pin": {
+        "type": "number",
+        "state": "0",
+        "help": "tx enable pin on mcu"
+      },
+      "bus": {
+        "type": "number",
+        "state": 1,
+        "help": "serial bus to use\nbus 0 is used for repl"
+      },
+      "delay": {
+        "type": "number",
+        "state": 100,
+        "help": "send frames at this rate\ntime is in ms"
+      }
+    },
+    "size": [
+      65,
+      45
+    ],
+    "datatype": null,
+    "up": {
+      "can_go_up": false
+    },
+    "broadcast": false
+  }
+}

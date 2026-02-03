@@ -1,0 +1,25 @@
+{
+  "CPythonCore": {
+    "ports": {
+      "bus": {
+        "datatype": "bus",
+        "default": null,
+        "direction": "input"
+      },
+      "terminal": {
+        "datatype": "Terminal",
+        "default": null,
+        "direction": "input"
+      }
+    },
+    "size": [
+      85,
+      70
+    ],
+    "datatype": null,
+    "up": {
+      "can_go_up": false
+    },
+    "broadcast": false
+  }
+}

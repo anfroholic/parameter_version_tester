@@ -1,0 +1,14 @@
+{
+  "FileSender": {
+    "ports": {},
+    "size": [
+      65,
+      30
+    ],
+    "datatype": null,
+    "up": {
+      "can_go_up": false
+    },
+    "broadcast": false
+  }
+}

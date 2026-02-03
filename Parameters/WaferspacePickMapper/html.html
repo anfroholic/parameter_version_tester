@@ -1,0 +1,17 @@
+<div class="parameter" style="resize: both; overflow:auto;">
+  <span style="font-size: large;">${param.name}</span>
+  <span style="float:right;">pid: ${param.pid}</span>
+  <button class="toggler" onclick="toggleCollapsible(this)"
+    style="float:right;">-</button>
+  <div>
+    <button id="${param.pid}_generate">Generate</button>
+    
+    <br>
+    <button id="${param.pid}_send_all">Send_all</button>
+    <br>
+    Send By Project: <br>
+    <div id="${param.pid}_projects"></div>
+    Send By Reticle: <br>
+    <div id="${param.pid}_reticles"></div>
+  </div>
+</div>

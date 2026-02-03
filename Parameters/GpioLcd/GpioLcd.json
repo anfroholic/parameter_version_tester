@@ -1,0 +1,107 @@
+{
+  "GpioLcd": {
+    "ports": {
+      "input": {
+        "datatype": "JSON",
+        "default": null,
+        "direction": "input"
+      },
+      "initial_state": {
+        "datatype": "JSON",
+        "default": {
+          "line1": "Evezor 16x2 LCD",
+          "line2": ""
+        },
+        "direction": "input"
+      },
+      "clear": {
+        "datatype": "bool",
+        "default": null,
+        "direction": "input"
+      },
+      "event": {
+        "datatype": "float",
+        "default": 0,
+        "direction": "output"
+      },
+      "self": {
+        "datatype": "GpioLcd",
+        "default": null,
+        "direction": "output"
+      }
+    },
+    "constants": {
+      "d0_pin": {
+        "type": "number",
+        "state": "0",
+        "help": "physical mcu pin"
+      },
+      "d1_pin": {
+        "type": "number",
+        "state": "0",
+        "help": "physical mcu pin"
+      },
+      "d2_pin": {
+        "type": "number",
+        "state": "0",
+        "help": "physical mcu pin"
+      },
+      "d3_pin": {
+        "type": "number",
+        "state": "0",
+        "help": "physical mcu pin"
+      },
+      "d4_pin": {
+        "type": "number",
+        "state": "0",
+        "help": "physical mcu pin"
+      },
+      "d5_pin": {
+        "type": "number",
+        "state": "0",
+        "help": "physical mcu pin"
+      },
+      "d6_pin": {
+        "type": "number",
+        "state": "0",
+        "help": "physical mcu pin"
+      },
+      "d7_pin": {
+        "type": "number",
+        "state": "0",
+        "help": "physical mcu pin"
+      },
+      "rs_pin": {
+        "type": "number",
+        "state": "0",
+        "help": "physical mcu pin"
+      },
+      "enable_pin": {
+        "type": "number",
+        "state": "0",
+        "help": "physical mcu pin"
+      },
+      "num_lines": {
+        "type": "number",
+        "state": "2",
+        "help": "number of lines on display\ntypically 2 or 4"
+      },
+      "num_columns": {
+        "type": "number",
+        "state": "16",
+        "help": "number of columns"
+      }
+    },
+    "size": [
+      70,
+      45
+    ],
+    "datatype": "JSON",
+    "up": {
+      "can_go_up": true,
+      "type": "output",
+      "order": 999
+    },
+    "broadcast": false
+  }
+}

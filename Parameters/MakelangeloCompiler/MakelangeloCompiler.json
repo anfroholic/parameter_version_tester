@@ -1,0 +1,42 @@
+{
+  "MakelangeloCompiler": {
+    "ports": {
+      "input": {
+        "datatype": "string",
+        "default": "",
+        "direction": "input"
+      },
+      "tool_on": {
+        "datatype": "JSON",
+        "default": "{\"cmd\": \"eval\", \"eval\": \"tool.on()\"}",
+        "direction": "input"
+      },
+      "tool_off": {
+        "datatype": "JSON",
+        "default": "{\"cmd\": \"eval\", \"eval\": \"tool.off()\"}",
+        "direction": "input"
+      },
+      "event": {
+        "datatype": "string",
+        "default": null,
+        "direction": "output"
+      },
+      "self": {
+        "datatype": "MakelangeloCompiler",
+        "default": null,
+        "direction": "output"
+      }
+    },
+    "size": [
+      75,
+      35
+    ],
+    "datatype": "string",
+    "up": {
+      "can_go_up": true,
+      "type": "output",
+      "order": 999
+    },
+    "broadcast": false
+  }
+}

@@ -1,0 +1,20 @@
+<div style="max-width: 950px;" class="parameter"  id="${param.pid}">
+  <span style="font-size: large;">${param.name}</span>
+  <span style="float:right;">pid: ${param.pid}</span><button class="toggler" onclick="toggleCollapsible(this)" style="float:right;">-</button>
+  <div>
+    <table style="width: 100%;" id="${param.pid}_table">
+      <tr>
+        <td>feeder_num</td>
+        <td>Component Name</td>
+        <td>x pos</td>
+        <td>y pos</td>
+        <td>z pos</td>
+        <td>a pos</td>
+        <td style="width:55px;">thick-<br>ness</td>
+        <td>set pos</td>
+      </tr>
+    </table>
+    <button class="xsm_button grey" id="${param.pid}_save_button">save</button>
+    <button class="xsm_button pink" id="${param.pid}_copy_button" style="float:right">copy rack</button>
+  </div>
+</div>

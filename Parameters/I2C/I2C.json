@@ -1,0 +1,42 @@
+{
+  "I2C": {
+    "ports": {
+      "self": {
+        "datatype": "I2C",
+        "default": null,
+        "direction": "output"
+      }
+    },
+    "constants": {
+      "sda": {
+        "type": "number",
+        "state": "0",
+        "help": "physical pin on the mcu"
+      },
+      "scl": {
+        "type": "number",
+        "state": "0",
+        "help": "physical pin on the mcu"
+      },
+      "bus": {
+        "type": "number",
+        "state": "0",
+        "help": "bus id"
+      },
+      "baud": {
+        "type": "number",
+        "state": 100000,
+        "help": "choose the baudrate"
+      }
+    },
+    "size": [
+      85,
+      65
+    ],
+    "datatype": null,
+    "up": {
+      "can_go_up": false
+    },
+    "broadcast": false
+  }
+}

@@ -1,0 +1,58 @@
+<style>
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 20px 0;
+    box-shadow: 0 2px 3px rgba(0, 0, 0, 0.1);
+  }
+  th, td {
+    border: 1px solid #dee2e6;
+    padding: 15px;
+    text-align: left;
+  }
+  th {
+    background-color: #343a40;
+    color: #fff;
+  }
+  tr:nth-child(even) {
+    background-color: #f2f2f2;
+  }
+  .large-text {
+    font-size: 24px;
+    font-weight: bold;
+  }
+  .empty {
+    background-color: #a00234;
+    color: #fff;
+  }
+  .full {
+    background-color: #26d00b;
+    color: #fff;
+  }
+  .full-warning {
+    background-color: #ff9800;
+    color: #fff;
+  }
+  .owned {
+    background-color: #8928a7;
+    color: #fff;
+  }
+  .time-remaining {
+    font-weight: bold;
+    color: #ebf5fe;
+  }
+  .claim_button {
+    margin-top: 10px;
+    padding: 5px 10px;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    cursor: pointer;
+    display: none;
+  }
+</style>
+<div class="parameter"  id="${param.pid}">
+  <h1>${param.name}</h1>
+  <table id="${param.pid}_lockersTable">
+  </table>
+</div>

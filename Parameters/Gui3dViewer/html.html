@@ -1,0 +1,20 @@
+<div class="parameter">
+  <span style="font-size: large;">${param.name}</span>
+  <span style="float:right;">pid: ${param.pid}</span><button class="toggler" onclick="toggleCollapsible(this)" style="float:right;">-</button>
+  <div>
+    <div id="${param.pid}_editor" style="border: 2px solid black;">
+      <!-- Create a textarea for the CodeMirror editor -->
+      <textarea id="${param.pid}_code" name="${param.pid}_code">${param.state}</textarea>
+      <!-- Create a draggable bar for resizing -->
+      <div id="${param.pid}_resize-bar"
+           style="cursor: row-resize; height: 6px; background-color: #ccc; position: relative; bottom: -6px; width: 100%;">
+      </div>
+    </div>
+    <div style="height: 7px;"></div>
+    <button class="xsm_button green" id="${param.pid}_submit_button">submit</button>
+    <button class="xsm_button coral" id="${param.pid}_save_button">save file</button>
+    <input type="file" id="${param.pid}_file_input" style="width:50%">
+    <button class="xsm_button coral" id="${param.pid}_recalculate_button">recalculate</button>
+    <input type="color" id="${param.pid}_color" style="width: 50px;" value="#00ff99">
+  </div>
+</div>

@@ -1,0 +1,101 @@
+<div class="parameter">
+  <span style="font-size: large; color: white">${param.name} </span>
+  <span style="float:right;">pid: ${param.pid}</span><button class="toggler" onclick="toggleCollapsible(this)" style="float:right;">-</button>
+  <div>
+    <div>
+      <span style="font-size:.7em; color: white">terminal</span>
+      <button onclick="toggleCollapsible(this)">-</button>
+      <div id="${param.pid}_term" class="terminal"
+           style="border: white 2px solid; min-height:100px; overflow:scroll; resize: vertical; height:200px;">
+      </div>
+    </div><br>
+    <div id="${param.pid}_tabs">
+      <button class="xsm_button green" id="${param.pid}_msg_sender_tab_button">msg_sender</button>
+      <button class="xsm_button grey" id="${param.pid}_push_subs_tab_button">push_subs</button>
+      <button class="xsm_button grey" id="${param.pid}_single_sub_tab_button">single_sub</button>
+      <button class="xsm_button grey" id="${param.pid}_devices_tab_button">devices</button>
+      <button class="xsm_button grey" id="${param.pid}_esp32_tab_button">esp32</button>
+    </div>
+    <div id="${param.pid}_msg_sender">
+      <table>
+        <td>write: </td>
+        <td><input type="checkbox" id="${param.pid}_read" checked></td>
+        <td>unchecked is event</td>
+      </table>
+      <div>
+        <table style="width: 100%">
+          <tr>
+            <td>adr: </td>
+            <td><input id="${param.pid}_adr"></td>
+          </tr>
+          <tr>
+            <td>pid: </td>
+            <td><input id="${param.pid}_pid"></td>
+          </tr>
+          <tr>
+            <td>msg: </td>
+            <td>
+              <input type="radio" id="${param.pid}_radio_string" name="zorg_radio" checked>
+              <label for="${param.pid}_radio_string">string: </label>
+              <input type="text" id="${param.pid}_string" style="max-width: 500px"><br>
+              <input type="radio" id="${param.pid}_radio_bytes" name="zorg_radio">
+              <label for="${param.pid}_radio_bytes">bytes: </label>
+              <input type="number" id="${param.pid}_bytes_0" style="width: 55px;">
+              <input type="number" id="${param.pid}_bytes_1" style="width: 55px;">
+              <input type="number" id="${param.pid}_bytes_2" style="width: 55px;">
+              <input type="number" id="${param.pid}_bytes_3" style="width: 55px;">
+              <input type="number" id="${param.pid}_bytes_4" style="width: 55px;">
+              <input type="number" id="${param.pid}_bytes_5" style="width: 55px;">
+              <input type="number" id="${param.pid}_bytes_6" style="width: 55px;">
+              <input type="number" id="${param.pid}_bytes_7" style="width: 55px;">
+            </td>
+          </tr>
+        </table>
+      </div>
+      <button id="${param.pid}_send" class="xsm_button green" onclick="hermes.p[${param.pid}]._call('send')">send</button>
+    </div>
+    <div id="${param.pid}_single_sub" style="display: none;">
+      <br>
+      send adr: <input type="number" id="${param.pid}_sub_s_adr" style="width: 50%"><br>
+      send pid: <input type="number" id="${param.pid}_sub_s_pid" style="width: 50%"><br>
+      recv adr: <input type="number" id="${param.pid}_sub_adr" style="width: 50%"><br>
+      recv pid: <input type="number" id="${param.pid}_sub_pid" style="width: 50%"><br>
+      struct: <input type="text" id="${param.pid}_struct" style="width: 100px"><br>
+
+      <button id="${param.pid}_single_sub_button" class="xsm_button green"
+              onclick="hermes.p[${param.pid}]._call('create_sub')">send</button>
+    </div>
+    <div id="${param.pid}_push_subs" style="display: none;">
+      <br>
+      subs: <input type="text" id="${param.pid}_ide_subs" style="width: 50%"><br>
+      <button id="${param.pid}_ide_sub" class="xsm_button green"
+              onclick="hermes.p[${param.pid}]._call('ide_subs')">send</button>
+      <button id="${param.pid}_clear_subs" class="xsm_button red" onclick="hermes.p[${param.pid}]._call('clear_subs')">clear
+        subs</button>
+      <button id="${param.pid}_save_subs" class="xsm_button blue" onclick="hermes.p[${param.pid}]._call('save_subs')">save
+        subs</button>
+    </div>
+    <div id="${param.pid}_devices" style="display: none;">\
+      <h3>Devices</h3>
+      <div id="${param.pid}_cluster"><button class="xsm_button green" onclick="hermes.p[${param.pid}]._call('cluster')">Get
+        Cluster Info</button></div>
+      <div id="${param.pid}_device_table">Ping for Devices</div>
+      <br>
+      <button class="xsm_button green" onclick="hermes.p[${param.pid}]._call('ping')">Ping Devices</button>
+      <button class="xsm_button coral" onclick="hermes.p[${param.pid}]._call('show_files')">Show Files</button>
+      <button class="xsm_button blue" onclick="hermes.p[${param.pid}]._call('save_subs')">save subscriptions</button>
+      <button class="xsm_button red" onclick="hermes.p[${param.pid}]._call('clear_subs')">clear all subscriptions</button>
+      <br><br>
+      <label for="${param.pid}_file_progress">send file progress:</label>
+      <progress id="65501_file_progress" value="0" max="100"></progress><br>
+      Local_files<br>
+      <div id="${param.pid}_files" style="max-height:400px; resize:vertical; overflow:scroll;">press show_files</div>
+    </div>
+    <div id="${param.pid}_esp32" style="display: none;">
+      <hr>
+      <button class="xsm_button green">reset</button>
+      <button class="xsm_button coral">lightshow</button>
+      <button class="xsm_button coral">test</button><br>
+    </div>
+  </div>
+</div>

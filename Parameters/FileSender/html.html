@@ -1,0 +1,18 @@
+<div class="parameter" style="max-width: 500px">
+    <span style="font-size: large;">${param.name}</span>
+    <span style="float:right;">pid: ${param.pid}</span><button class="toggler" onclick="toggleCollapsible(this)"
+        style="float:right;">-</button>
+    <div>
+        <label for="${param.pid}_file">progress:</label>
+        <progress id="${param.pid}_file" value="0" max="100"></progress><br>
+        <label>local filename<label>
+        <input type="text" style="width: 100%;" id="${param.pid}_local_filename" value="test.py">
+        <label>remote adr<label>
+        <input type="number" style="width: 100%;" id="${param.pid}_adr" value="10">
+        <label>remote pid<label>
+        <input type="number" style="width: 100%;" id="${param.pid}_pid" value="65000">
+        <label>remote filename<label>
+        <input type="text" style="width: 100%;" id="${param.pid}_remote_filename" value="testing.py">
+        <button class="xsm_button green" id="${param.pid}_send">Send</button>
+    </div>
+</div>

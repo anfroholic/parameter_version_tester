@@ -1,0 +1,129 @@
+<div style="max-width: 750px;" class="parameter">
+  <span style="font-size: large;">${param.name}</span>
+  <span style="float:right;">pid: ${param.pid}</span><button class="toggler" onclick="toggleCollapsible(this)" style="float:right;">-</button>
+  <div>
+    <div id="${param.pid}_tabs">
+      <button class="xsm_button green" id="${param.pid}_machine_button">Machine</button>
+      <button class="xsm_button blue" id="${param.pid}_work_offsets_button">Work Offsets</button>
+      <button class="xsm_button blue" id="${param.pid}_tool_offsets_button">Tool Offsets</button>
+      <button class="xsm_button blue" id="${param.pid}_term_button">Terminal</button>
+    </div>
+    <div id="${param.pid}_term_tab" style="display: none">
+      <div><label class="checkbox_container">show status messages<input id="${param.pid}_show_status" type="checkbox"><span
+                                                                                                                            class="checkmark"></span></label></div>
+      <div id="${param.pid}_terminal" class="terminal"></div>
+      <div id="${param.pid}_input" class="term_input" contenteditable="true"></div>
+      <span style="font-size: 12px; color: grey;">please note this terminal is a direct line to GRBL. It is NOT for python
+        code input. please use regular terminal for that. </span><br><br>
+      <table id="${param.pid}_grbl_coms_table">
+      </table>
+
+
+    </div>
+    <div id="${param.pid}_machine_tab" style="display: block">
+      <div style="width: 95%;">
+        <table id="${param.pid}_machine_table" style="width: 100%;">
+          
+          </tr>
+        </table>
+      </div>
+      <button id="${param.pid}move_submit"
+              onclick="hermes.send_json(${param.pid}, {'cmd': 'move.linear', 'x': gid('${param.pid}move_x').value, 'y': gid('${param.pid}move_y').value, 'z': gid('${param.pid}move_z').value, 'a': gid('${param.pid}move_a').value, 'b': gid('${param.pid}move_b').value, 'c': gid('${param.pid}move_c').value, 'feed':gid('${param.pid}move_f').value})"
+              class="sm_button green">Move</button><br>
+
+    </div>
+    <div id="${param.pid}_work_offsets_tab" style="display: none">
+      <div style="width: 95%;">
+
+        <table id="${param.pid}_work_offsets_table" style="width: 100%;">
+          <tr>
+            <td>offset:</td>
+            <td>Name</td>
+            <td>X</td>
+            <td>Y</td>
+            <td>Z</td>
+            <td>A</td>
+          </tr>
+          <tr>
+            <td><input type="radio" id="${param.pid}_radio_offset_0" name="${param.pid}_radio_offset" onchange="GRBLScara.change_work_offset(${param.pid} ,0)">0</td>
+            <td><input type="text" value="machine"></td>
+            <td><input type="number" style="min-width:55px;" value="0"></td>
+            <td><input type="number" style="min-width:55px;" value="0"></td>
+            <td><input type="number" style="min-width:55px;" value="0"></td>
+            <td><input type="number" style="min-width:55px;" value="0"></td>
+            <td><button class="xsm_button blue" onclick="GRBLScara.send(${param.pid}, 'req_w_offset', 0)">set</button></td>
+          </tr>
+          <tr>
+            <td><input type="radio" id="${param.pid}_radio_offset_1" name="${param.pid}_radio_offset" onchange="GRBLScara.change_work_offset(${param.pid} ,1)">1</td>
+            <td><input type="text" value="G54"></td>
+            <td><input type="number" style="min-width:55px;" value="0"></td>
+            <td><input type="number" style="min-width:55px;" value="0"></td>
+            <td><input type="number" style="min-width:55px;" value="0"></td>
+            <td><input type="number" style="min-width:55px;" value="0"></td>
+            <td><button class="xsm_button blue" onclick="GRBLScara.send(${param.pid}, 'req_w_offset', 1)">set</button></td>
+          </tr>
+          <tr>
+            <td><input type="radio" id="${param.pid}_radio_offset_2" name="${param.pid}_radio_offset" onchange="GRBLScara.change_work_offset(${param.pid} ,2)">2</td>
+            <td><input type="text" value="G55"></td>
+            <td><input type="number" style="min-width:55px;" value="0"></td>
+            <td><input type="number" style="min-width:55px;" value="0"></td>
+            <td><input type="number" style="min-width:55px;" value="0"></td>
+            <td><input type="number" style="min-width:55px;" value="0"></td>
+            <td><button class="xsm_button blue" onclick="GRBLScara.send(${param.pid}, 'req_w_offset', 2)">set</button></td>
+          </tr>
+          <tr>
+            <td><input type="radio" id="${param.pid}_radio_offset_3" name="${param.pid}_radio_offset" onchange="GRBLScara.change_work_offset(${param.pid} ,3)">3</td>
+            <td><input type="text" value="G56"></td>
+            <td><input type="number" style="min-width:55px;" value="0"></td>
+            <td><input type="number" style="min-width:55px;" value="0"></td>
+            <td><input type="number" style="min-width:55px;" value="0"></td>
+            <td><input type="number" style="min-width:55px;" value="0"></td>
+            <td><button class="xsm_button blue" onclick="GRBLScara.send(${param.pid}, 'req_w_offset', 3)">set</button></td>
+          </tr>
+          <tr>
+            <td><input type="radio" id="${param.pid}_radio_offset_4" name="${param.pid}_radio_offset" onchange="GRBLScara.change_work_offset(${param.pid} ,4)">4</td>
+            <td><input type="text" value="G57"></td>
+            <td><input type="number" style="min-width:55px;" value="0"></td>
+            <td><input type="number" style="min-width:55px;" value="0"></td>
+            <td><input type="number" style="min-width:55px;" value="0"></td>
+            <td><input type="number" style="min-width:55px;" value="0"></td>
+            <td><button class="xsm_button blue" onclick="GRBLScara.send(${param.pid}, 'req_w_offset', 4)">set</button></td>
+          </tr>
+          <tr>
+            <td><input type="radio" id="${param.pid}_radio_offset_5" name="${param.pid}_radio_offset" onchange="GRBLScara.change_work_offset(${param.pid} ,5)">5</td>
+            <td><input type="text" value="G58"></td>
+            <td><input type="number" style="min-width:55px;" value="0"></td>
+            <td><input type="number" style="min-width:55px;" value="0"></td>
+            <td><input type="number" style="min-width:55px;" value="0"></td>
+            <td><input type="number" style="min-width:55px;" value="0"></td>
+            <td><button class="xsm_button blue" onclick="GRBLScara.send(${param.pid}, 'req_w_offset', 5)">set</button></td>
+          </tr>
+        </table>
+      </div>
+    </div>
+    <div id="${param.pid}_tool_offsets_tab" style="display: none">
+      <div style="width: 95%;">
+        <h3>Coming Soon</h3>
+      </div>
+    </div>
+    
+    <hr>
+
+    <button onclick="hermes.send_json(${param.pid}, {'cmd': 'disable_motors'})" class="sm_button red">disable_motors</button>
+    <button onclick="hermes.send_json(${param.pid}, {'cmd': 'enable_motors'})" class="sm_button green">enable_motors</button>
+    <button onclick="hermes.send_json(${param.pid}, {'cmd': 'unlock'})" class="sm_button blue">unlock</button>
+    <hr>
+    <button onclick="hermes.send_json(${param.pid}, {'cmd': 'home_x'})" class="sm_button blue">home_theta</button>
+    <button onclick="hermes.send_json(${param.pid}, {'cmd': 'home_y'})" class="sm_button blue">home_phi</button>
+    <button onclick="hermes.send_json(${param.pid}, {'cmd': 'home_z'})" class="sm_button blue">home_z</button>
+    <button onclick="hermes.send_json(${param.pid}, {'cmd': 'home_a'})" class="sm_button blue">home_a</button>
+    <button onclick="hermes.send_json(${param.pid}, {'cmd': 'home_b'})" class="sm_button blue">home_b</button>
+    <button onclick="hermes.send_json(${param.pid}, {'cmd': 'home_c'})" class="sm_button blue">home_c</button><br>
+    <button onclick="hermes.send_json(${param.pid}, {'cmd': 'reset_x'})" class="sm_button coral">reset_theta</button>
+    <button onclick="hermes.send_json(${param.pid}, {'cmd': 'reset_y'})" class="sm_button coral">reset_phi</button>
+    <hr>
+    <button onclick="hermes.send_json(${param.pid}, {'cmd': 'listdir'})" class="sm_button coral">listdir</button>
+    run script: <input style="width: 50%;" id="${param.pid}_script">
+    <button onclick="hermes.send_json(${param.pid}, {'cmd': 'run', 'script': gid('${param.pid}_script').value})" class="sm_button blue">open file</button>
+  </div>
+</div>

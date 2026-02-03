@@ -1,0 +1,32 @@
+{
+  "GuiFileUploader": {
+    "ports": {
+      "input": {
+        "datatype": "bool",
+        "default": null,
+        "direction": "input"
+      },
+      "event": {
+        "datatype": "bytes",
+        "default": null,
+        "direction": "output"
+      },
+      "self": {
+        "datatype": "GuiFileUploader",
+        "default": null,
+        "direction": "output"
+      }
+    },
+    "size": [
+      115,
+      35
+    ],
+    "datatype": "any",
+    "up": {
+      "can_go_up": true,
+      "type": "output",
+      "order": 999
+    },
+    "broadcast": true
+  }
+}

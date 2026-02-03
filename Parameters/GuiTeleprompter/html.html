@@ -1,0 +1,49 @@
+<div class="parameter" style="resize:vertical; overflow:hidden;">
+  <span style="font-size: large;">${param.name}</span>
+  <div>
+      <button id="teleprompterStartButton">Start</button>
+      <button id="teleprompterStopButton">Stop</button>
+      <button id="teleprompterResetButton">Reset</button>
+      <label style="display: inline-flex; align-items: center; margin-left: 10px;">
+        <input type="checkbox" id="teleprompterMirrorCheckbox" style="margin-right: 5px;">
+        Mirror
+      </label>
+    </div>
+  <span style="float:right;">pid: ${param.pid}</span><button class="toggler" onclick="toggleCollapsible(this)"
+    style="float:right;">-</button>
+  <style>
+    #teleprompter {
+      position: relative;
+      height: 100%;
+      width: 100%;
+      max-height: 75vh;
+      min-width: 100%;
+      overflow: hidden;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background-color: #000;
+      border: 1px solid #fff;
+      box-shadow: 0 0 10px rgba(255, 255, 255, 0.5);
+    }
+
+    #scrollingText {
+      font-size: 2rem;
+      line-height: 1.5;
+      text-align: center;
+      
+      will-change: transform;
+    }
+  </style>
+  <div style="height: auto;">
+    <div id="teleprompter">
+      <div id="scrollingText">
+        Welcome to the teleprompter application!\n\n
+        This is a simple demonstration of how text can scroll vertically
+        at a consistent pace. Use the provided controls to start, stop,
+        and adjust the speed of the scrolling.\n\n
+        Write your script here and let it scroll smoothly during your presentation.
+      </div>
+    </div>
+  </div>
+</div>

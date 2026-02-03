@@ -1,0 +1,14 @@
+<div class="parameter" style="resize: both; overflow:auto;">
+  <span style="font-size: large;">${param.name}</span>
+  <span style="float:right;">pid: ${param.pid}</span><button class="toggler" onclick="toggleCollapsible(this)"
+    style="float:right;">-</button>
+  <div>
+    <h1 style="text-align:center;">200mm Wafer Viewer</h1>
+    <div style="height: 75%; display: flex; flex-direction: column;">
+      <div id="${param.pid}_die" style="border: 1px solid #aaa; width: auto;">
+        <button id="${param.pid}_button" onclick="hermes.p['${param.pid}'].plotWafer()">Plot Wafer</button>
+      </div>
+    </div>
+    <div id="${param.pid}_heatmap" style="border: 1px solid #aaa;"></div>
+  </div>
+</div>

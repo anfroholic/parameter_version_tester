@@ -1,0 +1,20 @@
+{
+  "Zorg": {
+    "ports": {
+      "self": {
+        "datatype": "Zorg",
+        "default": null,
+        "direction": "output"
+      }
+    },
+    "size": [
+      85,
+      40
+    ],
+    "datatype": null,
+    "up": {
+      "can_go_up": false
+    },
+    "broadcast": false
+  }
+}

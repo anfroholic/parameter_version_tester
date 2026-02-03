@@ -1,0 +1,32 @@
+{
+  "WaferSpaceViewer": {
+    "ports": {
+      "input": {
+        "datatype": "string",
+        "default": 0,
+        "direction": "input"
+      },
+      "event": {
+        "datatype": "string",
+        "default": null,
+        "direction": "output"
+      },
+      "self": {
+        "datatype": "GuiTeleprompter",
+        "default": null,
+        "direction": "output"
+      }
+    },
+    "size": [
+      85,
+      40
+    ],
+    "datatype": "string",
+    "up": {
+      "can_go_up": true,
+      "type": "output",
+      "order": 999
+    },
+    "broadcast": true
+  }
+}

@@ -1,0 +1,42 @@
+{
+  "MqttBus": {
+    "ports": {
+      "broker_adr": {
+        "datatype": "string",
+        "default": null,
+        "direction": "input"
+      },
+      "self": {
+        "datatype": "bus",
+        "default": null,
+        "direction": "output"
+      }
+    },
+    "constants": {
+      "client_name": {
+        "type": "text",
+        "state": "123",
+        "help": "client name given to mqtt broker\nmust be unique to all devices"
+      },
+      "self_adr": {
+        "type": "number",
+        "state": "0",
+        "help": "address on cluster\nthis will be changed eventually with some kind of preconfig or dhcp"
+      },
+      "terminal_debug": {
+        "type": "checkbox",
+        "state": false,
+        "help": "does nothing at the moment, may be removed"
+      }
+    },
+    "size": [
+      85,
+      65
+    ],
+    "datatype": null,
+    "up": {
+      "can_go_up": false
+    },
+    "broadcast": false
+  }
+}

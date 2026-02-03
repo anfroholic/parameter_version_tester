@@ -1,0 +1,12 @@
+<div class="parameter" style="resize: both; overflow:auto;">
+  <span style="font-size: large;">${param.name}</span>
+  <span style="float:right;">pid: ${param.pid}</span><button class="toggler" onclick="toggleCollapsible(this)"
+    style="float:right;">-</button>
+  <div>
+    <div style="height: 75%; display: flex; flex-direction: column; ">
+      <div id="${param.pid}_map" style="border: 1px solid #aaa; margin-bottom: 10px; overflow: auto;">
+        <button id="${param.pid}_button" onclick="hermes.p['${param.pid}'].generate()">Generate</button>
+      </div>
+    </div>
+  </div>
+</div>

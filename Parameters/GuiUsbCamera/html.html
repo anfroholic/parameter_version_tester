@@ -1,0 +1,28 @@
+<div class="parameter" style="resize: both; overflow:auto;">
+  <span style="font-size: large;">${param.name}</span>
+  <span style="float:right;">pid: ${param.pid}</span><button class="toggler" onclick="toggleCollapsible(this)" style="float:right;">-</button>
+  <div>
+    <style>
+        video {
+            margin-top: 20px;
+            border: 2px solid #333;
+            border-radius: 10px;
+            width: 80%;
+            max-width: 640px;
+            box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.3);
+        }
+    </style>
+    <video id="webcam" autoplay playsinline></video>
+    <br>
+    <button id="startRecordingButton">Start Recording</button>
+    <button id="stopRecordingButton" disabled>Stop Recording</button>
+    <button id="saveRecordingButton" disabled>Save Recording</button>
+    <button id="startWebcamButton" disabled>Start Webcam</button>
+    <button id="stopWebcamButton" disabled>Stop Webcam</button>
+    
+    <br>
+    <button id="testMicButton">Test Microphone</button>
+    <label for="videoSource">Video Source:</label>
+    <select id="videoSource"></select>
+  </div>
+</div>

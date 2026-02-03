@@ -1,0 +1,37 @@
+{
+  "SDCard": {
+    "ports": {
+      "self": {
+        "datatype": "SDCard",
+        "default": null,
+        "direction": "output"
+      }
+    },
+    "constants": {
+      "slot": {
+        "type": "select",
+        "options": {
+          "0": "0",
+          "1": "1",
+          "2": "2",
+          "3": "3"
+        },
+        "state": "2",
+        "help": "the slot used by the sd card"
+      },
+      "auto_mount": {
+        "type": "checkbox",
+        "state": false
+      }
+    },
+    "size": [
+      85,
+      40
+    ],
+    "datatype": null,
+    "up": {
+      "can_go_up": false
+    },
+    "broadcast": false
+  }
+}

@@ -1,0 +1,30 @@
+{
+  "Terminal": {
+    "ports": {
+      "event": {
+        "datatype": "string",
+        "default": null,
+        "direction": "output"
+      },
+      "self": {
+        "datatype": "Terminal",
+        "default": null,
+        "direction": "output"
+      },
+      "input": {
+        "datatype": "string",
+        "default": null,
+        "direction": "input"
+      }
+    },
+    "size": [
+      85,
+      40
+    ],
+    "datatype": null,
+    "up": {
+      "can_go_up": false
+    },
+    "broadcast": false
+  }
+}

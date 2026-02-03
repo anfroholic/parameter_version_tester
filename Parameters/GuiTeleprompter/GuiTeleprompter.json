@@ -1,0 +1,57 @@
+{
+  "GuiTeleprompter": {
+    "ports": {
+      "input": {
+        "datatype": "string",
+        "default": 0,
+        "direction": "input"
+      },
+      "start": {
+        "datatype": "any",
+        "default": null,
+        "direction": "input"
+      },
+      "stop": {
+        "datatype": "any",
+        "default": null,
+        "direction": "input"
+      },
+      "reset": {
+        "datatype": "any",
+        "default": null,
+        "direction": "input"
+      },
+      "speed": {
+        "datatype": "float",
+        "default": 1,
+        "direction": "input"
+      },
+      "initial_value": {
+        "datatype": "string",
+        "default": "default value",
+        "direction": "input"
+      },
+      "event": {
+        "datatype": "string",
+        "default": null,
+        "direction": "output"
+      },
+      "self": {
+        "datatype": "GuiTeleprompter",
+        "default": null,
+        "direction": "output"
+      }
+    },
+    "size": [
+      85,
+      40
+    ],
+    "datatype": "string",
+    "up": {
+      "can_go_up": true,
+      "type": "output",
+      "order": 999
+    },
+    "broadcast": true
+  }
+}

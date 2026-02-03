@@ -1,0 +1,37 @@
+{
+  "Gui3dViewer": {
+    "ports": {
+      "input": {
+        "datatype": "string",
+        "default": "",
+        "direction": "input"
+      },
+      "initial_value": {
+        "datatype": "string",
+        "default": "",
+        "direction": "input"
+      },
+      "event": {
+        "datatype": "string",
+        "default": "",
+        "direction": "output"
+      },
+      "self": {
+        "datatype": "Gui3dViewer",
+        "default": null,
+        "direction": "output"
+      }
+    },
+    "size": [
+      115,
+      35
+    ],
+    "datatype": "any",
+    "up": {
+      "can_go_up": true,
+      "type": "output",
+      "order": 999
+    },
+    "broadcast": true
+  }
+}

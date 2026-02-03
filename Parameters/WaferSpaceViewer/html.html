@@ -1,0 +1,34 @@
+<div class="parameter" style="resize: both; overflow:auto;">
+  <style>
+    #wafer {
+      border: 1px solid #aaa;
+      background-color: #f9f9f9;
+      display: block;
+      margin: 0 auto;
+    }
+
+    .chip {
+      cursor: pointer;
+      stroke: #d42e63;
+      stroke-width: 0.5;
+    }
+
+    .chip:hover {
+      opacity: 0.8;
+    }
+
+    #description {
+      margin-top: 1em;
+      font-family: sans-serif;
+      text-align: center;
+    }
+  </style>
+  <span style="font-size: large;">${param.name}</span>
+  <span style="float:right;">pid: ${param.pid}</span><button class="toggler" onclick="toggleCollapsible(this)"
+    style="float:right;">-</button>
+  <div style="height: auto;">
+    <h1 style="text-align:center;">300mm Wafer Viewer</h1>
+    <svg id="wafer" width="600" height="600" viewBox="0 0 600 600"></svg>
+    <div id="description"><strong>Click a chip</strong> to see its position.</div>
+  </div>
+</div>

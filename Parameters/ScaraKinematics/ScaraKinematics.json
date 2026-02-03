@@ -1,0 +1,50 @@
+{
+  "ScaraKinematics": {
+    "ports": {
+      "input": {
+        "datatype": "string",
+        "default": null,
+        "direction": "input"
+      },
+      "theta_length": {
+        "datatype": "float",
+        "default": 200,
+        "direction": "input"
+      },
+      "phi_length": {
+        "datatype": "float",
+        "default": 200,
+        "direction": "input"
+      },
+      "max_segment_size": {
+        "datatype": "float",
+        "default": 1.0,
+        "direction": "input"
+      },
+      "right_handed": {
+        "datatype": "bool",
+        "default": true,
+        "direction": "input"
+      },
+      "event": {
+        "datatype": "string",
+        "default": "",
+        "direction": "output"
+      },
+      "self": {
+        "datatype": "ScaraKinematics",
+        "default": null,
+        "direction": "output"
+      }
+    },
+    "size": [
+      85,
+      200
+    ],
+    "datatype": null,
+    "up": {
+      "can_go_up": false
+    },
+    "broadcast": false
+  }
+}

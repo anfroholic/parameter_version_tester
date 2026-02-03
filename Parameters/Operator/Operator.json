@@ -1,0 +1,56 @@
+{
+  "Operator": {
+    "ports": {
+      "input1": {
+        "datatype": "any",
+        "default": null,
+        "direction": "input"
+      },
+      "input2": {
+        "datatype": "any",
+        "default": null,
+        "direction": "input"
+      },
+      "event": {
+        "datatype": "any",
+        "default": null,
+        "direction": "output"
+      }
+    },
+    "size": [
+      85,
+      40
+    ],
+    "constants": {
+      "operator_type": {
+        "type": "select",
+        "options": {
+          "add": "add",
+          "subtract": "subtract",
+          "divide": "divide",
+          "floor_divide": "floor_divide",
+          "modulo": "modulo",
+          "power": "power",
+          "root": "root",
+          "equal_to": "equal_to",
+          "not_equal_to": "not_equal_to",
+          "greater_than": "greater_than",
+          "less_than": "less_than",
+          "NOT": "NOT",
+          "AND": "AND",
+          "OR": "OR",
+          "XOR": "XOR",
+          "right_shift": "right_shift",
+          "left_shift": "left_shift"
+        },
+        "state": "add",
+        "help": "takes a boolean and on state change if edge is rising or falling message is sent"
+      }
+    },
+    "datatype": "any",
+    "up": {
+      "can_go_up": false
+    },
+    "broadcast": true
+  }
+}

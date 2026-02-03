@@ -1,0 +1,59 @@
+{
+  "NeoArray": {
+    "ports": {
+      "input": {
+        "datatype": "rgb",
+        "default": null,
+        "direction": "input"
+      },
+      "animation": {
+        "datatype": "int",
+        "default": 0,
+        "direction": "input"
+      },
+      "delay": {
+        "datatype": "int",
+        "default": 200,
+        "direction": "input"
+      },
+      "animations": {
+        "datatype": "NeoArrayAnimation",
+        "default": null,
+        "direction": "input"
+      },
+      "event": {
+        "datatype": "rgb",
+        "default": null,
+        "direction": "output"
+      },
+      "self": {
+        "datatype": "NeoArray",
+        "default": null,
+        "direction": "output"
+      }
+    },
+    "constants": {
+      "pins": {
+        "type": "text",
+        "state": "[1, 2, 3]",
+        "help": "physical pins used in array"
+      },
+      "number_of_pixels": {
+        "type": "number",
+        "state": 1,
+        "help": "number of pixels in each pin\nmust all have the same amount"
+      }
+    },
+    "size": [
+      85,
+      40
+    ],
+    "datatype": "rgb",
+    "up": {
+      "can_go_up": true,
+      "type": "input",
+      "order": 999
+    },
+    "broadcast": false
+  }
+}

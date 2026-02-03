@@ -1,0 +1,74 @@
+{
+  "DigitalInput": {
+    "ports": {
+      "input": {
+        "datatype": "bool",
+        "default": true,
+        "direction": "input"
+      },
+      "invert": {
+        "datatype": "bool",
+        "default": true,
+        "direction": "input"
+      },
+      "initial_value": {
+        "datatype": "bool",
+        "default": false,
+        "direction": "input"
+      },
+      "event": {
+        "datatype": "bool",
+        "default": null,
+        "direction": "output"
+      },
+      "self": {
+        "datatype": "DigitalInput",
+        "default": null,
+        "direction": "output"
+      }
+    },
+    "size": [
+      90,
+      45
+    ],
+    "datatype": "bool",
+    "constants": {
+      "pin": {
+        "type": "number",
+        "state": 0,
+        "help": "pin number on mcu"
+      },
+      "pullup": {
+        "type": "select",
+        "options": {
+          "None": "None",
+          "pullup": "pullup",
+          "pulldown": "pulldown"
+        },
+        "state": "None",
+        "help": "apply buitin pullup resistor on this input"
+      },
+      "edge_detection": {
+        "type": "select",
+        "options": {
+          "None": "None",
+          "rising": "rising",
+          "falling": "falling"
+        },
+        "state": "None",
+        "help": "only send messages on defined edges"
+      },
+      "debounce": {
+        "type": "number",
+        "state": 200,
+        "help": "noise reduction\npin will not be polled again for alloted time\ntime is in ms"
+      }
+    },
+    "up": {
+      "can_go_up": true,
+      "type": "output",
+      "order": 999
+    },
+    "broadcast": true
+  }
+}

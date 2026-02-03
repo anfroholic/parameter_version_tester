@@ -1,0 +1,22 @@
+{
+  "Rainbow": {
+    "ports": {
+      "self": {
+        "datatype": "NeoPixelAnimation",
+        "default": null,
+        "direction": "output"
+      }
+    },
+    "size": [
+      85,
+      40
+    ],
+    "datatype": "rgb",
+    "up": {
+      "can_go_up": false,
+      "type": "input",
+      "order": 999
+    },
+    "broadcast": false
+  }
+}

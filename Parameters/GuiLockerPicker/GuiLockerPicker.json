@@ -1,0 +1,59 @@
+{
+  "GuiLockerPicker": {
+    "ports": {
+      "input": {
+        "datatype": "int",
+        "default": null,
+        "direction": "input"
+      },
+      "pod": {
+        "datatype": "JSON",
+        "default": false,
+        "direction": "input"
+      },
+      "id_check": {
+        "datatype": "any",
+        "default": null,
+        "direction": "input"
+      },
+      "event": {
+        "datatype": "JSON",
+        "default": null,
+        "direction": "output"
+      },
+      "self": {
+        "datatype": "GuiLockerPicker",
+        "default": null,
+        "direction": "output"
+      }
+    },
+    "size": [
+      85,
+      40
+    ],
+    "datatype": "int",
+    "up": {
+      "can_go_up": true,
+      "type": "both",
+      "order": 999
+    },
+    "constants": {
+      "heartbeat": {
+        "type": "checkbox",
+        "state": true,
+        "help": "send state at regular interval"
+      },
+      "heartbeat_interval": {
+        "type": "number",
+        "state": 1000,
+        "help": "interval to send state\nunits are in milliseconds"
+      },
+      "websocket": {
+        "type": "text",
+        "state": "",
+        "help": "websocket is used when this is a standalone paramter running on pyscript"
+      }
+    },
+    "broadcast": false
+  }
+}

@@ -1,0 +1,59 @@
+{
+  "NeoPixel": {
+    "ports": {
+      "input": {
+        "datatype": "rgb",
+        "default": null,
+        "direction": "input"
+      },
+      "animation": {
+        "datatype": "int",
+        "default": 0,
+        "direction": "input"
+      },
+      "delay": {
+        "datatype": "int",
+        "default": 200,
+        "direction": "input"
+      },
+      "animations": {
+        "datatype": "NeoPixelAnimation",
+        "default": null,
+        "direction": "input"
+      },
+      "event": {
+        "datatype": "rgb",
+        "default": null,
+        "direction": "output"
+      },
+      "self": {
+        "datatype": "NeoPixel",
+        "default": null,
+        "direction": "output"
+      }
+    },
+    "constants": {
+      "pin": {
+        "type": "number",
+        "state": "0",
+        "help": "physical pin on the mcu"
+      },
+      "number_of_pixels": {
+        "type": "number",
+        "state": 1,
+        "help": "number of pixels"
+      }
+    },
+    "size": [
+      85,
+      40
+    ],
+    "datatype": "rgb",
+    "up": {
+      "can_go_up": true,
+      "type": "input",
+      "order": 999
+    },
+    "broadcast": false
+  }
+}
