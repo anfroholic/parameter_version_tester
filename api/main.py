@@ -12,6 +12,7 @@ Endpoints:
 
 import os
 import re
+from pathlib import Path
 from typing import List, Optional
 from contextlib import asynccontextmanager
 
@@ -19,6 +20,7 @@ import psycopg2
 from psycopg2.extras import RealDictCursor
 from fastapi import FastAPI, HTTPException, Query
 from fastapi.middleware.cors import CORSMiddleware
+from fastapi.responses import HTMLResponse
 from pydantic import BaseModel
 
 
@@ -108,6 +110,20 @@ class ParameterVersion(BaseModel):
     is_dev: bool
     file_mappings: dict
 
+
+# Serve interactive HTML at root
+@app.get("/", response_class=HTMLResponse)
+async def root():
+    """Serve the interactive Parameter Registry UI."""
+    html_path = Path(__file__).parent / "interactive.html"
+    return html_path.read_text(encoding="utf-8")
+
+@app.get("/load")
+async def load_parameters():
+    print("Loading parameters...")
+    import load_parameters
+    load_parameters.main()
+    return {"status": "healthy!!!"}
 
 # Health check
 @app.get("/health")
@@ -444,4 +460,4 @@ async def get_stats():
 
 if __name__ == "__main__":
     import uvicorn
-    uvicorn.run(app, host="0.0.0.0", port=8000)
+    uvicorn.run(app, host="0.0.0.0", port=8000, reload=True)

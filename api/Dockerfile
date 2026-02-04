@@ -6,8 +6,10 @@ WORKDIR /app
 COPY requirements.txt .
 RUN pip install --no-cache-dir -r requirements.txt
 
-# Copy application
+# Copy application files
 COPY main.py .
+COPY interactive.html .
+COPY load_parameters.py .
 
 # Expose port
 EXPOSE 8000
