@@ -21,10 +21,11 @@ services:
       timeout: 5s
       retries: 5
 
-  api:
-    build: ./api
-    container_name: param_api
+  app:
+    build: ./app
+    container_name: param_app
     restart: unless-stopped
+    command: uvicorn main:app --host 0.0.0.0 --port 8000 --reload
     env_file: .env
     environment:
       POSTGRES_HOST: db
@@ -35,7 +36,7 @@ services:
     ports:
       - "8000:8000"
     volumes:
-      - ./Parameters:/parameters:ro
+      - ./app:/app
     depends_on:
       db:
         condition: service_healthy

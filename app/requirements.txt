@@ -1,4 +1,7 @@
 fastapi
+uvicorn
+psycopg2-binary==2.9.9
+pydantic
+python-dotenv
 python-multipart
 jinja2
-uvicorn
