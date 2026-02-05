@@ -37,9 +37,6 @@ services:
       - "8000:8000"
     volumes:
       - ./app:/app
-    depends_on:
-      db:
-        condition: service_healthy
 
   pgadmin:
     image: dpage/pgadmin4:7

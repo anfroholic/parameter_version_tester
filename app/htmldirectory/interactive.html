@@ -243,6 +243,111 @@
             display: block;
         }
 
+        .new-version-btn {
+            padding: 4px 10px;
+            background: var(--success);
+            color: #1a1a2e;
+            border: none;
+            border-radius: 4px;
+            font-size: 0.75rem;
+            font-weight: bold;
+            cursor: pointer;
+            transition: background 0.2s;
+        }
+
+        .new-version-btn:hover {
+            background: #3db8a8;
+        }
+
+        .new-version-form {
+            padding: 15px;
+            border-top: 1px solid var(--border);
+            background: var(--bg-primary);
+        }
+
+        .new-version-form textarea {
+            width: 100%;
+            min-height: 120px;
+            padding: 10px;
+            background: var(--bg-secondary);
+            border: 2px solid var(--border);
+            border-radius: 4px;
+            color: var(--text-primary);
+            font-family: 'Consolas', monospace;
+            font-size: 0.85rem;
+            resize: vertical;
+            margin-bottom: 10px;
+        }
+
+        .new-version-form textarea:focus {
+            outline: none;
+            border-color: var(--success);
+        }
+
+        .new-version-form input[type="text"] {
+            width: 100%;
+            padding: 8px 10px;
+            background: var(--bg-secondary);
+            border: 2px solid var(--border);
+            border-radius: 4px;
+            color: var(--text-primary);
+            font-size: 0.9rem;
+            margin-bottom: 10px;
+        }
+
+        .new-version-form input[type="text"]:focus {
+            outline: none;
+            border-color: var(--success);
+        }
+
+        .new-version-actions {
+            display: flex;
+            gap: 10px;
+        }
+
+        .save-btn {
+            padding: 8px 16px;
+            background: var(--success);
+            color: #1a1a2e;
+            border: none;
+            border-radius: 4px;
+            font-size: 0.9rem;
+            font-weight: bold;
+            cursor: pointer;
+            transition: background 0.2s;
+        }
+
+        .save-btn:hover {
+            background: #3db8a8;
+        }
+
+        .cancel-btn {
+            padding: 8px 16px;
+            background: var(--bg-tertiary);
+            border: none;
+            color: var(--text-secondary);
+            cursor: pointer;
+            border-radius: 4px;
+            font-size: 0.9rem;
+            transition: background 0.2s;
+        }
+
+        .cancel-btn:hover {
+            background: var(--border);
+        }
+
+        .success-msg {
+            color: var(--success);
+            margin-top: 8px;
+            font-size: 0.9rem;
+        }
+
+        .error-msg {
+            color: var(--accent-light);
+            margin-top: 8px;
+            font-size: 0.9rem;
+        }
+
         /* Browse */
         .search-box {
             margin-bottom: 20px;
@@ -586,7 +691,10 @@
             }
         }
 
+        let currentResolvedData = null;
+
         function renderQueryResult(data) {
+            currentResolvedData = data;
             const resultBox = document.getElementById('query-result');
 
             const versionDisplay = data.is_dev ? 'dev' : `v${data.version}`;
@@ -597,18 +705,33 @@
                         <strong>${data.owner}/${data.parameter}</strong>
                         <span class="version-badge ${data.is_dev ? 'dev' : ''}">${versionDisplay}</span>
                     </div>
-                    <div class="result-meta">${data.files.length} file(s)</div>
+                    <div style="display:flex; gap:12px; align-items:center">
+                        <div class="result-meta">${data.files.length} file(s)</div>
+                        <button class="cancel-btn" style="padding: 5px 14px; font-size: 0.85rem; color: var(--text-primary);" onclick="showParameterDetail('${data.owner}', '${data.parameter}')">Details</button>
+                    </div>
                 </div>
             `;
 
             data.files.forEach((file, idx) => {
                 html += `
-                    <div class="file-card">
+                    <div class="file-card" id="file-card-${idx}">
                         <div class="file-header" onclick="toggleFile(${idx})">
                             <span>${file.path}</span>
-                            <span class="file-type-badge">${file.file_type} v${file.file_version}</span>
+                            <div style="display:flex; gap:8px; align-items:center">
+                                <span class="file-type-badge">${file.file_type} v${file.file_version}</span>
+                                <button class="new-version-btn" onclick="event.stopPropagation(); openNewVersion(${idx})">+ New Version</button>
+                            </div>
                         </div>
                         <pre class="file-content" id="file-${idx}">${escapeHtml(file.content)}</pre>
+                        <div class="new-version-form" id="new-version-form-${idx}" style="display:none">
+                            <textarea id="new-version-content-${idx}">${escapeHtml(file.content)}</textarea>
+                            <input type="text" id="new-version-note-${idx}" placeholder="Change note (optional)">
+                            <div class="new-version-actions">
+                                <button class="save-btn" onclick="submitNewVersion(${idx})">Save New Version</button>
+                                <button class="cancel-btn" onclick="cancelNewVersion(${idx})">Cancel</button>
+                            </div>
+                            <div id="new-version-msg-${idx}"></div>
+                        </div>
                     </div>
                 `;
             });
@@ -619,6 +742,63 @@
         function toggleFile(idx) {
             const content = document.getElementById(`file-${idx}`);
             content.classList.toggle('expanded');
+        }
+
+        function openNewVersion(idx) {
+            document.getElementById(`new-version-form-${idx}`).style.display = 'block';
+            document.getElementById(`file-${idx}`).classList.add('expanded');
+        }
+
+        function cancelNewVersion(idx) {
+            document.getElementById(`new-version-form-${idx}`).style.display = 'none';
+            document.getElementById(`new-version-msg-${idx}`).innerHTML = '';
+        }
+
+        async function submitNewVersion(idx) {
+            const file = currentResolvedData.files[idx];
+            const content = document.getElementById(`new-version-content-${idx}`).value;
+            const changeNote = document.getElementById(`new-version-note-${idx}`).value.trim() || null;
+            const msgDiv = document.getElementById(`new-version-msg-${idx}`);
+
+            msgDiv.innerHTML = '<span style="color: var(--text-secondary)">Saving...</span>';
+
+            try {
+                const res = await fetch(
+                    `${API_BASE}/parameters/${currentResolvedData.owner}/${currentResolvedData.parameter}/file-versions`,
+                    {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({
+                            files: [{
+                                file_type: file.file_type,
+                                content: content,
+                                change_note: changeNote
+                            }]
+                        })
+                    }
+                );
+
+                if (!res.ok) {
+                    const error = await res.json();
+                    throw new Error(error.detail || 'Failed to create version');
+                }
+
+                const result = await res.json();
+                const newFile = result.created[0];
+
+                // Update the badge to reflect the new version
+                document.querySelector(`#file-card-${idx} .file-type-badge`).textContent =
+                    `${newFile.file_type} v${newFile.new_version}`;
+
+                // Sync the displayed content and stored data
+                document.getElementById(`file-${idx}`).textContent = content;
+                currentResolvedData.files[idx].file_version = newFile.new_version;
+                currentResolvedData.files[idx].content = content;
+
+                msgDiv.innerHTML = `<span class="success-msg">Created v${newFile.new_version}</span>`;
+            } catch (e) {
+                msgDiv.innerHTML = `<span class="error-msg">${e.message}</span>`;
+            }
         }
 
         function escapeHtml(text) {
@@ -686,6 +866,10 @@
                 const res = await fetch(`${API_BASE}/parameters/${owner}/${name}`);
                 const data = await res.json();
 
+                const hasDev = data.versions.some(v => v.is_dev);
+                const stableVersions = data.versions.filter(v => !v.is_dev).map(v => v.version);
+                const nextVersion = stableVersions.length > 0 ? Math.max(...stableVersions) + 1 : 1;
+
                 body.innerHTML = `
                     <p>${data.description || 'No description'}</p>
                     <h3 style="margin: 20px 0 10px">Versions</h3>
@@ -699,11 +883,13 @@
                             </div>
                         </div>
                     `).join('')}
-                    <div style="margin-top: 20px">
+                    <div style="margin-top: 20px; display:flex; gap:10px; flex-wrap:wrap; align-items:center">
+                        ${hasDev ? `<button class="save-btn" id="publish-btn" onclick="publishFromModal('${owner}', '${name}')">Publish → v${nextVersion}</button>` : ''}
                         <button class="query-btn" onclick="queryParameter('${owner}', '${name}')">
                             Query Latest
                         </button>
                     </div>
+                    <div id="publish-msg" style="margin-top: 10px;"></div>
                 `;
             } catch (e) {
                 body.innerHTML = `<p class="error">${e.message}</p>`;
@@ -715,6 +901,33 @@
             document.getElementById('query-input').value = `${owner}/${name}:latest`;
             document.querySelectorAll('.tab')[0].click();
             resolveQuery();
+        }
+
+        async function publishFromModal(owner, name) {
+            const btn = document.getElementById('publish-btn');
+            const msgDiv = document.getElementById('publish-msg');
+            const originalText = btn.textContent;
+            btn.disabled = true;
+            btn.textContent = 'Publishing...';
+            msgDiv.innerHTML = '';
+
+            try {
+                const res = await fetch(`${API_BASE}/parameters/${owner}/${name}/publish`, {
+                    method: 'POST'
+                });
+                if (!res.ok) {
+                    const error = await res.json();
+                    throw new Error(error.detail || 'Publish failed');
+                }
+                const result = await res.json();
+                msgDiv.innerHTML = `<span class="success-msg">Published v${result.published_version}</span>`;
+                loadStats();
+                setTimeout(() => showParameterDetail(owner, name), 1000);
+            } catch (e) {
+                btn.disabled = false;
+                btn.textContent = originalText;
+                msgDiv.innerHTML = `<span class="error-msg">${e.message}</span>`;
+            }
         }
 
         document.getElementById('modal-close').addEventListener('click', () => {

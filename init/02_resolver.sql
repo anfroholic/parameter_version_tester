@@ -134,6 +134,8 @@ $$ LANGUAGE plpgsql STABLE;
 
 -- ===============================
 -- 5. Full resolver (single call)
+-- When selector = 'dev', merges dev mappings over latest so that
+-- file types not yet touched in dev fall back to their latest version.
 -- ===============================
 CREATE OR REPLACE FUNCTION resolve_package(
     p_owner TEXT,
@@ -151,22 +153,70 @@ RETURNS TABLE (
     content TEXT
 ) AS $$
 DECLARE
-    pid INTEGER;
-    pvid INTEGER;
+    pid         INTEGER;
+    dev_pvid    INTEGER;
+    latest_pvid INTEGER;
+    pvid        INTEGER;
 BEGIN
     pid := resolve_parameter(p_owner, p_parameter);
-    pvid := resolve_parameter_version(pid, p_selector);
 
-    RETURN QUERY
-    SELECT
-        p_owner,
-        p_parameter,
-        p_selector,
-        r.file_type,
-        r.file_version,
-        r.path,
-        r.content
-    FROM resolve_files(pid, pvid, p_file_types) r;
+    IF p_selector = 'dev' THEN
+        dev_pvid := resolve_parameter_version(pid, 'dev');
+
+        -- Latest stable version id; NULL when no stable version exists yet
+        SELECT id INTO latest_pvid
+        FROM parameter_versions
+        WHERE parameter_id = pid AND is_dev = FALSE
+        ORDER BY version DESC
+        LIMIT 1;
+
+        -- Dev mappings win; latest fills in any file types dev hasn't touched
+        RETURN QUERY
+        SELECT
+            p_owner,
+            p_parameter,
+            p_selector,
+            ft.name,
+            merged.file_version,
+            f.path,
+            f.content
+        FROM (
+            SELECT pvf.file_type_id, pvf.file_version
+            FROM parameter_version_files pvf
+            WHERE pvf.parameter_version_id = dev_pvid
+
+            UNION ALL
+
+            SELECT pvf.file_type_id, pvf.file_version
+            FROM parameter_version_files pvf
+            WHERE pvf.parameter_version_id = latest_pvid
+              AND pvf.file_type_id NOT IN (
+                  SELECT file_type_id
+                  FROM parameter_version_files
+                  WHERE parameter_version_id = dev_pvid
+              )
+        ) merged
+        JOIN file_types ft ON ft.id = merged.file_type_id
+        JOIN files f ON
+            f.parameter_id = pid
+            AND f.file_type_id = merged.file_type_id
+            AND f.version = merged.file_version
+        WHERE (p_file_types IS NULL OR ft.name = ANY(p_file_types));
+
+    ELSE
+        pvid := resolve_parameter_version(pid, p_selector);
+
+        RETURN QUERY
+        SELECT
+            p_owner,
+            p_parameter,
+            p_selector,
+            r.file_type,
+            r.file_version,
+            r.path,
+            r.content
+        FROM resolve_files(pid, pvid, p_file_types) r;
+    END IF;
 END;
 $$ LANGUAGE plpgsql STABLE;
 

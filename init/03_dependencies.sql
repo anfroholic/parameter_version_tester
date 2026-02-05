@@ -114,12 +114,12 @@ BEGIN
             pvd.depends_on_is_dev,
             CASE
                 WHEN pvd.depends_on_is_dev THEN
-                    (SELECT id FROM parameter_versions
-                     WHERE parameter_id = pvd.depends_on_parameter_id AND is_dev = TRUE)
+                    (SELECT pv2.id FROM parameter_versions pv2
+                     WHERE pv2.parameter_id = pvd.depends_on_parameter_id AND pv2.is_dev = TRUE)
                 ELSE
-                    (SELECT id FROM parameter_versions
-                     WHERE parameter_id = pvd.depends_on_parameter_id
-                       AND version = pvd.depends_on_version AND is_dev = FALSE)
+                    (SELECT pv2.id FROM parameter_versions pv2
+                     WHERE pv2.parameter_id = pvd.depends_on_parameter_id
+                       AND pv2.version = pvd.depends_on_version AND pv2.is_dev = FALSE)
             END
         FROM dep_tree dt
         JOIN parameter_version_dependencies pvd

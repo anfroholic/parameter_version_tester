@@ -45,14 +45,11 @@ CREATE TABLE file_types (
 INSERT INTO file_types (name) VALUES
     ('js'),
     ('py'),
-    ('md'),
-    ('json'),
-    ('txt'),
     ('html'),
-    ('css'),
-    ('csv'),
-    ('png'),
-    ('ico'),
+    ('config'),
+    ('environments'),
+    ('readme'),
+    ('requirements'),
     ('dependencies')
 ON CONFLICT DO NOTHING;
 
@@ -66,6 +63,7 @@ CREATE TABLE files (
     version INTEGER NOT NULL,
     path TEXT NOT NULL,
     content TEXT NOT NULL,
+    change_note TEXT,
     created_at TIMESTAMPTZ NOT NULL DEFAULT NOW(),
 
     UNIQUE (parameter_id, file_type_id, version)

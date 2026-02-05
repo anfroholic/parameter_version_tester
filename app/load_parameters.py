@@ -22,21 +22,23 @@ from dotenv import load_dotenv
 load_dotenv()
 
 
-# File type mappings
-FILE_TYPE_MAP = {
-    '.js': 'js',
-    '.py': 'py',
-    '.md': 'md',
-    '.json': 'json',
-    '.txt': 'txt',
-    '.html': 'html',
-}
-
 # Binary file types (stored as base64)
 BINARY_TYPES = {'.png', '.ico'}
 
-# Special files that are not stored as regular file types
-SPECIAL_FILES = {'dependencies.txt'}
+
+def get_file_type(param_name: str, filename: str) -> str | None:
+    """Map a filename to its semantic file type. Returns None for unknown files."""
+    KNOWN_FILES = {
+        f"{param_name}.py":      "py",
+        f"{param_name}.json":    "config",
+        "environments.json":     "environments",
+        "html.html":             "html",
+        "js.js":                 "js",
+        "README.md":             "readme",
+        "requirements.txt":      "requirements",
+        "dependencies.txt":      "dependencies",
+    }
+    return KNOWN_FILES.get(filename)
 
 
 def get_db_connection():
@@ -196,26 +198,20 @@ def collect_files(param_dir: Path) -> Dict[str, Tuple[str, str]]:
     """
     Collect files from a parameter directory (root level only, no subdirs).
     Returns dict of file_type -> (filename, content)
-    Only one file per type is stored.
     """
+    param_name = param_dir.name
     files_by_type: Dict[str, Tuple[str, str]] = {}
 
-    # Only look at files in the root of the parameter directory (no subdirs)
     for file_path in param_dir.iterdir():
         if not file_path.is_file():
             continue
 
-        filename = file_path.name
-
-        # Skip special files
-        if filename in SPECIAL_FILES:
+        file_type = get_file_type(param_name, file_path.name)
+        if file_type is None:
             continue
 
-        ext = file_path.suffix.lower()
-        if ext in FILE_TYPE_MAP:
-            file_type = FILE_TYPE_MAP[ext]
-            content = read_file_content(file_path)
-            files_by_type[file_type] = (filename, content)
+        content = read_file_content(file_path)
+        files_by_type[file_type] = (file_path.name, content)
 
     return files_by_type
 

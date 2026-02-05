@@ -17,6 +17,7 @@ from typing import List, Optional
 from contextlib import asynccontextmanager
 
 import psycopg2
+import load_parameters as load_params_module
 from psycopg2.extras import RealDictCursor
 from fastapi import FastAPI, HTTPException, Query, Request
 from fastapi.middleware.cors import CORSMiddleware
@@ -116,14 +117,25 @@ class ParameterVersion(BaseModel):
     file_mappings: dict
 
 
+class FileVersionUpdate(BaseModel):
+    file_type: str
+    content: str
+    change_note: Optional[str] = None
+
+
+class FileVersionBatch(BaseModel):
+    files: List[FileVersionUpdate]
+
+
 @app.get('/', response_class=HTMLResponse)
 async def home(request: Request):
     return templates.TemplateResponse('interactive.html', {'request': request})
 
-@app.get("/load")
-async def load_parameters():
+@app.get("/load", response_class=HTMLResponse)
+async def load_parameters(request: Request):
     print("Loading parameters...")
-    return {"status": "healthy!!!!!!"}
+    load_params_module.load_parameters(Path(__file__).parent / 'Parameters')
+    return templates.TemplateResponse('interactive.html', {'request': request})
 
 # Health check
 @app.get("/health")
@@ -267,6 +279,144 @@ async def get_parameter(owner: str, name: str):
                 **param,
                 'versions': versions_with_files
             }
+    finally:
+        conn.close()
+
+
+# File Versioning
+@app.post("/parameters/{owner}/{name}/file-versions")
+async def create_file_versions(owner: str, name: str, body: FileVersionBatch):
+    """
+    Create new file versions for a parameter. Updates the dev mapping.
+    Accepts one or more file types in a single request.
+
+    Body example:
+        { "files": [
+            { "file_type": "js", "content": "...", "change_note": "rewrote click handler" },
+            { "file_type": "py", "content": "..." }
+        ]}
+    """
+    if not body.files:
+        raise HTTPException(status_code=400, detail="No files provided")
+
+    conn = get_db_connection()
+    try:
+        with conn.cursor() as cur:
+            # Resolve parameter
+            cur.execute("""
+                SELECT p.id FROM parameters p
+                JOIN owners o ON o.id = p.owner_id
+                WHERE o.username = %s AND p.name = %s
+            """, (owner, name))
+            param = cur.fetchone()
+            if not param:
+                raise HTTPException(status_code=404, detail=f"Parameter '{owner}/{name}' not found")
+            parameter_id = param['id']
+
+            # Ensure a dev parameter_version exists; create one if not
+            cur.execute("""
+                SELECT id FROM parameter_versions
+                WHERE parameter_id = %s AND is_dev = TRUE
+            """, (parameter_id,))
+            dev_version = cur.fetchone()
+            if not dev_version:
+                cur.execute("""
+                    INSERT INTO parameter_versions (parameter_id, is_dev)
+                    VALUES (%s, TRUE)
+                    RETURNING id
+                """, (parameter_id,))
+                dev_version = cur.fetchone()
+            dev_version_id = dev_version['id']
+
+            created = []
+            for file in body.files:
+                # Resolve file type
+                cur.execute("SELECT id FROM file_types WHERE name = %s", (file.file_type,))
+                ft = cur.fetchone()
+                if not ft:
+                    raise HTTPException(status_code=400, detail=f"Unknown file type: '{file.file_type}'")
+                file_type_id = ft['id']
+
+                # Get the current highest version and its path for this (parameter, file_type)
+                cur.execute("""
+                    SELECT version, path FROM files
+                    WHERE parameter_id = %s AND file_type_id = %s
+                    ORDER BY version DESC LIMIT 1
+                """, (parameter_id, file_type_id))
+                current = cur.fetchone()
+
+                if current:
+                    new_version = current['version'] + 1
+                    path = current['path']
+                else:
+                    new_version = 1
+                    path = file.file_type
+
+                # Insert the new file version
+                cur.execute("""
+                    INSERT INTO files (parameter_id, file_type_id, version, path, content, change_note)
+                    VALUES (%s, %s, %s, %s, %s, %s)
+                """, (parameter_id, file_type_id, new_version, path, file.content, file.change_note))
+
+                # Point the dev mapping at the new version (insert or update)
+                cur.execute("""
+                    INSERT INTO parameter_version_files (parameter_version_id, file_type_id, file_version)
+                    VALUES (%s, %s, %s)
+                    ON CONFLICT (parameter_version_id, file_type_id)
+                    DO UPDATE SET file_version = EXCLUDED.file_version
+                """, (dev_version_id, file_type_id, new_version))
+
+                created.append({
+                    "file_type": file.file_type,
+                    "new_version": new_version,
+                    "path": path,
+                    "change_note": file.change_note
+                })
+
+            conn.commit()
+            return {
+                "parameter": f"{owner}/{name}",
+                "created": created
+            }
+    except HTTPException:
+        raise
+    except psycopg2.Error as e:
+        raise HTTPException(status_code=500, detail=str(e))
+    finally:
+        conn.close()
+
+
+# Publish
+@app.post("/parameters/{owner}/{name}/publish")
+async def publish_version(owner: str, name: str):
+    """
+    Publish the current dev state as the next stable version.
+    Snapshots the merged dev+latest file map and freezes dependencies.
+    """
+    conn = get_db_connection()
+    try:
+        with conn.cursor() as cur:
+            cur.execute("""
+                SELECT p.id FROM parameters p
+                JOIN owners o ON o.id = p.owner_id
+                WHERE o.username = %s AND p.name = %s
+            """, (owner, name))
+            param = cur.fetchone()
+            if not param:
+                raise HTTPException(status_code=404, detail=f"Parameter '{owner}/{name}' not found")
+
+            cur.execute("SELECT publish_parameter(%s) AS new_version", (param['id'],))
+            new_version = cur.fetchone()['new_version']
+
+            conn.commit()
+            return {
+                "parameter": f"{owner}/{name}",
+                "published_version": new_version
+            }
+    except HTTPException:
+        raise
+    except psycopg2.Error as e:
+        raise HTTPException(status_code=500, detail=str(e))
     finally:
         conn.close()
 
