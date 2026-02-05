@@ -1,26 +1,24 @@
 {
-  "Gene": {
-    "ports": {
-      "input": {
-        "datatype": "any",
-        "default": null,
-        "direction": "input"
-      },
-      "self": {
-        "datatype": "Gene",
-        "default": null,
-        "direction": "output"
-      }
+  "ports": {
+    "input": {
+      "datatype": "any",
+      "default": null,
+      "direction": "input"
     },
-    "constants": {},
-    "size": [
-      65,
-      45
-    ],
-    "datatype": "none",
-    "up": {
-      "can_go_up": false
-    },
-    "broadcast": false
-  }
+    "self": {
+      "datatype": "Gene",
+      "default": null,
+      "direction": "output"
+    }
+  },
+  "constants": {},
+  "size": [
+    65,
+    45
+  ],
+  "datatype": "none",
+  "up": {
+    "can_go_up": false
+  },
+  "broadcast": false
 }

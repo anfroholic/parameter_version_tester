@@ -1,66 +1,64 @@
 {
-  "Request": {
-    "ports": {
-      "input": {
-        "datatype": "any",
-        "default": null,
-        "direction": "input"
-      },
-      "event": {
-        "datatype": "any",
-        "default": null,
-        "direction": "output"
-      },
-      "self": {
-        "datatype": "any",
-        "default": null,
-        "direction": "output"
-      }
+  "ports": {
+    "input": {
+      "datatype": "any",
+      "default": null,
+      "direction": "input"
     },
-    "constants": {
-      "url": {
-        "type": "text",
-        "state": "",
-        "help": "url to make call"
-      },
-      "method": {
-        "type": "select",
-        "options": {
-          "GET": "GET",
-          "POST": "POST",
-          "PUT": "PUT"
-        },
-        "state": "GET",
-        "help": "request type"
-      },
-      "response_type": {
-        "type": "select",
-        "options": {
-          "text": "text",
-          "json": "json",
-          "bytearray": "bytearray",
-          "blob": "blob",
-          "arrayBuffer": "arrayBuffer"
-        },
-        "state": "text",
-        "help": "request type\nbytearray, blob, and arrayBuffer are Pyscript Only"
-      },
-      "on_startup": {
-        "type": "checkbox",
-        "state": false,
-        "help": "make this request at startup"
-      }
+    "event": {
+      "datatype": "any",
+      "default": null,
+      "direction": "output"
     },
-    "size": [
-      95,
-      65
-    ],
-    "datatype": "any",
-    "up": {
-      "can_go_up": true,
-      "type": "output",
-      "order": 999
+    "self": {
+      "datatype": "any",
+      "default": null,
+      "direction": "output"
+    }
+  },
+  "constants": {
+    "url": {
+      "type": "text",
+      "state": "",
+      "help": "url to make call"
     },
-    "broadcast": true
-  }
+    "method": {
+      "type": "select",
+      "options": {
+        "GET": "GET",
+        "POST": "POST",
+        "PUT": "PUT"
+      },
+      "state": "GET",
+      "help": "request type"
+    },
+    "response_type": {
+      "type": "select",
+      "options": {
+        "text": "text",
+        "json": "json",
+        "bytearray": "bytearray",
+        "blob": "blob",
+        "arrayBuffer": "arrayBuffer"
+      },
+      "state": "text",
+      "help": "request type\nbytearray, blob, and arrayBuffer are Pyscript Only"
+    },
+    "on_startup": {
+      "type": "checkbox",
+      "state": false,
+      "help": "make this request at startup"
+    }
+  },
+  "size": [
+    95,
+    65
+  ],
+  "datatype": "any",
+  "up": {
+    "can_go_up": true,
+    "type": "output",
+    "order": 999
+  },
+  "broadcast": true
 }

@@ -1,44 +1,42 @@
 {
-  "MqttSubscription": {
-    "ports": {
-      "input": {
-        "datatype": "bool",
-        "default": null,
-        "direction": "input"
+  "ports": {
+    "input": {
+      "datatype": "bool",
+      "default": null,
+      "direction": "input"
+    },
+    "event": {
+      "datatype": "any",
+      "default": null,
+      "direction": "output"
+    }
+  },
+  "size": [
+    90,
+    35
+  ],
+  "constants": {
+    "convert_to_type": {
+      "type": "select",
+      "options": {
+        "bytes": "bytes",
+        "int": "int",
+        "float": "float",
+        "json": "json"
       },
-      "event": {
-        "datatype": "any",
-        "default": null,
-        "direction": "output"
-      }
+      "state": "bytes",
+      "help": "this will attempt to convert message to new type. \ndefault: bytes"
     },
-    "size": [
-      90,
-      35
-    ],
-    "constants": {
-      "convert_to_type": {
-        "type": "select",
-        "options": {
-          "bytes": "bytes",
-          "int": "int",
-          "float": "float",
-          "json": "json"
-        },
-        "state": "bytes",
-        "help": "this will attempt to convert message to new type. \ndefault: bytes"
-      },
-      "topic": {
-        "type": "text",
-        "state": "some/topic",
-        "help": "mqtt topic message will be posted to.\nexample: some/topic"
-      }
-    },
-    "datatype": "none",
-    "up": {
-      "can_go_up": false,
-      "order": 999
-    },
-    "broadcast": false
-  }
+    "topic": {
+      "type": "text",
+      "state": "some/topic",
+      "help": "mqtt topic message will be posted to.\nexample: some/topic"
+    }
+  },
+  "datatype": "none",
+  "up": {
+    "can_go_up": false,
+    "order": 999
+  },
+  "broadcast": false
 }

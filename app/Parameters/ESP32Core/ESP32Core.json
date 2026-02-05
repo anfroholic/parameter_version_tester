@@ -1,52 +1,50 @@
 {
-  "ESP32Core": {
-    "ports": {
-      "hbt_led": {
-        "datatype": "hbt_led",
-        "default": null,
-        "direction": "input"
-      },
-      "neo_status": {
-        "datatype": "NeoPixel",
-        "default": null,
-        "direction": "input"
-      },
-      "function_button": {
-        "datatype": "bool",
-        "default": null,
-        "direction": "input"
-      },
-      "bus": {
-        "datatype": "bus",
-        "default": null,
-        "direction": "input"
-      },
-      "zorg": {
-        "datatype": "Zorg",
-        "default": null,
-        "direction": "input"
-      },
-      "webserver": {
-        "datatype": "WebServer",
-        "default": null,
-        "direction": "input"
-      }
+  "ports": {
+    "hbt_led": {
+      "datatype": "hbt_led",
+      "default": null,
+      "direction": "input"
     },
-    "size": [
-      85,
-      420
-    ],
-    "datatype": null,
-    "constants": {
-      "wifi": {
-        "type": "checkbox",
-        "state": false,
-        "help": "turn on wifi antenna"
-      }
+    "neo_status": {
+      "datatype": "NeoPixel",
+      "default": null,
+      "direction": "input"
     },
-    "up": {
-      "can_go_up": false
+    "function_button": {
+      "datatype": "bool",
+      "default": null,
+      "direction": "input"
     },
-    "broadcast": false
-  }
+    "bus": {
+      "datatype": "bus",
+      "default": null,
+      "direction": "input"
+    },
+    "zorg": {
+      "datatype": "Zorg",
+      "default": null,
+      "direction": "input"
+    },
+    "webserver": {
+      "datatype": "WebServer",
+      "default": null,
+      "direction": "input"
+    }
+  },
+  "size": [
+    85,
+    420
+  ],
+  "datatype": null,
+  "constants": {
+    "wifi": {
+      "type": "checkbox",
+      "state": false,
+      "help": "turn on wifi antenna"
+    }
+  },
+  "up": {
+    "can_go_up": false
+  },
+  "broadcast": false
 }

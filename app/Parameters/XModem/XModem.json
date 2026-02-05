@@ -1,46 +1,44 @@
 {
-  "XModem": {
-    "ports": {
-      "input": {
-        "datatype": "string",
-        "default": null,
-        "direction": "input"
-      },
-      "uart": {
-        "datatype": "UART",
-        "default": null,
-        "direction": "input"
-      },
-      "self": {
-        "datatype": "XModem",
-        "default": null,
-        "direction": "output"
-      }
+  "ports": {
+    "input": {
+      "datatype": "string",
+      "default": null,
+      "direction": "input"
     },
-    "constants": {
-      "block_size": {
-        "type": "select",
-        "options": {
-          "128byte": "128byte",
-          "1Kbyte": "1Kbyte"
-        },
-        "state": "1Kbyte",
-        "help": "choose block size"
+    "uart": {
+      "datatype": "UART",
+      "default": null,
+      "direction": "input"
+    },
+    "self": {
+      "datatype": "XModem",
+      "default": null,
+      "direction": "output"
+    }
+  },
+  "constants": {
+    "block_size": {
+      "type": "select",
+      "options": {
+        "128byte": "128byte",
+        "1Kbyte": "1Kbyte"
       },
-      "CRC_mode": {
-        "type": "checkbox",
-        "state": true,
-        "help": "use CRC mode or Checksum mode\nNote: only CRC mode is available in 1k block size"
-      }
+      "state": "1Kbyte",
+      "help": "choose block size"
     },
-    "size": [
-      85,
-      75
-    ],
-    "datatype": null,
-    "up": {
-      "can_go_up": false
-    },
-    "broadcast": false
-  }
+    "CRC_mode": {
+      "type": "checkbox",
+      "state": true,
+      "help": "use CRC mode or Checksum mode\nNote: only CRC mode is available in 1k block size"
+    }
+  },
+  "size": [
+    85,
+    75
+  ],
+  "datatype": null,
+  "up": {
+    "can_go_up": false
+  },
+  "broadcast": false
 }

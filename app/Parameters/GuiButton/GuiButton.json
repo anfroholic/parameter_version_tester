@@ -1,52 +1,50 @@
 {
-  "GuiButton": {
-    "ports": {
-      "input": {
-        "datatype": "any",
-        "default": null,
-        "direction": "input"
-      },
-      "event": {
-        "datatype": "any",
-        "default": null,
-        "direction": "output"
-      },
-      "self": {
-        "datatype": "GuiButton",
-        "default": null,
-        "direction": "output"
-      }
+  "ports": {
+    "input": {
+      "datatype": "any",
+      "default": null,
+      "direction": "input"
     },
-    "size": [
-      85,
-      40
-    ],
-    "datatype": "any",
-    "constants": {
-      "trigger": {
-        "type": "select",
-        "options": {
-          "True": "True",
-          "False": "False",
-          "None": "None",
-          "string": "string",
-          "int": "int",
-          "float": "float"
-        },
-        "state": "True",
-        "help": "Choose the type of output\nIf !bool message field will determine output"
+    "event": {
+      "datatype": "any",
+      "default": null,
+      "direction": "output"
+    },
+    "self": {
+      "datatype": "GuiButton",
+      "default": null,
+      "direction": "output"
+    }
+  },
+  "size": [
+    85,
+    40
+  ],
+  "datatype": "any",
+  "constants": {
+    "trigger": {
+      "type": "select",
+      "options": {
+        "True": "True",
+        "False": "False",
+        "None": "None",
+        "string": "string",
+        "int": "int",
+        "float": "float"
       },
-      "message": {
-        "type": "text",
-        "state": "",
-        "help": "If trigger is number or string\nthis field will be sent"
-      }
+      "state": "True",
+      "help": "Choose the type of output\nIf !bool message field will determine output"
     },
-    "up": {
-      "can_go_up": false,
-      "type": "output",
-      "order": 999
-    },
-    "broadcast": true
-  }
+    "message": {
+      "type": "text",
+      "state": "",
+      "help": "If trigger is number or string\nthis field will be sent"
+    }
+  },
+  "up": {
+    "can_go_up": false,
+    "type": "output",
+    "order": 999
+  },
+  "broadcast": true
 }

@@ -1,42 +1,40 @@
 {
-  "WaferspaceManifestDigester": {
-    "ports": {
-      "input": {
-        "datatype": "string",
-        "default": 0,
-        "direction": "input"
-      },
-      "tilemap": {
-        "datatype": "string",
-        "default": "",
-        "direction": "input"
-      },
-      "manifest": {
-        "datatype": "string",
-        "default": "",
-        "direction": "input"
-      },
-      "event": {
-        "datatype": "string",
-        "default": null,
-        "direction": "output"
-      },
-      "self": {
-        "datatype": "WaferspaceManifestDigester",
-        "default": null,
-        "direction": "output"
-      }
+  "ports": {
+    "input": {
+      "datatype": "string",
+      "default": 0,
+      "direction": "input"
     },
-    "size": [
-      85,
-      40
-    ],
-    "datatype": "string",
-    "up": {
-      "can_go_up": true,
-      "type": "output",
-      "order": 999
+    "tilemap": {
+      "datatype": "string",
+      "default": "",
+      "direction": "input"
     },
-    "broadcast": false
-  }
+    "manifest": {
+      "datatype": "string",
+      "default": "",
+      "direction": "input"
+    },
+    "event": {
+      "datatype": "string",
+      "default": null,
+      "direction": "output"
+    },
+    "self": {
+      "datatype": "WaferspaceManifestDigester",
+      "default": null,
+      "direction": "output"
+    }
+  },
+  "size": [
+    85,
+    40
+  ],
+  "datatype": "string",
+  "up": {
+    "can_go_up": true,
+    "type": "output",
+    "order": 999
+  },
+  "broadcast": false
 }

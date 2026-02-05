@@ -1,174 +1,172 @@
 {
-  "Pcf8574": {
-    "ports": {
-      "input": {
-        "datatype": "JSON",
-        "default": null,
-        "direction": "input"
-      },
-      "i2c": {
-        "datatype": "I2C",
-        "default": null,
-        "direction": "input"
-      },
-      "pin0": {
-        "datatype": "any",
-        "default": null,
-        "direction": "input"
-      },
-      "pin1": {
-        "datatype": "any",
-        "default": null,
-        "direction": "input"
-      },
-      "pin2": {
-        "datatype": "any",
-        "default": null,
-        "direction": "input"
-      },
-      "pin3": {
-        "datatype": "any",
-        "default": null,
-        "direction": "input"
-      },
-      "pin4": {
-        "datatype": "any",
-        "default": null,
-        "direction": "input"
-      },
-      "pin5": {
-        "datatype": "any",
-        "default": null,
-        "direction": "input"
-      },
-      "pin6": {
-        "datatype": "any",
-        "default": null,
-        "direction": "input"
-      },
-      "pin7": {
-        "datatype": "any",
-        "default": null,
-        "direction": "input"
-      },
-      "event": {
-        "datatype": "unbyte",
-        "default": 0,
-        "direction": "output"
-      },
-      "self": {
-        "datatype": "Pcf8574",
-        "default": null,
-        "direction": "output"
-      }
+  "ports": {
+    "input": {
+      "datatype": "JSON",
+      "default": null,
+      "direction": "input"
     },
-    "constants": {
-      "address": {
-        "type": "number",
-        "state": "32",
-        "help": "this is the DECIMAL value for i2c address"
-      },
-      "pin0_initial_state": {
-        "type": "checkbox",
-        "state": true,
-        "help": "initial state of pin0\n default is high\nwill be overridden by input parameter"
-      },
-      "pin1_initial_state": {
-        "type": "checkbox",
-        "state": true,
-        "help": "initial state of pin1\n default is high\nwill be overridden by input parameter"
-      },
-      "pin2_initial_state": {
-        "type": "checkbox",
-        "state": true,
-        "help": "initial state of pin2\n default is high\nwill be overridden by input parameter"
-      },
-      "pin3_initial_state": {
-        "type": "checkbox",
-        "state": true,
-        "help": "initial state of pin3\n default is high\nwill be overridden by input parameter"
-      },
-      "pin4_initial_state": {
-        "type": "checkbox",
-        "state": true,
-        "help": "initial state of pin4\n default is high\nwill be overridden by input parameter"
-      },
-      "pin5_initial_state": {
-        "type": "checkbox",
-        "state": true,
-        "help": "initial state of pin5\n default is high\nwill be overridden by input parameter"
-      },
-      "pin6_initial_state": {
-        "type": "checkbox",
-        "state": true,
-        "help": "initial state of pin6\n default is high\nwill be overridden by input parameter"
-      },
-      "pin7_initial_state": {
-        "type": "checkbox",
-        "state": true,
-        "help": "initial state of pin7\n default is high\nwill be overridden by input parameter"
-      },
-      "interrupt_pin": {
-        "type": "number",
-        "state": "0",
-        "help": "set interrupt on physical pin"
-      },
-      "sample_rate": {
-        "type": "number",
-        "state": "0",
-        "help": "sample rate to query inputs\nunit is in milliseconds"
-      },
-      "pin0_event_onchange": {
-        "type": "checkbox",
-        "state": false,
-        "help": "use pin as input\nevent will be triggered on change"
-      },
-      "pin1_event_onchange": {
-        "type": "checkbox",
-        "state": false,
-        "help": "use pin as input\nevent will be triggered on change"
-      },
-      "pin2_event_onchange": {
-        "type": "checkbox",
-        "state": false,
-        "help": "use pin as input\nevent will be triggered on change"
-      },
-      "pin3_event_onchange": {
-        "type": "checkbox",
-        "state": false,
-        "help": "use pin as input\nevent will be triggered on change"
-      },
-      "pin4_event_onchange": {
-        "type": "checkbox",
-        "state": false,
-        "help": "use pin as input\nevent will be triggered on change"
-      },
-      "pin5_event_onchange": {
-        "type": "checkbox",
-        "state": false,
-        "help": "use pin as input\nevent will be triggered on change"
-      },
-      "pin6_event_onchange": {
-        "type": "checkbox",
-        "state": false,
-        "help": "use pin as input\nevent will be triggered on change"
-      },
-      "pin7_event_onchange": {
-        "type": "checkbox",
-        "state": false,
-        "help": "use pin as input\nevent will be triggered on change"
-      }
+    "i2c": {
+      "datatype": "I2C",
+      "default": null,
+      "direction": "input"
     },
-    "size": [
-      75,
-      160
-    ],
-    "datatype": "bool",
-    "up": {
-      "can_go_up": true,
-      "type": "output",
-      "order": 999
+    "pin0": {
+      "datatype": "any",
+      "default": null,
+      "direction": "input"
     },
-    "broadcast": true
-  }
+    "pin1": {
+      "datatype": "any",
+      "default": null,
+      "direction": "input"
+    },
+    "pin2": {
+      "datatype": "any",
+      "default": null,
+      "direction": "input"
+    },
+    "pin3": {
+      "datatype": "any",
+      "default": null,
+      "direction": "input"
+    },
+    "pin4": {
+      "datatype": "any",
+      "default": null,
+      "direction": "input"
+    },
+    "pin5": {
+      "datatype": "any",
+      "default": null,
+      "direction": "input"
+    },
+    "pin6": {
+      "datatype": "any",
+      "default": null,
+      "direction": "input"
+    },
+    "pin7": {
+      "datatype": "any",
+      "default": null,
+      "direction": "input"
+    },
+    "event": {
+      "datatype": "unbyte",
+      "default": 0,
+      "direction": "output"
+    },
+    "self": {
+      "datatype": "Pcf8574",
+      "default": null,
+      "direction": "output"
+    }
+  },
+  "constants": {
+    "address": {
+      "type": "number",
+      "state": "32",
+      "help": "this is the DECIMAL value for i2c address"
+    },
+    "pin0_initial_state": {
+      "type": "checkbox",
+      "state": true,
+      "help": "initial state of pin0\n default is high\nwill be overridden by input parameter"
+    },
+    "pin1_initial_state": {
+      "type": "checkbox",
+      "state": true,
+      "help": "initial state of pin1\n default is high\nwill be overridden by input parameter"
+    },
+    "pin2_initial_state": {
+      "type": "checkbox",
+      "state": true,
+      "help": "initial state of pin2\n default is high\nwill be overridden by input parameter"
+    },
+    "pin3_initial_state": {
+      "type": "checkbox",
+      "state": true,
+      "help": "initial state of pin3\n default is high\nwill be overridden by input parameter"
+    },
+    "pin4_initial_state": {
+      "type": "checkbox",
+      "state": true,
+      "help": "initial state of pin4\n default is high\nwill be overridden by input parameter"
+    },
+    "pin5_initial_state": {
+      "type": "checkbox",
+      "state": true,
+      "help": "initial state of pin5\n default is high\nwill be overridden by input parameter"
+    },
+    "pin6_initial_state": {
+      "type": "checkbox",
+      "state": true,
+      "help": "initial state of pin6\n default is high\nwill be overridden by input parameter"
+    },
+    "pin7_initial_state": {
+      "type": "checkbox",
+      "state": true,
+      "help": "initial state of pin7\n default is high\nwill be overridden by input parameter"
+    },
+    "interrupt_pin": {
+      "type": "number",
+      "state": "0",
+      "help": "set interrupt on physical pin"
+    },
+    "sample_rate": {
+      "type": "number",
+      "state": "0",
+      "help": "sample rate to query inputs\nunit is in milliseconds"
+    },
+    "pin0_event_onchange": {
+      "type": "checkbox",
+      "state": false,
+      "help": "use pin as input\nevent will be triggered on change"
+    },
+    "pin1_event_onchange": {
+      "type": "checkbox",
+      "state": false,
+      "help": "use pin as input\nevent will be triggered on change"
+    },
+    "pin2_event_onchange": {
+      "type": "checkbox",
+      "state": false,
+      "help": "use pin as input\nevent will be triggered on change"
+    },
+    "pin3_event_onchange": {
+      "type": "checkbox",
+      "state": false,
+      "help": "use pin as input\nevent will be triggered on change"
+    },
+    "pin4_event_onchange": {
+      "type": "checkbox",
+      "state": false,
+      "help": "use pin as input\nevent will be triggered on change"
+    },
+    "pin5_event_onchange": {
+      "type": "checkbox",
+      "state": false,
+      "help": "use pin as input\nevent will be triggered on change"
+    },
+    "pin6_event_onchange": {
+      "type": "checkbox",
+      "state": false,
+      "help": "use pin as input\nevent will be triggered on change"
+    },
+    "pin7_event_onchange": {
+      "type": "checkbox",
+      "state": false,
+      "help": "use pin as input\nevent will be triggered on change"
+    }
+  },
+  "size": [
+    75,
+    160
+  ],
+  "datatype": "bool",
+  "up": {
+    "can_go_up": true,
+    "type": "output",
+    "order": 999
+  },
+  "broadcast": true
 }

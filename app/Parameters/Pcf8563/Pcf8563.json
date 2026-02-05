@@ -1,38 +1,36 @@
 {
-  "Pcf8563": {
-    "ports": {
-      "input": {
-        "datatype": "JSON",
-        "default": null,
-        "direction": "input"
-      },
-      "i2c": {
-        "datatype": "I2C",
-        "default": false,
-        "direction": "input"
-      },
-      "event": {
-        "datatype": "bool",
-        "default": 0,
-        "direction": "output"
-      },
-      "self": {
-        "datatype": "Pcf8563",
-        "default": null,
-        "direction": "output"
-      }
+  "ports": {
+    "input": {
+      "datatype": "JSON",
+      "default": null,
+      "direction": "input"
     },
-    "constants": {},
-    "size": [
-      75,
-      40
-    ],
-    "datatype": "bool",
-    "up": {
-      "can_go_up": true,
-      "type": "output",
-      "order": 999
+    "i2c": {
+      "datatype": "I2C",
+      "default": false,
+      "direction": "input"
     },
-    "broadcast": true
-  }
+    "event": {
+      "datatype": "bool",
+      "default": 0,
+      "direction": "output"
+    },
+    "self": {
+      "datatype": "Pcf8563",
+      "default": null,
+      "direction": "output"
+    }
+  },
+  "constants": {},
+  "size": [
+    75,
+    40
+  ],
+  "datatype": "bool",
+  "up": {
+    "can_go_up": true,
+    "type": "output",
+    "order": 999
+  },
+  "broadcast": true
 }

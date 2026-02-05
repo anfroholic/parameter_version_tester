@@ -1,14 +1,12 @@
 {
-  "FileReceiver": {
-    "ports": {},
-    "size": [
-      65,
-      30
-    ],
-    "datatype": null,
-    "up": {
-      "can_go_up": false
-    },
-    "broadcast": true
-  }
+  "ports": {},
+  "size": [
+    65,
+    30
+  ],
+  "datatype": null,
+  "up": {
+    "can_go_up": false
+  },
+  "broadcast": true
 }

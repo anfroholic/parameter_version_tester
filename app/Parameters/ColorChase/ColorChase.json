@@ -1,32 +1,30 @@
 {
-  "ColorChase": {
-    "ports": {
-      "dot_color": {
-        "datatype": "rgb",
-        "default": null,
-        "direction": "input"
-      },
-      "fill_color": {
-        "datatype": "rgb",
-        "default": null,
-        "direction": "input"
-      },
-      "self": {
-        "datatype": "NeoPixelAnimation",
-        "default": null,
-        "direction": "output"
-      }
+  "ports": {
+    "dot_color": {
+      "datatype": "rgb",
+      "default": null,
+      "direction": "input"
     },
-    "size": [
-      85,
-      40
-    ],
-    "datatype": "rgb",
-    "up": {
-      "can_go_up": false,
-      "type": "input",
-      "order": 999
+    "fill_color": {
+      "datatype": "rgb",
+      "default": null,
+      "direction": "input"
     },
-    "broadcast": false
-  }
+    "self": {
+      "datatype": "NeoPixelAnimation",
+      "default": null,
+      "direction": "output"
+    }
+  },
+  "size": [
+    85,
+    40
+  ],
+  "datatype": "rgb",
+  "up": {
+    "can_go_up": false,
+    "type": "input",
+    "order": 999
+  },
+  "broadcast": false
 }

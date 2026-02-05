@@ -1,42 +1,40 @@
 {
-  "OpenCvTester": {
-    "ports": {
-      "input": {
-        "datatype": "string",
-        "default": null,
-        "direction": "input"
-      },
-      "camera_url": {
-        "datatype": "string",
-        "default": "",
-        "direction": "input"
-      },
-      "detected": {
-        "datatype": "JSON",
-        "default": null,
-        "direction": "output"
-      },
-      "event": {
-        "datatype": "string",
-        "default": null,
-        "direction": "output"
-      },
-      "self": {
-        "datatype": "OpenCvTester",
-        "default": null,
-        "direction": "output"
-      }
+  "ports": {
+    "input": {
+      "datatype": "string",
+      "default": null,
+      "direction": "input"
     },
-    "size": [
-      120,
-      50
-    ],
-    "datatype": "string",
-    "up": {
-      "can_go_up": true,
-      "type": "output",
-      "order": 999
+    "camera_url": {
+      "datatype": "string",
+      "default": "",
+      "direction": "input"
     },
-    "broadcast": true
-  }
+    "detected": {
+      "datatype": "JSON",
+      "default": null,
+      "direction": "output"
+    },
+    "event": {
+      "datatype": "string",
+      "default": null,
+      "direction": "output"
+    },
+    "self": {
+      "datatype": "OpenCvTester",
+      "default": null,
+      "direction": "output"
+    }
+  },
+  "size": [
+    120,
+    50
+  ],
+  "datatype": "string",
+  "up": {
+    "can_go_up": true,
+    "type": "output",
+    "order": 999
+  },
+  "broadcast": true
 }

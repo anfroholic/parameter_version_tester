@@ -1,42 +1,40 @@
 {
-  "Inkscape": {
-    "ports": {
-      "input": {
-        "datatype": "string",
-        "default": true,
-        "direction": "input"
-      },
-      "tool_on": {
-        "datatype": "JSON",
-        "default": null,
-        "direction": "input"
-      },
-      "tool_off": {
-        "datatype": "JSON",
-        "default": null,
-        "direction": "input"
-      },
-      "event": {
-        "datatype": "string",
-        "default": null,
-        "direction": "output"
-      },
-      "self": {
-        "datatype": "Inkscape",
-        "default": null,
-        "direction": "output"
-      }
+  "ports": {
+    "input": {
+      "datatype": "string",
+      "default": true,
+      "direction": "input"
     },
-    "size": [
-      75,
-      35
-    ],
-    "datatype": "string",
-    "up": {
-      "can_go_up": true,
-      "type": "output",
-      "order": 999
+    "tool_on": {
+      "datatype": "JSON",
+      "default": null,
+      "direction": "input"
     },
-    "broadcast": true
-  }
+    "tool_off": {
+      "datatype": "JSON",
+      "default": null,
+      "direction": "input"
+    },
+    "event": {
+      "datatype": "string",
+      "default": null,
+      "direction": "output"
+    },
+    "self": {
+      "datatype": "Inkscape",
+      "default": null,
+      "direction": "output"
+    }
+  },
+  "size": [
+    75,
+    35
+  ],
+  "datatype": "string",
+  "up": {
+    "can_go_up": true,
+    "type": "output",
+    "order": 999
+  },
+  "broadcast": true
 }

@@ -1,211 +1,209 @@
 {
-  "ESP32Camera": {
-    "ports": {
-      "input": {
-        "datatype": "order",
-        "default": null,
-        "direction": "input"
-      },
-      "set_flip": {
-        "datatype": "order",
-        "default": null,
-        "direction": "input"
-      },
-      "self": {
-        "datatype": "camera",
-        "default": null,
-        "direction": "output"
-      }
+  "ports": {
+    "input": {
+      "datatype": "order",
+      "default": null,
+      "direction": "input"
     },
-    "size": [
-      95,
-      65
-    ],
-    "datatype": "bytearray",
-    "up": {
-      "can_go_up": false,
-      "type": "output",
-      "order": 999
+    "set_flip": {
+      "datatype": "order",
+      "default": null,
+      "direction": "input"
     },
-    "constants": {
-      "flip": {
-        "type": "checkbox",
-        "state": false,
-        "help": "flip the camera"
-      },
-      "mirror": {
-        "type": "checkbox",
-        "state": false,
-        "help": "mirror the camera"
-      },
-      "white_balance": {
-        "type": "select",
-        "options": {
-          "NONE": "NONE",
-          "SUNNY": "SUNNY",
-          "CLOUDY": "CLOUDY",
-          "OFFICE": "OFFICE",
-          "HOME": "HOME"
-        },
-        "state": "NONE",
-        "help": "choose white balance (default=NONE)"
-      },
-      "saturation": {
-        "type": "number",
-        "state": 0,
-        "help": "2,2 (default 0). -2 grayscale"
-      },
-      "brightness": {
-        "type": "number",
-        "state": 0,
-        "help": "-2,2 (default 0). 2 brightness"
-      },
-      "contrast": {
-        "type": "number",
-        "state": 0,
-        "help": "-2,2 (default 0). 2 highcontrast"
-      },
-      "quality": {
-        "type": "number",
-        "state": 10,
-        "help": "10-63 lower number means higher quality"
-      },
-      "format": {
-        "type": "select",
-        "options": {
-          "JPEG": "JPEG",
-          "YUV422": "YUV422",
-          "GRAYSCALE": "GRAYSCALE",
-          "RGB565": "RGB565"
-        },
-        "state": "JPEG",
-        "help": "choose image format"
-      },
-      "effect": {
-        "type": "select",
-        "options": {
-          "NONE": "NONE",
-          "NEG": "NEG",
-          "BW": "BW",
-          "RED": "RED",
-          "GREEN": "GREEN",
-          "BLUE": "BLUE",
-          "RETRO": "RETRO"
-        },
-        "state": "NONE",
-        "help": "choose camera effect"
-      },
-      "framesize": {
-        "type": "select",
-        "options": {
-          "96x96": "96x96",
-          "240x240": "240x240",
-          "QVGA": "QVGA",
-          "VGA-default": "VGA",
-          "SVGA": "SGVA",
-          "XGA": "XGA",
-          "HD": "HD",
-          "SXGA": "SXGA",
-          "UXGA": "UXGA",
-          "P_HD": "P_HD",
-          "P_3MP": "P_3MP",
-          "QXGA": "QXGA",
-          "QHD": "QHD",
-          "WQXGA": "WQXGA",
-          "P_FHD": "P_FHD",
-          "QSXGA": "QSXGA"
-        },
-        "state": "VGA",
-        "help": "choose camera resolution\nnote that larger frames require more memory"
-      },
-      "clk_frequency": {
-        "type": "select",
-        "options": {
-          "10MHz": "10MHz",
-          "20MHz": "20MHz"
-        },
-        "state": "10MHz",
-        "help": "choose camera clock frequency"
-      },
-      "d0_pin": {
-        "type": "number",
-        "state": 0,
-        "help": "pin number on mcu"
-      },
-      "d1_pin": {
-        "type": "number",
-        "state": 0,
-        "help": "pin number on mcu"
-      },
-      "d2_pin": {
-        "type": "number",
-        "state": 0,
-        "help": "pin number on mcu"
-      },
-      "d3_pin": {
-        "type": "number",
-        "state": 0,
-        "help": "pin number on mcu"
-      },
-      "d4_pin": {
-        "type": "number",
-        "state": 0,
-        "help": "pin number on mcu"
-      },
-      "d5_pin": {
-        "type": "number",
-        "state": 0,
-        "help": "pin number on mcu"
-      },
-      "d6_pin": {
-        "type": "number",
-        "state": 0,
-        "help": "pin number on mcu"
-      },
-      "d7_pin": {
-        "type": "number",
-        "state": 0,
-        "help": "pin number on mcu"
-      },
-      "href_pin": {
-        "type": "number",
-        "state": 0,
-        "help": "pin number on mcu"
-      },
-      "vsync_pin": {
-        "type": "number",
-        "state": 0,
-        "help": "pin number on mcu"
-      },
-      "sioc_pin": {
-        "type": "number",
-        "state": 0,
-        "help": "pin number on mcu"
-      },
-      "siod_pin": {
-        "type": "number",
-        "state": 0,
-        "help": "pin number on mcu"
-      },
-      "xclk_pin": {
-        "type": "number",
-        "state": 0,
-        "help": "pin number on mcu"
-      },
-      "pclk_pin": {
-        "type": "number",
-        "state": 0,
-        "help": "pin number on mcu"
-      },
-      "fb_location": {
-        "type": "select",
-        "options": {
-          "PSRAM": "PSRAM"
-        },
-        "state": "PSRAM",
-        "help": "where the frame buffer is located"
-      }
+    "self": {
+      "datatype": "camera",
+      "default": null,
+      "direction": "output"
+    }
+  },
+  "size": [
+    95,
+    65
+  ],
+  "datatype": "bytearray",
+  "up": {
+    "can_go_up": false,
+    "type": "output",
+    "order": 999
+  },
+  "constants": {
+    "flip": {
+      "type": "checkbox",
+      "state": false,
+      "help": "flip the camera"
     },
-    "broadcast": false
-  }
+    "mirror": {
+      "type": "checkbox",
+      "state": false,
+      "help": "mirror the camera"
+    },
+    "white_balance": {
+      "type": "select",
+      "options": {
+        "NONE": "NONE",
+        "SUNNY": "SUNNY",
+        "CLOUDY": "CLOUDY",
+        "OFFICE": "OFFICE",
+        "HOME": "HOME"
+      },
+      "state": "NONE",
+      "help": "choose white balance (default=NONE)"
+    },
+    "saturation": {
+      "type": "number",
+      "state": 0,
+      "help": "2,2 (default 0). -2 grayscale"
+    },
+    "brightness": {
+      "type": "number",
+      "state": 0,
+      "help": "-2,2 (default 0). 2 brightness"
+    },
+    "contrast": {
+      "type": "number",
+      "state": 0,
+      "help": "-2,2 (default 0). 2 highcontrast"
+    },
+    "quality": {
+      "type": "number",
+      "state": 10,
+      "help": "10-63 lower number means higher quality"
+    },
+    "format": {
+      "type": "select",
+      "options": {
+        "JPEG": "JPEG",
+        "YUV422": "YUV422",
+        "GRAYSCALE": "GRAYSCALE",
+        "RGB565": "RGB565"
+      },
+      "state": "JPEG",
+      "help": "choose image format"
+    },
+    "effect": {
+      "type": "select",
+      "options": {
+        "NONE": "NONE",
+        "NEG": "NEG",
+        "BW": "BW",
+        "RED": "RED",
+        "GREEN": "GREEN",
+        "BLUE": "BLUE",
+        "RETRO": "RETRO"
+      },
+      "state": "NONE",
+      "help": "choose camera effect"
+    },
+    "framesize": {
+      "type": "select",
+      "options": {
+        "96x96": "96x96",
+        "240x240": "240x240",
+        "QVGA": "QVGA",
+        "VGA-default": "VGA",
+        "SVGA": "SGVA",
+        "XGA": "XGA",
+        "HD": "HD",
+        "SXGA": "SXGA",
+        "UXGA": "UXGA",
+        "P_HD": "P_HD",
+        "P_3MP": "P_3MP",
+        "QXGA": "QXGA",
+        "QHD": "QHD",
+        "WQXGA": "WQXGA",
+        "P_FHD": "P_FHD",
+        "QSXGA": "QSXGA"
+      },
+      "state": "VGA",
+      "help": "choose camera resolution\nnote that larger frames require more memory"
+    },
+    "clk_frequency": {
+      "type": "select",
+      "options": {
+        "10MHz": "10MHz",
+        "20MHz": "20MHz"
+      },
+      "state": "10MHz",
+      "help": "choose camera clock frequency"
+    },
+    "d0_pin": {
+      "type": "number",
+      "state": 0,
+      "help": "pin number on mcu"
+    },
+    "d1_pin": {
+      "type": "number",
+      "state": 0,
+      "help": "pin number on mcu"
+    },
+    "d2_pin": {
+      "type": "number",
+      "state": 0,
+      "help": "pin number on mcu"
+    },
+    "d3_pin": {
+      "type": "number",
+      "state": 0,
+      "help": "pin number on mcu"
+    },
+    "d4_pin": {
+      "type": "number",
+      "state": 0,
+      "help": "pin number on mcu"
+    },
+    "d5_pin": {
+      "type": "number",
+      "state": 0,
+      "help": "pin number on mcu"
+    },
+    "d6_pin": {
+      "type": "number",
+      "state": 0,
+      "help": "pin number on mcu"
+    },
+    "d7_pin": {
+      "type": "number",
+      "state": 0,
+      "help": "pin number on mcu"
+    },
+    "href_pin": {
+      "type": "number",
+      "state": 0,
+      "help": "pin number on mcu"
+    },
+    "vsync_pin": {
+      "type": "number",
+      "state": 0,
+      "help": "pin number on mcu"
+    },
+    "sioc_pin": {
+      "type": "number",
+      "state": 0,
+      "help": "pin number on mcu"
+    },
+    "siod_pin": {
+      "type": "number",
+      "state": 0,
+      "help": "pin number on mcu"
+    },
+    "xclk_pin": {
+      "type": "number",
+      "state": 0,
+      "help": "pin number on mcu"
+    },
+    "pclk_pin": {
+      "type": "number",
+      "state": 0,
+      "help": "pin number on mcu"
+    },
+    "fb_location": {
+      "type": "select",
+      "options": {
+        "PSRAM": "PSRAM"
+      },
+      "state": "PSRAM",
+      "help": "where the frame buffer is located"
+    }
+  },
+  "broadcast": false
 }

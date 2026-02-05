@@ -1,37 +1,35 @@
 {
-  "GuiCodeEditor": {
-    "ports": {
-      "input": {
-        "datatype": "string",
-        "default": "",
-        "direction": "input"
-      },
-      "initial_value": {
-        "datatype": "string",
-        "default": "",
-        "direction": "input"
-      },
-      "event": {
-        "datatype": "string",
-        "default": "",
-        "direction": "output"
-      },
-      "self": {
-        "datatype": "GuiCodeEditor",
-        "default": null,
-        "direction": "output"
-      }
+  "ports": {
+    "input": {
+      "datatype": "string",
+      "default": "",
+      "direction": "input"
     },
-    "size": [
-      115,
-      35
-    ],
-    "datatype": "any",
-    "up": {
-      "can_go_up": true,
-      "type": "output",
-      "order": 999
+    "initial_value": {
+      "datatype": "string",
+      "default": "",
+      "direction": "input"
     },
-    "broadcast": true
-  }
+    "event": {
+      "datatype": "string",
+      "default": "",
+      "direction": "output"
+    },
+    "self": {
+      "datatype": "GuiCodeEditor",
+      "default": null,
+      "direction": "output"
+    }
+  },
+  "size": [
+    115,
+    35
+  ],
+  "datatype": "any",
+  "up": {
+    "can_go_up": true,
+    "type": "output",
+    "order": 999
+  },
+  "broadcast": true
 }

@@ -1,44 +1,42 @@
 {
-  "StdIn": {
-    "ports": {
-      "input": {
-        "datatype": "None",
-        "default": null,
-        "direction": "input"
-      },
-      "event": {
-        "datatype": "string",
-        "default": 0,
-        "direction": "output"
-      },
-      "self": {
-        "datatype": "StdIn",
-        "default": null,
-        "direction": "output"
-      }
+  "ports": {
+    "input": {
+      "datatype": "None",
+      "default": null,
+      "direction": "input"
     },
-    "constants": {
-      "buf_len": {
-        "type": "number",
-        "state": "40",
-        "help": "Micropython requires a buffer size for deque. This is the size (in bytes) of that buffer. This will be the max single message size"
-      },
-      "send2repl": {
-        "type": "checkbox",
-        "state": false,
-        "help": "evaluate the expression"
-      }
+    "event": {
+      "datatype": "string",
+      "default": 0,
+      "direction": "output"
     },
-    "size": [
-      95,
-      65
-    ],
-    "datatype": "string",
-    "up": {
-      "can_go_up": false,
-      "type": "output",
-      "order": 999
+    "self": {
+      "datatype": "StdIn",
+      "default": null,
+      "direction": "output"
+    }
+  },
+  "constants": {
+    "buf_len": {
+      "type": "number",
+      "state": "40",
+      "help": "Micropython requires a buffer size for deque. This is the size (in bytes) of that buffer. This will be the max single message size"
     },
-    "broadcast": false
-  }
+    "send2repl": {
+      "type": "checkbox",
+      "state": false,
+      "help": "evaluate the expression"
+    }
+  },
+  "size": [
+    95,
+    65
+  ],
+  "datatype": "string",
+  "up": {
+    "can_go_up": false,
+    "type": "output",
+    "order": 999
+  },
+  "broadcast": false
 }

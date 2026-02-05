@@ -1,42 +1,40 @@
 {
-  "KiCad": {
-    "ports": {
-      "input": {
-        "datatype": "string",
-        "default": true,
-        "direction": "input"
-      },
-      "feeders": {
-        "datatype": "JSON",
-        "default": null,
-        "direction": "input"
-      },
-      "board_offset": {
-        "datatype": "JSON",
-        "default": null,
-        "direction": "input"
-      },
-      "event": {
-        "datatype": "string",
-        "default": null,
-        "direction": "output"
-      },
-      "self": {
-        "datatype": "KiCad",
-        "default": null,
-        "direction": "output"
-      }
+  "ports": {
+    "input": {
+      "datatype": "string",
+      "default": true,
+      "direction": "input"
     },
-    "size": [
-      75,
-      35
-    ],
-    "datatype": "string",
-    "up": {
-      "can_go_up": true,
-      "type": "output",
-      "order": 999
+    "feeders": {
+      "datatype": "JSON",
+      "default": null,
+      "direction": "input"
     },
-    "broadcast": true
-  }
+    "board_offset": {
+      "datatype": "JSON",
+      "default": null,
+      "direction": "input"
+    },
+    "event": {
+      "datatype": "string",
+      "default": null,
+      "direction": "output"
+    },
+    "self": {
+      "datatype": "KiCad",
+      "default": null,
+      "direction": "output"
+    }
+  },
+  "size": [
+    75,
+    35
+  ],
+  "datatype": "string",
+  "up": {
+    "can_go_up": true,
+    "type": "output",
+    "order": 999
+  },
+  "broadcast": true
 }

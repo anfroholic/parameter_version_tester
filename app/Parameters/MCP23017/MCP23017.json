@@ -1,284 +1,282 @@
 {
-  "MCP23017": {
-    "ports": {
-      "input": {
-        "datatype": "JSON",
-        "default": "{}",
-        "direction": "input"
-      },
-      "adr": {
-        "datatype": "int",
-        "default": 32,
-        "direction": "input"
-      },
-      "i2c": {
-        "datatype": "I2C",
-        "default": null,
-        "direction": "input"
-      },
-      "event": {
-        "datatype": "JSON",
-        "default": "{}",
-        "direction": "output"
-      },
-      "self": {
-        "datatype": "AS5048B_Encoder",
-        "default": null,
-        "direction": "output"
-      }
+  "ports": {
+    "input": {
+      "datatype": "JSON",
+      "default": "{}",
+      "direction": "input"
     },
-    "size": [
-      120,
-      70
-    ],
-    "constants": {
-      "pin0_io": {
-        "type": "select",
-        "options": {
-          "None": "None",
-          "input": "input",
-          "output": "output"
-        },
-        "state": "None",
-        "help": "set pin as input or output"
-      },
-      "pin0_val_pu": {
-        "type": "checkbox",
-        "state": false,
-        "help": "if pin is input: set pullup\nif pin is output: set initial value"
-      },
-      "pin1_io": {
-        "type": "select",
-        "options": {
-          "None": "None",
-          "input": "input",
-          "output": "output"
-        },
-        "state": "None",
-        "help": "set pin as input or output"
-      },
-      "pin1_val_pu": {
-        "type": "checkbox",
-        "state": false,
-        "help": "if pin is input: set pullup\nif pin is output: set initial value"
-      },
-      "pin2_io": {
-        "type": "select",
-        "options": {
-          "None": "None",
-          "input": "input",
-          "output": "output"
-        },
-        "state": "None",
-        "help": "set pin as input or output"
-      },
-      "pin2_val_pu": {
-        "type": "checkbox",
-        "state": false,
-        "help": "if pin is input: set pullup\nif pin is output: set initial value"
-      },
-      "pin3_io": {
-        "type": "select",
-        "options": {
-          "None": "None",
-          "input": "input",
-          "output": "output"
-        },
-        "state": "None",
-        "help": "set pin as input or output"
-      },
-      "pin3_val_pu": {
-        "type": "checkbox",
-        "state": false,
-        "help": "if pin is input: set pullup\nif pin is output: set initial value"
-      },
-      "pin4_io": {
-        "type": "select",
-        "options": {
-          "None": "None",
-          "input": "input",
-          "output": "output"
-        },
-        "state": "None",
-        "help": "set pin as input or output"
-      },
-      "pin4_val_pu": {
-        "type": "checkbox",
-        "state": false,
-        "help": "if pin is input: set pullup\nif pin is output: set initial value"
-      },
-      "pin5_io": {
-        "type": "select",
-        "options": {
-          "None": "None",
-          "input": "input",
-          "output": "output"
-        },
-        "state": "None",
-        "help": "set pin as input or output"
-      },
-      "pin5_val_pu": {
-        "type": "checkbox",
-        "state": false,
-        "help": "if pin is input: set pullup\nif pin is output: set initial value"
-      },
-      "pin6_io": {
-        "type": "select",
-        "options": {
-          "None": "None",
-          "input": "input",
-          "output": "output"
-        },
-        "state": "None",
-        "help": "set pin as input or output"
-      },
-      "pin6_val_pu": {
-        "type": "checkbox",
-        "state": false,
-        "help": "if pin is input: set pullup\nif pin is output: set initial value"
-      },
-      "pin7_io": {
-        "type": "select",
-        "options": {
-          "None": "None",
-          "input": "input",
-          "output": "output"
-        },
-        "state": "None",
-        "help": "set pin as input or output"
-      },
-      "pin7_val_pu": {
-        "type": "checkbox",
-        "state": false,
-        "help": "if pin is input: set pullup\nif pin is output: set initial value"
-      },
-      "pin8_io": {
-        "type": "select",
-        "options": {
-          "None": "None",
-          "input": "input",
-          "output": "output"
-        },
-        "state": "None",
-        "help": "set pin as input or output"
-      },
-      "pin8_val_pu": {
-        "type": "checkbox",
-        "state": false,
-        "help": "if pin is input: set pullup\nif pin is output: set initial value"
-      },
-      "pin9_io": {
-        "type": "select",
-        "options": {
-          "None": "None",
-          "input": "input",
-          "output": "output"
-        },
-        "state": "None",
-        "help": "set pin as input or output"
-      },
-      "pin9_val_pu": {
-        "type": "checkbox",
-        "state": false,
-        "help": "if pin is input: set pullup\nif pin is output: set initial value"
-      },
-      "pin10_io": {
-        "type": "select",
-        "options": {
-          "None": "None",
-          "input": "input",
-          "output": "output"
-        },
-        "state": "None",
-        "help": "set pin as input or output"
-      },
-      "pin10_val_pu": {
-        "type": "checkbox",
-        "state": false,
-        "help": "if pin is input: set pullup\nif pin is output: set initial value"
-      },
-      "pin11_io": {
-        "type": "select",
-        "options": {
-          "None": "None",
-          "input": "input",
-          "output": "output"
-        },
-        "state": "None",
-        "help": "set pin as input or output"
-      },
-      "pin11_val_pu": {
-        "type": "checkbox",
-        "state": false,
-        "help": "if pin is input: set pullup\nif pin is output: set initial value"
-      },
-      "pin12_io": {
-        "type": "select",
-        "options": {
-          "None": "None",
-          "input": "input",
-          "output": "output"
-        },
-        "state": "None",
-        "help": "set pin as input or output"
-      },
-      "pin12_val_pu": {
-        "type": "checkbox",
-        "state": false,
-        "help": "if pin is input: set pullup\nif pin is output: set initial value"
-      },
-      "pin13_io": {
-        "type": "select",
-        "options": {
-          "None": "None",
-          "input": "input",
-          "output": "output"
-        },
-        "state": "None",
-        "help": "set pin as input or output"
-      },
-      "pin13_val_pu": {
-        "type": "checkbox",
-        "state": false,
-        "help": "if pin is input: set pullup\nif pin is output: set initial value"
-      },
-      "pin14_io": {
-        "type": "select",
-        "options": {
-          "None": "None",
-          "input": "input",
-          "output": "output"
-        },
-        "state": "None",
-        "help": "set pin as input or output"
-      },
-      "pin14_val_pu": {
-        "type": "checkbox",
-        "state": false,
-        "help": "if pin is input: set pullup\nif pin is output: set initial value"
-      },
-      "pin15_io": {
-        "type": "select",
-        "options": {
-          "None": "None",
-          "input": "input",
-          "output": "output"
-        },
-        "state": "None",
-        "help": "set pin as input or output"
-      },
-      "pin15_val_pu": {
-        "type": "checkbox",
-        "state": false,
-        "help": "if pin is input: set pullup\nif pin is output: set initial value"
-      }
+    "adr": {
+      "datatype": "int",
+      "default": 32,
+      "direction": "input"
     },
-    "datatype": "JSON",
-    "up": {
-      "can_go_up": true,
-      "type": "output",
-      "order": 999
+    "i2c": {
+      "datatype": "I2C",
+      "default": null,
+      "direction": "input"
     },
-    "broadcast": true
-  }
+    "event": {
+      "datatype": "JSON",
+      "default": "{}",
+      "direction": "output"
+    },
+    "self": {
+      "datatype": "AS5048B_Encoder",
+      "default": null,
+      "direction": "output"
+    }
+  },
+  "size": [
+    120,
+    70
+  ],
+  "constants": {
+    "pin0_io": {
+      "type": "select",
+      "options": {
+        "None": "None",
+        "input": "input",
+        "output": "output"
+      },
+      "state": "None",
+      "help": "set pin as input or output"
+    },
+    "pin0_val_pu": {
+      "type": "checkbox",
+      "state": false,
+      "help": "if pin is input: set pullup\nif pin is output: set initial value"
+    },
+    "pin1_io": {
+      "type": "select",
+      "options": {
+        "None": "None",
+        "input": "input",
+        "output": "output"
+      },
+      "state": "None",
+      "help": "set pin as input or output"
+    },
+    "pin1_val_pu": {
+      "type": "checkbox",
+      "state": false,
+      "help": "if pin is input: set pullup\nif pin is output: set initial value"
+    },
+    "pin2_io": {
+      "type": "select",
+      "options": {
+        "None": "None",
+        "input": "input",
+        "output": "output"
+      },
+      "state": "None",
+      "help": "set pin as input or output"
+    },
+    "pin2_val_pu": {
+      "type": "checkbox",
+      "state": false,
+      "help": "if pin is input: set pullup\nif pin is output: set initial value"
+    },
+    "pin3_io": {
+      "type": "select",
+      "options": {
+        "None": "None",
+        "input": "input",
+        "output": "output"
+      },
+      "state": "None",
+      "help": "set pin as input or output"
+    },
+    "pin3_val_pu": {
+      "type": "checkbox",
+      "state": false,
+      "help": "if pin is input: set pullup\nif pin is output: set initial value"
+    },
+    "pin4_io": {
+      "type": "select",
+      "options": {
+        "None": "None",
+        "input": "input",
+        "output": "output"
+      },
+      "state": "None",
+      "help": "set pin as input or output"
+    },
+    "pin4_val_pu": {
+      "type": "checkbox",
+      "state": false,
+      "help": "if pin is input: set pullup\nif pin is output: set initial value"
+    },
+    "pin5_io": {
+      "type": "select",
+      "options": {
+        "None": "None",
+        "input": "input",
+        "output": "output"
+      },
+      "state": "None",
+      "help": "set pin as input or output"
+    },
+    "pin5_val_pu": {
+      "type": "checkbox",
+      "state": false,
+      "help": "if pin is input: set pullup\nif pin is output: set initial value"
+    },
+    "pin6_io": {
+      "type": "select",
+      "options": {
+        "None": "None",
+        "input": "input",
+        "output": "output"
+      },
+      "state": "None",
+      "help": "set pin as input or output"
+    },
+    "pin6_val_pu": {
+      "type": "checkbox",
+      "state": false,
+      "help": "if pin is input: set pullup\nif pin is output: set initial value"
+    },
+    "pin7_io": {
+      "type": "select",
+      "options": {
+        "None": "None",
+        "input": "input",
+        "output": "output"
+      },
+      "state": "None",
+      "help": "set pin as input or output"
+    },
+    "pin7_val_pu": {
+      "type": "checkbox",
+      "state": false,
+      "help": "if pin is input: set pullup\nif pin is output: set initial value"
+    },
+    "pin8_io": {
+      "type": "select",
+      "options": {
+        "None": "None",
+        "input": "input",
+        "output": "output"
+      },
+      "state": "None",
+      "help": "set pin as input or output"
+    },
+    "pin8_val_pu": {
+      "type": "checkbox",
+      "state": false,
+      "help": "if pin is input: set pullup\nif pin is output: set initial value"
+    },
+    "pin9_io": {
+      "type": "select",
+      "options": {
+        "None": "None",
+        "input": "input",
+        "output": "output"
+      },
+      "state": "None",
+      "help": "set pin as input or output"
+    },
+    "pin9_val_pu": {
+      "type": "checkbox",
+      "state": false,
+      "help": "if pin is input: set pullup\nif pin is output: set initial value"
+    },
+    "pin10_io": {
+      "type": "select",
+      "options": {
+        "None": "None",
+        "input": "input",
+        "output": "output"
+      },
+      "state": "None",
+      "help": "set pin as input or output"
+    },
+    "pin10_val_pu": {
+      "type": "checkbox",
+      "state": false,
+      "help": "if pin is input: set pullup\nif pin is output: set initial value"
+    },
+    "pin11_io": {
+      "type": "select",
+      "options": {
+        "None": "None",
+        "input": "input",
+        "output": "output"
+      },
+      "state": "None",
+      "help": "set pin as input or output"
+    },
+    "pin11_val_pu": {
+      "type": "checkbox",
+      "state": false,
+      "help": "if pin is input: set pullup\nif pin is output: set initial value"
+    },
+    "pin12_io": {
+      "type": "select",
+      "options": {
+        "None": "None",
+        "input": "input",
+        "output": "output"
+      },
+      "state": "None",
+      "help": "set pin as input or output"
+    },
+    "pin12_val_pu": {
+      "type": "checkbox",
+      "state": false,
+      "help": "if pin is input: set pullup\nif pin is output: set initial value"
+    },
+    "pin13_io": {
+      "type": "select",
+      "options": {
+        "None": "None",
+        "input": "input",
+        "output": "output"
+      },
+      "state": "None",
+      "help": "set pin as input or output"
+    },
+    "pin13_val_pu": {
+      "type": "checkbox",
+      "state": false,
+      "help": "if pin is input: set pullup\nif pin is output: set initial value"
+    },
+    "pin14_io": {
+      "type": "select",
+      "options": {
+        "None": "None",
+        "input": "input",
+        "output": "output"
+      },
+      "state": "None",
+      "help": "set pin as input or output"
+    },
+    "pin14_val_pu": {
+      "type": "checkbox",
+      "state": false,
+      "help": "if pin is input: set pullup\nif pin is output: set initial value"
+    },
+    "pin15_io": {
+      "type": "select",
+      "options": {
+        "None": "None",
+        "input": "input",
+        "output": "output"
+      },
+      "state": "None",
+      "help": "set pin as input or output"
+    },
+    "pin15_val_pu": {
+      "type": "checkbox",
+      "state": false,
+      "help": "if pin is input: set pullup\nif pin is output: set initial value"
+    }
+  },
+  "datatype": "JSON",
+  "up": {
+    "can_go_up": true,
+    "type": "output",
+    "order": 999
+  },
+  "broadcast": true
 }

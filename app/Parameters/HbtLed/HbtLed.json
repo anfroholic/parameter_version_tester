@@ -1,32 +1,30 @@
 {
-  "HbtLed": {
-    "ports": {
-      "delay": {
-        "datatype": "int",
-        "default": 1000,
-        "direction": "input"
-      },
-      "self": {
-        "datatype": "hbt_led",
-        "default": null,
-        "direction": "output"
-      }
+  "ports": {
+    "delay": {
+      "datatype": "int",
+      "default": 1000,
+      "direction": "input"
     },
-    "constants": {
-      "pin": {
-        "type": "number",
-        "state": "0",
-        "help": "physical pin number on mcu"
-      }
-    },
-    "size": [
-      85,
-      40
-    ],
-    "datatype": "int",
-    "up": {
-      "can_go_up": false
-    },
-    "broadcast": false
-  }
+    "self": {
+      "datatype": "hbt_led",
+      "default": null,
+      "direction": "output"
+    }
+  },
+  "constants": {
+    "pin": {
+      "type": "number",
+      "state": "0",
+      "help": "physical pin number on mcu"
+    }
+  },
+  "size": [
+    85,
+    40
+  ],
+  "datatype": "int",
+  "up": {
+    "can_go_up": false
+  },
+  "broadcast": false
 }

@@ -1,70 +1,68 @@
 {
-  "SimpleFeeder": {
-    "ports": {
-      "input": {
-        "datatype": "bool",
-        "default": null,
-        "direction": "input"
-      },
-      "duty_retract": {
-        "datatype": "int",
-        "default": 130,
-        "direction": "input"
-      },
-      "duty_feed": {
-        "datatype": "int",
-        "default": 210,
-        "direction": "input"
-      },
-      "len_part": {
-        "datatype": "int",
-        "default": 1,
-        "direction": "input"
-      },
-      "event": {
-        "datatype": "bool",
-        "default": false,
-        "direction": "output"
-      },
-      "self": {
-        "datatype": "SimpleFeeder",
-        "default": null,
-        "direction": "output"
-      }
+  "ports": {
+    "input": {
+      "datatype": "bool",
+      "default": null,
+      "direction": "input"
     },
-    "constants": {
-      "button_pin": {
-        "type": "number",
-        "state": "0"
-      },
-      "button_pullup": {
-        "type": "select",
-        "options": {
-          "None": "None",
-          "pullup": "pullup",
-          "pulldown": "pulldown"
-        },
-        "state": "None"
-      },
-      "servo_pin": {
-        "type": "number",
-        "state": "0"
-      },
-      "freq": {
-        "type": "number",
-        "state": "100"
-      }
+    "duty_retract": {
+      "datatype": "int",
+      "default": 130,
+      "direction": "input"
     },
-    "size": [
-      100,
-      55
-    ],
-    "datatype": "bool",
-    "up": {
-      "can_go_up": true,
-      "type": "input",
-      "order": 999
+    "duty_feed": {
+      "datatype": "int",
+      "default": 210,
+      "direction": "input"
     },
-    "broadcast": false
-  }
+    "len_part": {
+      "datatype": "int",
+      "default": 1,
+      "direction": "input"
+    },
+    "event": {
+      "datatype": "bool",
+      "default": false,
+      "direction": "output"
+    },
+    "self": {
+      "datatype": "SimpleFeeder",
+      "default": null,
+      "direction": "output"
+    }
+  },
+  "constants": {
+    "button_pin": {
+      "type": "number",
+      "state": "0"
+    },
+    "button_pullup": {
+      "type": "select",
+      "options": {
+        "None": "None",
+        "pullup": "pullup",
+        "pulldown": "pulldown"
+      },
+      "state": "None"
+    },
+    "servo_pin": {
+      "type": "number",
+      "state": "0"
+    },
+    "freq": {
+      "type": "number",
+      "state": "100"
+    }
+  },
+  "size": [
+    100,
+    55
+  ],
+  "datatype": "bool",
+  "up": {
+    "can_go_up": true,
+    "type": "input",
+    "order": 999
+  },
+  "broadcast": false
 }

@@ -1,47 +1,45 @@
 {
-  "UART": {
-    "ports": {
-      "self": {
-        "datatype": "UART",
-        "default": null,
-        "direction": "output"
-      }
+  "ports": {
+    "self": {
+      "datatype": "UART",
+      "default": null,
+      "direction": "output"
+    }
+  },
+  "constants": {
+    "rx": {
+      "type": "number",
+      "state": "0",
+      "help": "physical pin on the mcu"
     },
-    "constants": {
-      "rx": {
-        "type": "number",
-        "state": "0",
-        "help": "physical pin on the mcu"
-      },
-      "tx": {
-        "type": "number",
-        "state": "0",
-        "help": "physical pin on the mcu"
-      },
-      "bus": {
-        "type": "number",
-        "state": 1,
-        "help": "bus id\nbus 0 is used by repl"
-      },
-      "baud": {
-        "type": "number",
-        "state": 115200,
-        "help": "baudrate used for communication"
-      },
-      "encode": {
-        "type": "text",
-        "state": "utf-8",
-        "help": "encoding scheme used to send data"
-      }
+    "tx": {
+      "type": "number",
+      "state": "0",
+      "help": "physical pin on the mcu"
     },
-    "size": [
-      85,
-      75
-    ],
-    "datatype": null,
-    "up": {
-      "can_go_up": false
+    "bus": {
+      "type": "number",
+      "state": 1,
+      "help": "bus id\nbus 0 is used by repl"
     },
-    "broadcast": false
-  }
+    "baud": {
+      "type": "number",
+      "state": 115200,
+      "help": "baudrate used for communication"
+    },
+    "encode": {
+      "type": "text",
+      "state": "utf-8",
+      "help": "encoding scheme used to send data"
+    }
+  },
+  "size": [
+    85,
+    75
+  ],
+  "datatype": null,
+  "up": {
+    "can_go_up": false
+  },
+  "broadcast": false
 }

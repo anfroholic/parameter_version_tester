@@ -1,40 +1,38 @@
 {
-  "If": {
-    "ports": {
-      "input": {
-        "datatype": "bool",
-        "default": null,
-        "direction": "input"
-      },
-      "initial_value": {
-        "datatype": "bool",
-        "default": false,
-        "direction": "input"
-      },
-      "invert": {
-        "datatype": "bool",
-        "default": false,
-        "direction": "input"
-      },
-      "if_true": {
-        "datatype": "any",
-        "default": null,
-        "direction": "output"
-      },
-      "else": {
-        "datatype": "any",
-        "default": null,
-        "direction": "output"
-      }
+  "ports": {
+    "input": {
+      "datatype": "bool",
+      "default": null,
+      "direction": "input"
     },
-    "size": [
-      85,
-      50
-    ],
-    "datatype": "None",
-    "up": {
-      "can_go_up": false
+    "initial_value": {
+      "datatype": "bool",
+      "default": false,
+      "direction": "input"
     },
-    "broadcast": true
-  }
+    "invert": {
+      "datatype": "bool",
+      "default": false,
+      "direction": "input"
+    },
+    "if_true": {
+      "datatype": "any",
+      "default": null,
+      "direction": "output"
+    },
+    "else": {
+      "datatype": "any",
+      "default": null,
+      "direction": "output"
+    }
+  },
+  "size": [
+    85,
+    50
+  ],
+  "datatype": "None",
+  "up": {
+    "can_go_up": false
+  },
+  "broadcast": true
 }

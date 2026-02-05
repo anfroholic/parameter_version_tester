@@ -1,82 +1,80 @@
 {
-  "GRBLScara": {
-    "ports": {
-      "input": {
-        "datatype": "JSON,JSON",
-        "default": null,
-        "direction": "input"
-      },
-      "theta_encoder": {
-        "datatype": "float",
-        "default": null,
-        "direction": "input"
-      },
-      "phi_encoder": {
-        "datatype": "float",
-        "default": null,
-        "direction": "input"
-      },
-      "UART": {
-        "datatype": "UART",
-        "default": null,
-        "direction": "input"
-      },
-      "x": {
-        "datatype": "GRBLAxis",
-        "default": null,
-        "direction": "input"
-      },
-      "y": {
-        "datatype": "GRBLAxis",
-        "default": null,
-        "direction": "input"
-      },
-      "z": {
-        "datatype": "GRBLAxis",
-        "default": null,
-        "direction": "input"
-      },
-      "a": {
-        "datatype": "GRBLAxis",
-        "default": null,
-        "direction": "input"
-      },
-      "b": {
-        "datatype": "GRBLAxis",
-        "default": null,
-        "direction": "input"
-      },
-      "c": {
-        "datatype": "GRBLAxis",
-        "default": null,
-        "direction": "input"
-      },
-      "kinematics": {
-        "datatype": "ScaraKinematics",
-        "default": null,
-        "direction": "input"
-      },
-      "self": {
-        "datatype": "any",
-        "default": null,
-        "direction": "output"
-      }
+  "ports": {
+    "input": {
+      "datatype": "JSON,JSON",
+      "default": null,
+      "direction": "input"
     },
-    "constants": {
-      "webserver_output": {
-        "type": "checkbox",
-        "state": true,
-        "help": "send messages to gui\ndefault: True"
-      }
+    "theta_encoder": {
+      "datatype": "float",
+      "default": null,
+      "direction": "input"
     },
-    "size": [
-      85,
-      200
-    ],
-    "datatype": null,
-    "up": {
-      "can_go_up": false
+    "phi_encoder": {
+      "datatype": "float",
+      "default": null,
+      "direction": "input"
     },
-    "broadcast": false
-  }
+    "UART": {
+      "datatype": "UART",
+      "default": null,
+      "direction": "input"
+    },
+    "x": {
+      "datatype": "GRBLAxis",
+      "default": null,
+      "direction": "input"
+    },
+    "y": {
+      "datatype": "GRBLAxis",
+      "default": null,
+      "direction": "input"
+    },
+    "z": {
+      "datatype": "GRBLAxis",
+      "default": null,
+      "direction": "input"
+    },
+    "a": {
+      "datatype": "GRBLAxis",
+      "default": null,
+      "direction": "input"
+    },
+    "b": {
+      "datatype": "GRBLAxis",
+      "default": null,
+      "direction": "input"
+    },
+    "c": {
+      "datatype": "GRBLAxis",
+      "default": null,
+      "direction": "input"
+    },
+    "kinematics": {
+      "datatype": "ScaraKinematics",
+      "default": null,
+      "direction": "input"
+    },
+    "self": {
+      "datatype": "any",
+      "default": null,
+      "direction": "output"
+    }
+  },
+  "constants": {
+    "webserver_output": {
+      "type": "checkbox",
+      "state": true,
+      "help": "send messages to gui\ndefault: True"
+    }
+  },
+  "size": [
+    85,
+    200
+  ],
+  "datatype": null,
+  "up": {
+    "can_go_up": false
+  },
+  "broadcast": false
 }

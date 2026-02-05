@@ -1,37 +1,35 @@
 {
-  "UMqttBus": {
-    "ports": {
-      "self": {
-        "datatype": "bus",
-        "default": null,
-        "direction": "output"
-      }
+  "ports": {
+    "self": {
+      "datatype": "bus",
+      "default": null,
+      "direction": "output"
+    }
+  },
+  "constants": {
+    "broker_adr": {
+      "type": "text",
+      "state": "string",
+      "help": "ip location of mqtt broker"
     },
-    "constants": {
-      "broker_adr": {
-        "type": "text",
-        "state": "string",
-        "help": "ip location of mqtt broker"
-      },
-      "adr": {
-        "type": "number",
-        "state": "0",
-        "help": "address used for cluster\nthis will be changed soon in favor of more automated options"
-      },
-      "terminal_debug": {
-        "type": "checkbox",
-        "state": false,
-        "help": "send debug messages to websocket"
-      }
+    "adr": {
+      "type": "number",
+      "state": "0",
+      "help": "address used for cluster\nthis will be changed soon in favor of more automated options"
     },
-    "size": [
-      85,
-      40
-    ],
-    "datatype": null,
-    "up": {
-      "can_go_up": false
-    },
-    "broadcast": false
-  }
+    "terminal_debug": {
+      "type": "checkbox",
+      "state": false,
+      "help": "send debug messages to websocket"
+    }
+  },
+  "size": [
+    85,
+    40
+  ],
+  "datatype": null,
+  "up": {
+    "can_go_up": false
+  },
+  "broadcast": false
 }

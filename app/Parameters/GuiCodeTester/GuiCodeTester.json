@@ -1,47 +1,45 @@
 {
-  "GuiCodeTester": {
-    "ports": {
-      "input": {
-        "datatype": "string",
-        "default": null,
-        "direction": "input"
-      },
-      "description": {
-        "datatype": "string",
-        "default": "",
-        "direction": "input"
-      },
-      "code": {
-        "datatype": "string",
-        "default": "",
-        "direction": "input"
-      },
-      "buttons": {
-        "datatype": "JSON",
-        "default": "{}",
-        "direction": "input"
-      },
-      "event": {
-        "datatype": "string",
-        "default": null,
-        "direction": "output"
-      },
-      "self": {
-        "datatype": "GuiCodeEditor",
-        "default": null,
-        "direction": "output"
-      }
+  "ports": {
+    "input": {
+      "datatype": "string",
+      "default": null,
+      "direction": "input"
     },
-    "size": [
-      115,
-      35
-    ],
-    "datatype": "any",
-    "up": {
-      "can_go_up": true,
-      "type": "output",
-      "order": 999
+    "description": {
+      "datatype": "string",
+      "default": "",
+      "direction": "input"
     },
-    "broadcast": true
-  }
+    "code": {
+      "datatype": "string",
+      "default": "",
+      "direction": "input"
+    },
+    "buttons": {
+      "datatype": "JSON",
+      "default": "{}",
+      "direction": "input"
+    },
+    "event": {
+      "datatype": "string",
+      "default": null,
+      "direction": "output"
+    },
+    "self": {
+      "datatype": "GuiCodeEditor",
+      "default": null,
+      "direction": "output"
+    }
+  },
+  "size": [
+    115,
+    35
+  ],
+  "datatype": "any",
+  "up": {
+    "can_go_up": true,
+    "type": "output",
+    "order": 999
+  },
+  "broadcast": true
 }

@@ -1,59 +1,57 @@
 {
-  "CncTranslator": {
-    "ports": {
-      "input": {
-        "datatype": "string",
-        "default": true,
-        "direction": "input"
-      },
-      "x_offset": {
-        "datatype": "float",
-        "default": 0,
-        "direction": "input"
-      },
-      "y_offset": {
-        "datatype": "float",
-        "default": 0,
-        "direction": "input"
-      },
-      "rotate": {
-        "datatype": "float",
-        "default": 0,
-        "direction": "input"
-      },
-      "event": {
-        "datatype": "string",
-        "default": null,
-        "direction": "output"
-      },
-      "self": {
-        "datatype": "DigitalOutput",
-        "default": null,
-        "direction": "output"
-      }
+  "ports": {
+    "input": {
+      "datatype": "string",
+      "default": true,
+      "direction": "input"
     },
-    "size": [
-      95,
-      50
-    ],
-    "datatype": "string",
-    "constants": {
-      "initial_x": {
-        "type": "number",
-        "state": "0",
-        "help": "assumed machine starting x position"
-      },
-      "initial_y": {
-        "type": "number",
-        "state": "0",
-        "help": "assumed machine starting y position"
-      }
+    "x_offset": {
+      "datatype": "float",
+      "default": 0,
+      "direction": "input"
     },
-    "up": {
-      "can_go_up": true,
-      "type": "input",
-      "order": 999
+    "y_offset": {
+      "datatype": "float",
+      "default": 0,
+      "direction": "input"
     },
-    "broadcast": false
-  }
+    "rotate": {
+      "datatype": "float",
+      "default": 0,
+      "direction": "input"
+    },
+    "event": {
+      "datatype": "string",
+      "default": null,
+      "direction": "output"
+    },
+    "self": {
+      "datatype": "DigitalOutput",
+      "default": null,
+      "direction": "output"
+    }
+  },
+  "size": [
+    95,
+    50
+  ],
+  "datatype": "string",
+  "constants": {
+    "initial_x": {
+      "type": "number",
+      "state": "0",
+      "help": "assumed machine starting x position"
+    },
+    "initial_y": {
+      "type": "number",
+      "state": "0",
+      "help": "assumed machine starting y position"
+    }
+  },
+  "up": {
+    "can_go_up": true,
+    "type": "input",
+    "order": 999
+  },
+  "broadcast": false
 }

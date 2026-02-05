@@ -1,44 +1,42 @@
 {
-  "NumberpadMatrix": {
-    "ports": {
-      "input": {
-        "datatype": "string",
-        "default": true,
-        "direction": "input"
-      },
-      "event": {
-        "datatype": "string",
-        "default": null,
-        "direction": "output"
-      },
-      "self": {
-        "datatype": "NumberpadMatrix",
-        "default": null,
-        "direction": "output"
-      }
+  "ports": {
+    "input": {
+      "datatype": "string",
+      "default": true,
+      "direction": "input"
     },
-    "size": [
-      90,
-      45
-    ],
-    "datatype": "string",
-    "constants": {
-      "column_pins": {
-        "type": "text",
-        "state": "[]",
-        "help": "pins in the column\nsent as json list"
-      },
-      "row_pins": {
-        "type": "text",
-        "state": "[]",
-        "help": "pins in the row\nsent as a json list"
-      }
+    "event": {
+      "datatype": "string",
+      "default": null,
+      "direction": "output"
     },
-    "up": {
-      "can_go_up": true,
-      "type": "output",
-      "order": 999
+    "self": {
+      "datatype": "NumberpadMatrix",
+      "default": null,
+      "direction": "output"
+    }
+  },
+  "size": [
+    90,
+    45
+  ],
+  "datatype": "string",
+  "constants": {
+    "column_pins": {
+      "type": "text",
+      "state": "[]",
+      "help": "pins in the column\nsent as json list"
     },
-    "broadcast": true
-  }
+    "row_pins": {
+      "type": "text",
+      "state": "[]",
+      "help": "pins in the row\nsent as a json list"
+    }
+  },
+  "up": {
+    "can_go_up": true,
+    "type": "output",
+    "order": 999
+  },
+  "broadcast": true
 }

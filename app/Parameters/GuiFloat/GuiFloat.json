@@ -1,37 +1,35 @@
 {
-  "GuiFloat": {
-    "ports": {
-      "input": {
-        "datatype": "float",
-        "default": null,
-        "direction": "input"
-      },
-      "initial_value": {
-        "datatype": "float",
-        "default": 0,
-        "direction": "input"
-      },
-      "event": {
-        "datatype": "float",
-        "default": null,
-        "direction": "output"
-      },
-      "self": {
-        "datatype": "GuiFloat",
-        "default": null,
-        "direction": "output"
-      }
+  "ports": {
+    "input": {
+      "datatype": "float",
+      "default": null,
+      "direction": "input"
     },
-    "size": [
-      85,
-      40
-    ],
-    "datatype": "float",
-    "up": {
-      "can_go_up": true,
-      "type": "output",
-      "order": 999
+    "initial_value": {
+      "datatype": "float",
+      "default": 0,
+      "direction": "input"
     },
-    "broadcast": true
-  }
+    "event": {
+      "datatype": "float",
+      "default": null,
+      "direction": "output"
+    },
+    "self": {
+      "datatype": "GuiFloat",
+      "default": null,
+      "direction": "output"
+    }
+  },
+  "size": [
+    85,
+    40
+  ],
+  "datatype": "float",
+  "up": {
+    "can_go_up": true,
+    "type": "output",
+    "order": 999
+  },
+  "broadcast": true
 }

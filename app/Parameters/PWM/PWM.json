@@ -1,64 +1,62 @@
 {
-  "PWM": {
-    "ports": {
-      "input": {
-        "datatype": "bool",
-        "default": null,
-        "direction": "input"
-      },
-      "freq": {
-        "datatype": "int",
-        "default": null,
-        "direction": "input"
-      },
-      "duty": {
-        "datatype": "float",
-        "default": null,
-        "direction": "input"
-      },
-      "duty_min": {
-        "datatype": "float",
-        "default": 0,
-        "direction": "input"
-      },
-      "duty_max": {
-        "datatype": "float",
-        "default": 1,
-        "direction": "input"
-      },
-      "invert_duty": {
-        "datatype": "bool",
-        "default": false,
-        "direction": "input"
-      },
-      "event": {
-        "datatype": "bool",
-        "default": null,
-        "direction": "output"
-      },
-      "self": {
-        "datatype": "PWM",
-        "default": null,
-        "direction": "output"
-      }
+  "ports": {
+    "input": {
+      "datatype": "bool",
+      "default": null,
+      "direction": "input"
     },
-    "constants": {
-      "pin": {
-        "type": "number",
-        "state": "0",
-        "help": "physical pin on the mcu"
-      }
+    "freq": {
+      "datatype": "int",
+      "default": null,
+      "direction": "input"
     },
-    "size": [
-      85,
-      65
-    ],
-    "datatype": "bool",
-    "up": {
-      "can_go_up": true,
-      "type": "input",
-      "order": 999
+    "duty": {
+      "datatype": "float",
+      "default": null,
+      "direction": "input"
     },
-    "broadcast": false
-  }
+    "duty_min": {
+      "datatype": "float",
+      "default": 0,
+      "direction": "input"
+    },
+    "duty_max": {
+      "datatype": "float",
+      "default": 1,
+      "direction": "input"
+    },
+    "invert_duty": {
+      "datatype": "bool",
+      "default": false,
+      "direction": "input"
+    },
+    "event": {
+      "datatype": "bool",
+      "default": null,
+      "direction": "output"
+    },
+    "self": {
+      "datatype": "PWM",
+      "default": null,
+      "direction": "output"
+    }
+  },
+  "constants": {
+    "pin": {
+      "type": "number",
+      "state": "0",
+      "help": "physical pin on the mcu"
+    }
+  },
+  "size": [
+    85,
+    65
+  ],
+  "datatype": "bool",
+  "up": {
+    "can_go_up": true,
+    "type": "input",
+    "order": 999
+  },
+  "broadcast": false
 }

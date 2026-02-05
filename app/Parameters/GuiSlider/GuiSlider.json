@@ -1,59 +1,57 @@
 {
-  "GuiSlider": {
-    "ports": {
-      "input": {
-        "datatype": "any",
-        "default": null,
-        "direction": "input"
-      },
-      "max": {
-        "datatype": "any",
-        "default": 100,
-        "direction": "input"
-      },
-      "min": {
-        "datatype": "any",
-        "default": 0,
-        "direction": "input"
-      },
-      "initial_value": {
-        "datatype": "any",
-        "default": 0,
-        "direction": "input"
-      },
-      "event": {
-        "datatype": "any",
-        "default": null,
-        "direction": "output"
-      },
-      "self": {
-        "datatype": "GuiSlider",
-        "default": null,
-        "direction": "output"
-      }
+  "ports": {
+    "input": {
+      "datatype": "any",
+      "default": null,
+      "direction": "input"
     },
-    "size": [
-      85,
-      60
-    ],
-    "constants": {
-      "invert": {
-        "type": "checkbox",
-        "state": false,
-        "help": "invert the output"
-      },
-      "output_float": {
-        "type": "checkbox",
-        "state": true,
-        "help": "output value 0 to 1"
-      }
+    "max": {
+      "datatype": "any",
+      "default": 100,
+      "direction": "input"
     },
-    "datatype": "int",
-    "up": {
-      "can_go_up": true,
-      "type": "both",
-      "order": 999
+    "min": {
+      "datatype": "any",
+      "default": 0,
+      "direction": "input"
     },
-    "broadcast": true
-  }
+    "initial_value": {
+      "datatype": "any",
+      "default": 0,
+      "direction": "input"
+    },
+    "event": {
+      "datatype": "any",
+      "default": null,
+      "direction": "output"
+    },
+    "self": {
+      "datatype": "GuiSlider",
+      "default": null,
+      "direction": "output"
+    }
+  },
+  "size": [
+    85,
+    60
+  ],
+  "constants": {
+    "invert": {
+      "type": "checkbox",
+      "state": false,
+      "help": "invert the output"
+    },
+    "output_float": {
+      "type": "checkbox",
+      "state": true,
+      "help": "output value 0 to 1"
+    }
+  },
+  "datatype": "int",
+  "up": {
+    "can_go_up": true,
+    "type": "both",
+    "order": 999
+  },
+  "broadcast": true
 }

@@ -1,59 +1,57 @@
 {
-  "Hx711": {
-    "ports": {
-      "input": {
-        "datatype": "float",
-        "default": null,
-        "direction": "input"
-      },
-      "tare": {
-        "datatype": "bool",
-        "default": false,
-        "direction": "input"
-      },
-      "event": {
-        "datatype": "float",
-        "default": 0,
-        "direction": "output"
-      },
-      "self": {
-        "datatype": "Hx711",
-        "default": null,
-        "direction": "output"
-      }
+  "ports": {
+    "input": {
+      "datatype": "float",
+      "default": null,
+      "direction": "input"
     },
-    "constants": {
-      "d_out": {
-        "type": "number",
-        "state": "0",
-        "help": "physical pin number on mcu"
-      },
-      "pd_sck": {
-        "type": "number",
-        "state": "0",
-        "help": "physical pin number on mcu"
-      },
-      "channel": {
-        "type": "select",
-        "options": {
-          "CHANNEL_A_128": "CHANNEL_A_128",
-          "CHANNEL_A_64": "CHANNEL_A_64",
-          "CHANNEL_B_32": "CHANNEL_B_32"
-        },
-        "state": "CHANNEL_A_128",
-        "help": "select the attenuation"
-      }
+    "tare": {
+      "datatype": "bool",
+      "default": false,
+      "direction": "input"
     },
-    "size": [
-      75,
-      40
-    ],
-    "datatype": "float",
-    "up": {
-      "can_go_up": true,
-      "type": "output",
-      "order": 999
+    "event": {
+      "datatype": "float",
+      "default": 0,
+      "direction": "output"
     },
-    "broadcast": true
-  }
+    "self": {
+      "datatype": "Hx711",
+      "default": null,
+      "direction": "output"
+    }
+  },
+  "constants": {
+    "d_out": {
+      "type": "number",
+      "state": "0",
+      "help": "physical pin number on mcu"
+    },
+    "pd_sck": {
+      "type": "number",
+      "state": "0",
+      "help": "physical pin number on mcu"
+    },
+    "channel": {
+      "type": "select",
+      "options": {
+        "CHANNEL_A_128": "CHANNEL_A_128",
+        "CHANNEL_A_64": "CHANNEL_A_64",
+        "CHANNEL_B_32": "CHANNEL_B_32"
+      },
+      "state": "CHANNEL_A_128",
+      "help": "select the attenuation"
+    }
+  },
+  "size": [
+    75,
+    40
+  ],
+  "datatype": "float",
+  "up": {
+    "can_go_up": true,
+    "type": "output",
+    "order": 999
+  },
+  "broadcast": true
 }

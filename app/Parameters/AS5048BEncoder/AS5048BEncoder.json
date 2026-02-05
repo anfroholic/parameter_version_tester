@@ -1,59 +1,57 @@
 {
-  "AS5048BEncoder": {
-    "ports": {
-      "input": {
-        "datatype": "float",
-        "default": null,
-        "direction": "input"
-      },
-      "i2c": {
-        "datatype": "I2C",
-        "default": null,
-        "direction": "input"
-      },
-      "event": {
-        "datatype": "float",
-        "default": 0,
-        "direction": "output"
-      },
-      "self": {
-        "datatype": "AS5048B_Encoder",
-        "default": null,
-        "direction": "output"
-      }
+  "ports": {
+    "input": {
+      "datatype": "float",
+      "default": null,
+      "direction": "input"
     },
-    "size": [
-      120,
-      70
-    ],
-    "constants": {
-      "address": {
-        "type": "number",
-        "state": "64",
-        "help": "this is the DECIMAL value for i2c address"
-      },
-      "invert": {
-        "type": "checkbox",
-        "state": false,
-        "help": "invert direction - turn clockwise positive or negative"
-      },
-      "offset": {
-        "type": "number",
-        "state": 0,
-        "help": "Offset in ticks - AS5048 encoder has a resolution of 14bits\nEach tick is approximately 0.022 degrees"
-      },
-      "ring_size": {
-        "type": "input",
-        "datatype": "int",
-        "default": 8
-      }
+    "i2c": {
+      "datatype": "I2C",
+      "default": null,
+      "direction": "input"
     },
-    "datatype": "float",
-    "up": {
-      "can_go_up": true,
-      "type": "output",
-      "order": 999
+    "event": {
+      "datatype": "float",
+      "default": 0,
+      "direction": "output"
     },
-    "broadcast": true
-  }
+    "self": {
+      "datatype": "AS5048B_Encoder",
+      "default": null,
+      "direction": "output"
+    }
+  },
+  "size": [
+    120,
+    70
+  ],
+  "constants": {
+    "address": {
+      "type": "number",
+      "state": "64",
+      "help": "this is the DECIMAL value for i2c address"
+    },
+    "invert": {
+      "type": "checkbox",
+      "state": false,
+      "help": "invert direction - turn clockwise positive or negative"
+    },
+    "offset": {
+      "type": "number",
+      "state": 0,
+      "help": "Offset in ticks - AS5048 encoder has a resolution of 14bits\nEach tick is approximately 0.022 degrees"
+    },
+    "ring_size": {
+      "type": "input",
+      "datatype": "int",
+      "default": 8
+    }
+  },
+  "datatype": "float",
+  "up": {
+    "can_go_up": true,
+    "type": "output",
+    "order": 999
+  },
+  "broadcast": true
 }

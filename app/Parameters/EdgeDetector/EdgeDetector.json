@@ -1,43 +1,41 @@
 {
-  "EdgeDetector": {
-    "ports": {
-      "input": {
-        "datatype": "bool",
-        "default": null,
-        "direction": "input"
+  "ports": {
+    "input": {
+      "datatype": "bool",
+      "default": null,
+      "direction": "input"
+    },
+    "event": {
+      "datatype": "bool",
+      "default": null,
+      "direction": "output"
+    }
+  },
+  "size": [
+    90,
+    35
+  ],
+  "constants": {
+    "edge_detect": {
+      "type": "select",
+      "options": {
+        "rising": "rising",
+        "falling": "falling"
       },
-      "event": {
-        "datatype": "bool",
-        "default": null,
-        "direction": "output"
-      }
+      "state": "both",
+      "help": "takes a boolean and on state change if edge is rising or falling message is sent"
     },
-    "size": [
-      90,
-      35
-    ],
-    "constants": {
-      "edge_detect": {
-        "type": "select",
-        "options": {
-          "rising": "rising",
-          "falling": "falling"
-        },
-        "state": "both",
-        "help": "takes a boolean and on state change if edge is rising or falling message is sent"
-      },
-      "initial_state": {
-        "type": "checkbox",
-        "state": false,
-        "help": "assumed initial state"
-      }
-    },
-    "datatype": "bool",
-    "up": {
-      "can_go_up": true,
-      "type": "output",
-      "order": 999
-    },
-    "broadcast": false
-  }
+    "initial_state": {
+      "type": "checkbox",
+      "state": false,
+      "help": "assumed initial state"
+    }
+  },
+  "datatype": "bool",
+  "up": {
+    "can_go_up": true,
+    "type": "output",
+    "order": 999
+  },
+  "broadcast": false
 }

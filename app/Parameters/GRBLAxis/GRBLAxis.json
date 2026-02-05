@@ -1,55 +1,53 @@
 {
-  "GRBLAxis": {
-    "ports": {
-      "input": {
-        "datatype": "string",
-        "default": null,
-        "direction": "input"
-      },
-      "move": {
-        "datatype": "float",
-        "default": null,
-        "direction": "input"
-      },
-      "max": {
-        "datatype": "float",
-        "default": null,
-        "direction": "input"
-      },
-      "min": {
-        "datatype": "float",
-        "default": null,
-        "direction": "input"
-      },
-      "home": {
-        "datatype": "string",
-        "default": null,
-        "direction": "input"
-      },
-      "reset": {
-        "datatype": "DigitalOutput",
-        "default": null,
-        "direction": "input"
-      },
-      "self": {
-        "datatype": "GRBLAxis",
-        "default": null,
-        "direction": "output"
-      },
-      "reset_event": {
-        "datatype": "any",
-        "default": null,
-        "direction": "output"
-      }
+  "ports": {
+    "input": {
+      "datatype": "string",
+      "default": null,
+      "direction": "input"
     },
-    "size": [
-      85,
-      100
-    ],
-    "datatype": null,
-    "up": {
-      "can_go_up": false
+    "move": {
+      "datatype": "float",
+      "default": null,
+      "direction": "input"
     },
-    "broadcast": false
-  }
+    "max": {
+      "datatype": "float",
+      "default": null,
+      "direction": "input"
+    },
+    "min": {
+      "datatype": "float",
+      "default": null,
+      "direction": "input"
+    },
+    "home": {
+      "datatype": "string",
+      "default": null,
+      "direction": "input"
+    },
+    "reset": {
+      "datatype": "DigitalOutput",
+      "default": null,
+      "direction": "input"
+    },
+    "self": {
+      "datatype": "GRBLAxis",
+      "default": null,
+      "direction": "output"
+    },
+    "reset_event": {
+      "datatype": "any",
+      "default": null,
+      "direction": "output"
+    }
+  },
+  "size": [
+    85,
+    100
+  ],
+  "datatype": null,
+  "up": {
+    "can_go_up": false
+  },
+  "broadcast": false
 }

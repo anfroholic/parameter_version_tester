@@ -1,49 +1,47 @@
 {
-  "GuiPnpFeeder": {
-    "ports": {
-      "input": {
-        "datatype": "int",
-        "default": null,
-        "direction": "input"
-      },
-      "rack": {
-        "datatype": "JSON",
-        "default": false,
-        "direction": "input"
-      },
-      "machine": {
-        "datatype": "GRBL",
-        "default": false,
-        "direction": "input"
-      },
-      "event": {
-        "datatype": "int",
-        "default": null,
-        "direction": "output"
-      },
-      "self": {
-        "datatype": "JSON",
-        "default": null,
-        "direction": "output"
-      }
+  "ports": {
+    "input": {
+      "datatype": "int",
+      "default": null,
+      "direction": "input"
     },
-    "size": [
-      85,
-      40
-    ],
-    "datatype": "int",
-    "up": {
-      "can_go_up": true,
-      "type": "both",
-      "order": 999
+    "rack": {
+      "datatype": "JSON",
+      "default": false,
+      "direction": "input"
     },
-    "constants": {
-      "num_feeders": {
-        "type": "number",
-        "state": 8,
-        "help": "the number of feeders in the rack"
-      }
+    "machine": {
+      "datatype": "GRBL",
+      "default": false,
+      "direction": "input"
     },
-    "broadcast": true
-  }
+    "event": {
+      "datatype": "int",
+      "default": null,
+      "direction": "output"
+    },
+    "self": {
+      "datatype": "JSON",
+      "default": null,
+      "direction": "output"
+    }
+  },
+  "size": [
+    85,
+    40
+  ],
+  "datatype": "int",
+  "up": {
+    "can_go_up": true,
+    "type": "both",
+    "order": 999
+  },
+  "constants": {
+    "num_feeders": {
+      "type": "number",
+      "state": 8,
+      "help": "the number of feeders in the rack"
+    }
+  },
+  "broadcast": true
 }
