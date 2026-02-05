@@ -1,0 +1,16 @@
+[
+  {
+    "timestamp": "2026-02-05T01:05:14.248826+00:00",
+    "method": "POST",
+    "path": "/parameters/evezor/AnalogInput/file-versions",
+    "body": {
+      "files": [
+        {
+          "file_type": "js",
+          "content": "new js",
+          "change_note": "new js"
+        }
+      ]
+    }
+  }
+]

@@ -12,8 +12,10 @@ Endpoints:
 
 import os
 import re
+import json
 from pathlib import Path
 from typing import List, Optional
+from datetime import datetime, timezone
 from contextlib import asynccontextmanager
 
 import psycopg2
@@ -40,6 +42,32 @@ def get_db_connection():
         password=os.environ.get('POSTGRES_PASSWORD', 'password'),
         cursor_factory=RealDictCursor
     )
+
+
+REPLAY_PATH = Path(__file__).parent / 'replay.json'
+_replaying = False  # suppresses log_replay while replaying
+
+
+def log_replay(method: str, path: str, body: dict | None = None):
+    """Append a replayable request record to replay.json."""
+    if _replaying:
+        return
+    entry = {
+        "timestamp": datetime.now(timezone.utc).isoformat(),
+        "method": method,
+        "path": path,
+        "body": body,
+    }
+
+    # Load existing entries (treat missing or empty file as empty list)
+    try:
+        raw = REPLAY_PATH.read_text()
+        entries = json.loads(raw) if raw.strip() else []
+    except (FileNotFoundError, json.JSONDecodeError):
+        entries = []
+
+    entries.append(entry)
+    REPLAY_PATH.write_text(json.dumps(entries, indent=2))
 
 
 @asynccontextmanager
@@ -374,6 +402,9 @@ async def create_file_versions(owner: str, name: str, body: FileVersionBatch):
                 })
 
             conn.commit()
+
+            log_replay("POST", f"/parameters/{owner}/{name}/file-versions", body=body.model_dump())
+
             return {
                 "parameter": f"{owner}/{name}",
                 "created": created
@@ -409,6 +440,9 @@ async def publish_version(owner: str, name: str):
             new_version = cur.fetchone()['new_version']
 
             conn.commit()
+
+            log_replay("POST", f"/parameters/{owner}/{name}/publish")
+
             return {
                 "parameter": f"{owner}/{name}",
                 "published_version": new_version
@@ -419,6 +453,70 @@ async def publish_version(owner: str, name: str):
         raise HTTPException(status_code=500, detail=str(e))
     finally:
         conn.close()
+
+
+# Replay
+async def replay_entries(entries: list[dict] | None = None) -> list[dict]:
+    """
+    Replay recorded requests by calling the original handlers directly.
+    Pass a specific list of entries, or None to replay everything in replay.json.
+    Returns a result dict per entry with status 'ok' or 'error'.
+    """
+    global _replaying
+
+    if entries is None:
+        try:
+            raw = REPLAY_PATH.read_text()
+            entries = json.loads(raw) if raw.strip() else []
+        except (FileNotFoundError, json.JSONDecodeError):
+            entries = []
+
+    _replaying = True
+    results = []
+    try:
+        for entry in entries:
+            path = entry["path"]
+            try:
+                # /parameters/{owner}/{name}/file-versions
+                m = re.match(r'^/parameters/([^/]+)/([^/]+)/file-versions$', path)
+                if m:
+                    owner, name = m.groups()
+                    body = FileVersionBatch(**entry["body"])
+                    result = await create_file_versions(owner, name, body)
+                    results.append({"path": path, "timestamp": entry.get("timestamp"), "status": "ok", "result": result})
+                    continue
+
+                # /parameters/{owner}/{name}/publish
+                m = re.match(r'^/parameters/([^/]+)/([^/]+)/publish$', path)
+                if m:
+                    owner, name = m.groups()
+                    result = await publish_version(owner, name)
+                    results.append({"path": path, "timestamp": entry.get("timestamp"), "status": "ok", "result": result})
+                    continue
+
+                results.append({"path": path, "timestamp": entry.get("timestamp"), "status": "error", "error": f"Unrecognized path: {path}"})
+
+            except HTTPException as e:
+                results.append({"path": path, "timestamp": entry.get("timestamp"), "status": "error", "error": f"{e.status_code}: {e.detail}"})
+            except Exception as e:
+                results.append({"path": path, "timestamp": entry.get("timestamp"), "status": "error", "error": str(e)})
+    finally:
+        _replaying = False
+
+    return results
+
+
+@app.post("/replay")
+async def replay():
+    """Replay all recorded requests from replay.json in order."""
+    results = await replay_entries()
+    succeeded = sum(1 for r in results if r["status"] == "ok")
+    return {
+        "total": len(results),
+        "succeeded": succeeded,
+        "failed": len(results) - succeeded,
+        "results": results
+    }
 
 
 # Package Resolution
