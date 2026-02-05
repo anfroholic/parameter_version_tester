@@ -622,9 +622,12 @@
 
         <!-- Browse Tab -->
         <div class="tab-content" id="tab-browse">
-            <div class="search-box">
+            <div class="search-box" style="display:flex; gap:10px;">
+                <select id="owner-filter" style="padding: 12px 16px; font-size: 1rem; background: var(--bg-primary); border: 2px solid var(--border); border-radius: 4px; color: var(--text-primary); min-width: 180px;">
+                    <option value="">All owners</option>
+                </select>
                 <input type="text" class="search-input" id="search-input"
-                       placeholder="Search parameters...">
+                       placeholder="Search parameters..." style="flex:1;">
             </div>
             <div class="parameters-grid" id="parameters-grid">
                 <p class="loading">Loading parameters...</p>
@@ -857,6 +860,9 @@
             try {
                 const res = await fetch(`${API_BASE}/owners`);
                 allOwners = await res.json();
+                const select = document.getElementById('owner-filter');
+                select.innerHTML = '<option value="">All owners</option>' +
+                    allOwners.map(o => `<option value="${o.username}">${o.username}</option>`).join('');
             } catch (e) {
                 console.error('Failed to load owners:', e);
             }
@@ -899,14 +905,19 @@
             `).join('');
         }
 
-        document.getElementById('search-input').addEventListener('input', (e) => {
-            const search = e.target.value.toLowerCase();
-            const filtered = allParameters.filter(p =>
-                p.name.toLowerCase().includes(search) ||
-                p.owner.toLowerCase().includes(search)
-            );
+        function filterParameters() {
+            const search = document.getElementById('search-input').value.toLowerCase();
+            const owner = document.getElementById('owner-filter').value;
+            const filtered = allParameters.filter(p => {
+                if (owner && p.owner !== owner) return false;
+                if (search && !p.name.toLowerCase().includes(search) && !p.owner.toLowerCase().includes(search)) return false;
+                return true;
+            });
             renderParameters(filtered);
-        });
+        }
+
+        document.getElementById('search-input').addEventListener('input', filterParameters);
+        document.getElementById('owner-filter').addEventListener('change', filterParameters);
 
         async function showParameterDetail(owner, name) {
             const modal = document.getElementById('param-modal');

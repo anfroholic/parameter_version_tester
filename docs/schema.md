@@ -38,6 +38,7 @@ erDiagram
         int version
         text path
         text content
+        text change_note
         timestamptz created_at
     }
 
@@ -77,24 +78,34 @@ flowchart TB
 
     subgraph "FastAPI Server :8000"
         subgraph "Health & Meta"
-            HEALTH["/health"]
-            STATS["/stats"]
-            FTYPES["/file-types"]
+            ROOT["GET /"]
+            HEALTH["GET /health"]
+            STATS["GET /stats"]
+            FTYPES["GET /file-types"]
+            LOAD["POST /load"]
+            REPLAY["POST /replay"]
         end
 
         subgraph "Owner Endpoints"
-            OWNERS["/owners"]
-            OWNER["/owners/{username}"]
+            OWNERS["GET /owners"]
+            OWNER["GET /owners/{username}"]
+            OWNER_CREATE["POST /owners"]
         end
 
         subgraph "Parameter Endpoints"
-            PARAMS["/parameters"]
-            PARAM["/parameters/{owner}/{name}"]
+            PARAMS["GET /parameters"]
+            PARAM["GET /parameters/{owner}/{name}"]
+        end
+
+        subgraph "Mutation Endpoints"
+            FILEVERS["POST /.../file-versions"]
+            PUBLISH["POST /.../publish"]
+            FORK["POST /.../fork"]
         end
 
         subgraph "Resolution Endpoints"
-            RESOLVE["/resolve/{query}"]
-            DEPS["/dependencies/{owner}/{name}"]
+            RESOLVE["GET /resolve/{query}"]
+            DEPS["GET /dependencies/{owner}/{name}"]
         end
     end
 
@@ -103,32 +114,45 @@ flowchart TB
         subgraph "Resolver Functions"
             F1["resolve_parameter()"]
             F2["resolve_parameter_version()"]
+            F2b["resolve_version_file_map()"]
             F3["resolve_files()"]
             F4["resolve_package()"]
             F5["resolve_dependency_tree()"]
+            F6["resolve_dependencies()"]
+        end
+        subgraph "Write Functions"
+            P1["publish_parameter()"]
+        end
+        subgraph "Triggers"
+            T1["check_cyclic_dependency()"]
+            T2["prevent_file_delete_if_used()"]
         end
     end
 
-    REQ --> HEALTH & STATS & FTYPES
-    REQ --> OWNERS & OWNER
+    REQ --> ROOT & HEALTH & STATS & FTYPES & LOAD & REPLAY
+    REQ --> OWNERS & OWNER & OWNER_CREATE
     REQ --> PARAMS & PARAM
+    REQ --> FILEVERS & PUBLISH & FORK
     REQ --> RESOLVE & DEPS
 
-    HEALTH --> DB
-    STATS --> DB
-    FTYPES --> DB
-    OWNERS --> DB
-    OWNER --> DB
-    PARAMS --> DB
-    PARAM --> DB
+    ROOT & HEALTH & STATS & FTYPES & LOAD & REPLAY --> DB
+    OWNERS & OWNER & OWNER_CREATE --> DB
+    PARAMS & PARAM --> DB
+    FILEVERS --> DB
+    PUBLISH --> P1
+    FORK --> DB
     RESOLVE --> F4
     DEPS --> F5
     F4 --> F1 --> F2 --> F3
-    F5 --> F1
-    F1 & F2 & F3 & F4 & F5 --> DB
+    F5 --> F1 --> F6
+    P1 --> DB
+    F1 & F2 & F2b & F3 & F4 & F5 & F6 --> DB
+    T1 & T2 --> DB
 ```
 
 ## Package Resolution Flow
+
+### Stable / Specific Version
 
 ```mermaid
 sequenceDiagram
@@ -154,6 +178,39 @@ sequenceDiagram
     deactivate DB
 
     DB-->>API: Returns files with content
+    API-->>C: ResolvedPackage JSON
+```
+
+### Dev (merged) Resolution
+
+When the selector is `:dev`, `resolve_package` merges the dev file map over the latest stable version. Dev mappings win; any file types not touched in dev fall back to the latest stable version's mappings.
+
+```mermaid
+sequenceDiagram
+    participant C as Client
+    participant API as FastAPI
+    participant DB as PostgreSQL
+
+    C->>API: GET /resolve/evezor/Floe:dev
+    API->>API: Parse query notation
+
+    API->>DB: resolve_package('evezor', 'Floe', 'dev', NULL)
+
+    activate DB
+    DB->>DB: resolve_parameter('evezor', 'Floe')
+
+    DB->>DB: resolve_version_file_map(dev_version_id)
+    Note over DB: Dev file mappings (only touched types)
+
+    DB->>DB: resolve_version_file_map(latest_version_id)
+    Note over DB: Latest stable mappings (fills gaps)
+
+    DB->>DB: Merge: dev wins, latest fills missing types
+    DB->>DB: resolve_files(42, merged_map)
+    Note over DB: Fetches actual file content
+    deactivate DB
+
+    DB-->>API: Returns merged files with content
     API-->>C: ResolvedPackage JSON
 ```
 
@@ -233,20 +290,14 @@ flowchart TB
 
         subgraph "db"
             PG["PostgreSQL 16<br/>:5455"]
-            INIT["init/<br/>01_initdb.sql<br/>02_resolver.sql<br/>03_dependencies.sql"]
-        end
-
-        subgraph "pgadmin"
-            PGADMIN["PgAdmin<br/>:5050"]
+            INIT["init/<br/>01_initdb.sql<br/>02_resolver.sql<br/>03_dependencies.sql<br/>04_publish.sql"]
         end
     end
 
     FASTAPI -->|psycopg2| PG
-    PGADMIN -->|admin| PG
     INIT -->|auto-exec| PG
 
     USER((User)) --> FASTAPI
-    USER --> PGADMIN
 ```
 
 ## Query Notation Reference
@@ -257,3 +308,73 @@ flowchart TB
 | `owner/param:dev` | `evezor/Floe:dev` | Development version |
 | `owner/param:N` | `evezor/Floe:2` | Specific version |
 | `owner/param:selector[types]` | `evezor/Floe:latest[js,py]` | Filter file types |
+
+## Publish Flow
+
+Publishing snapshots the current dev state as a new numbered stable version, then resets dev to a clean slate.
+
+```mermaid
+sequenceDiagram
+    participant C as Client
+    participant API as FastAPI
+    participant DB as PostgreSQL
+
+    C->>API: POST /parameters/evezor/Floe/publish
+    API->>DB: publish_parameter(parameter_id)
+
+    activate DB
+    Note over DB: 1. Verify dev version exists
+    Note over DB: 2. Next version = MAX(version) + 1
+    Note over DB: 3. Create new stable parameter_version
+    Note over DB: 4. Snapshot file map (dev wins, latest fills gaps)
+    Note over DB: 5. Freeze deps — resolve :latest refs to actual versions
+    Note over DB: 6. Clear dev file mappings (clean slate)
+    deactivate DB
+
+    DB-->>API: Returns new version number
+    API-->>C: {"parameter": "Floe", "published_version": 4}
+```
+
+## Fork Flow
+
+Forking copies a parameter (dev state if available, otherwise latest stable) into a new owner's namespace as version 1.
+
+```mermaid
+sequenceDiagram
+    participant C as Client
+    participant API as FastAPI
+    participant DB as PostgreSQL
+
+    C->>API: POST /parameters/evezor/Floe/fork
+    Note over C: Body: {"target_owner": "andrew"}
+
+    API->>DB: Resolve source (dev if exists, else latest)
+    API->>DB: Ensure target owner exists
+    API->>DB: Create parameter under target owner
+    API->>DB: Copy all files as v1
+    API->>DB: Create stable version 1 with file mappings
+
+    DB-->>API: Files copied count
+    API-->>C: {"source": "evezor/Floe", "forked_to": "andrew/Floe", "files_copied": 5}
+```
+
+## Endpoint Reference
+
+| Method | Path | Purpose |
+|--------|------|---------|
+| GET | `/` | Serves interactive HTML UI |
+| GET | `/health` | Health check |
+| GET | `/stats` | Counts: owners, parameters, versions, files, dependencies |
+| GET | `/file-types` | List registered file types |
+| POST | `/load` | Load parameters from `/app/Parameters` folder |
+| POST | `/replay` | Replay all recorded mutations from `replay.json` |
+| GET | `/owners` | List all owners |
+| GET | `/owners/{username}` | Get single owner |
+| POST | `/owners` | Create owner |
+| GET | `/parameters?owner={owner}` | List parameters (optional owner filter) |
+| GET | `/parameters/{owner}/{name}` | Full parameter detail with all versions |
+| POST | `/parameters/{owner}/{name}/file-versions` | Create new file versions, update dev mapping |
+| POST | `/parameters/{owner}/{name}/publish` | Publish dev → new stable version |
+| POST | `/parameters/{owner}/{name}/fork` | Fork parameter to another owner |
+| GET | `/resolve/{query}` | Resolve package query → files with content |
+| GET | `/dependencies/{owner}/{name}?selector=` | Full recursive dependency tree |
