@@ -11,11 +11,15 @@ SET search_path TO public;
 -- =========================================================
 CREATE TABLE owners (
     id SERIAL PRIMARY KEY,
-    username TEXT NOT NULL UNIQUE,
-    display_name TEXT,
-    email TEXT,
-    created_at TIMESTAMPTZ NOT NULL DEFAULT NOW()
+    username TEXT NOT NULL UNIQUE
 );
+
+-- Seed default owners
+INSERT INTO owners (username) VALUES
+    ('evezor'),
+    ('andrew'),
+    ('anfro')
+ON CONFLICT DO NOTHING;
 
 -- =========================================================
 -- 2. Parameters

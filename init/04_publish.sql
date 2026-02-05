@@ -83,6 +83,10 @@ BEGIN
     FROM parameter_version_dependencies d
     WHERE d.parameter_version_id = dev_pvid;
 
+    -- 7. Clear dev file mappings — dev is now clean until next edit
+    DELETE FROM parameter_version_files
+    WHERE parameter_version_id = dev_pvid;
+
     RETURN new_version;
 END;
 $$ LANGUAGE plpgsql;

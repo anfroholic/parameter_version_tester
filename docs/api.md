@@ -60,7 +60,7 @@ GET /owners
 
 200 OK
 [
-  { "id": 1, "username": "evezor", "display_name": null, "email": null }
+  { "id": 1, "username": "evezor" }
 ]
 ```
 
@@ -72,7 +72,7 @@ Get a single owner. Returns **404** if not found.
 GET /owners/evezor
 
 200 OK
-{ "id": 1, "username": "evezor", "display_name": null, "email": null }
+{ "id": 1, "username": "evezor" }
 ```
 
 ---
@@ -177,6 +177,32 @@ POST /parameters/evezor/GuiButton/file-versions
 ```
 
 Returns **400** if `files` is empty or a `file_type` is not recognised. Returns **404** if the parameter does not exist.
+
+---
+
+## Publishing
+
+### `POST /parameters/{owner}/{name}/publish`
+
+Snapshots the current dev state as the next stable version. The new version's file map is a merge of dev over the current latest: any file type touched in dev uses the dev file version; everything else carries forward from latest. Dependencies declared in dev are frozen at this point — any `:latest` references are resolved to the actual version number at the moment of publishing.
+
+A dev version **must** already exist; the call fails if it does not.
+
+**Response:**
+
+```
+POST /parameters/evezor/GuiButton/publish
+
+200 OK
+{
+  "parameter": "evezor/GuiButton",
+  "published_version": 2
+}
+```
+
+`published_version` is the new stable version number (previous highest + 1).
+
+Returns **404** if the parameter does not exist. Returns **500** if no dev version exists for the parameter.
 
 ---
 
@@ -333,3 +359,34 @@ Serves the interactive HTML UI.
 ### `GET /load`
 
 Reloads all parameters from the `Parameters/` folder on disk into the database. Idempotent — safe to call multiple times. Also serves the interactive UI after loading.
+
+### `POST /replay`
+
+Replays every request recorded in `replay.json`, in order. Only mutating endpoints (`file-versions` and `publish`) are recorded; read-only calls are not logged. Logging is suppressed during replay itself to prevent the log from growing.
+
+```
+POST /replay
+
+200 OK
+{
+  "total": 3,
+  "succeeded": 3,
+  "failed": 0,
+  "results": [
+    {
+      "path": "/parameters/evezor/AnalogInput/file-versions",
+      "timestamp": "2026-02-05T01:05:14.248826+00:00",
+      "status": "ok",
+      "result": { "parameter": "evezor/AnalogInput", "created": [ ... ] }
+    },
+    {
+      "path": "/parameters/evezor/AnalogInput/publish",
+      "timestamp": "2026-02-05T01:06:02.100000+00:00",
+      "status": "ok",
+      "result": { "parameter": "evezor/AnalogInput", "published_version": 2 }
+    }
+  ]
+}
+```
+
+Each entry in `results` is either `"status": "ok"` with the handler's response, or `"status": "error"` with an `error` string.

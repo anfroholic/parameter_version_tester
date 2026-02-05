@@ -102,8 +102,6 @@ app.add_middleware(
 class Owner(BaseModel):
     id: int
     username: str
-    display_name: Optional[str]
-    email: Optional[str]
 
 
 class ParameterSummary(BaseModel):
@@ -155,15 +153,23 @@ class FileVersionBatch(BaseModel):
     files: List[FileVersionUpdate]
 
 
+class OwnerCreate(BaseModel):
+    username: str
+
+
+class ForkRequest(BaseModel):
+    target_owner: str
+
+
 @app.get('/', response_class=HTMLResponse)
 async def home(request: Request):
     return templates.TemplateResponse('interactive.html', {'request': request})
 
-@app.get("/load", response_class=HTMLResponse)
-async def load_parameters(request: Request):
+@app.post("/load")
+async def load_parameters():
     print("Loading parameters...")
     load_params_module.load_parameters(Path(__file__).parent / 'Parameters')
-    return templates.TemplateResponse('interactive.html', {'request': request})
+    return {"status": "ok"}
 
 # Health check
 @app.get("/health")
@@ -185,7 +191,7 @@ async def list_owners():
     conn = get_db_connection()
     try:
         with conn.cursor() as cur:
-            cur.execute("SELECT id, username, display_name, email FROM owners ORDER BY username")
+            cur.execute("SELECT id, username FROM owners ORDER BY username")
             return cur.fetchall()
     finally:
         conn.close()
@@ -198,13 +204,34 @@ async def get_owner(username: str):
     try:
         with conn.cursor() as cur:
             cur.execute(
-                "SELECT id, username, display_name, email FROM owners WHERE username = %s",
+                "SELECT id, username FROM owners WHERE username = %s",
                 (username,)
             )
             owner = cur.fetchone()
             if not owner:
                 raise HTTPException(status_code=404, detail=f"Owner '{username}' not found")
             return owner
+    finally:
+        conn.close()
+
+
+@app.post("/owners", response_model=Owner)
+async def create_owner(body: OwnerCreate):
+    """Create a new owner."""
+    conn = get_db_connection()
+    try:
+        with conn.cursor() as cur:
+            cur.execute(
+                "INSERT INTO owners (username) VALUES (%s) RETURNING id, username",
+                (body.username,)
+            )
+            owner = cur.fetchone()
+            conn.commit()
+            return owner
+    except psycopg2.IntegrityError:
+        raise HTTPException(status_code=409, detail=f"Owner '{body.username}' already exists")
+    except psycopg2.Error as e:
+        raise HTTPException(status_code=500, detail=str(e))
     finally:
         conn.close()
 
@@ -455,6 +482,123 @@ async def publish_version(owner: str, name: str):
         conn.close()
 
 
+# Fork
+@app.post("/parameters/{owner}/{name}/fork")
+async def fork_parameter(owner: str, name: str, body: ForkRequest):
+    """
+    Fork a parameter to a different owner.
+    Copies the latest state (dev if available, otherwise latest stable)
+    as v1 in the target owner's namespace.
+    """
+    conn = get_db_connection()
+    try:
+        with conn.cursor() as cur:
+            # Resolve source parameter
+            cur.execute("""
+                SELECT p.id, p.description FROM parameters p
+                JOIN owners o ON o.id = p.owner_id
+                WHERE o.username = %s AND p.name = %s
+            """, (owner, name))
+            source = cur.fetchone()
+            if not source:
+                raise HTTPException(status_code=404, detail=f"Parameter '{owner}/{name}' not found")
+            source_param_id = source['id']
+
+            # Resolve target owner
+            cur.execute("SELECT id FROM owners WHERE username = %s", (body.target_owner,))
+            target_owner_row = cur.fetchone()
+            if not target_owner_row:
+                raise HTTPException(status_code=404, detail=f"Owner '{body.target_owner}' not found")
+            target_owner_id = target_owner_row['id']
+
+            # Check target parameter doesn't already exist
+            cur.execute("""
+                SELECT id FROM parameters WHERE owner_id = %s AND name = %s
+            """, (target_owner_id, name))
+            if cur.fetchone():
+                raise HTTPException(status_code=409, detail=f"Parameter '{body.target_owner}/{name}' already exists")
+
+            # Get the latest file state: prefer dev, fall back to latest stable
+            cur.execute("""
+                SELECT pvf.file_type_id, pvf.file_version
+                FROM parameter_version_files pvf
+                JOIN parameter_versions pv ON pv.id = pvf.parameter_version_id
+                WHERE pv.parameter_id = %s AND pv.is_dev = TRUE
+            """, (source_param_id,))
+            file_mappings = cur.fetchall()
+
+            if not file_mappings:
+                cur.execute("""
+                    SELECT pvf.file_type_id, pvf.file_version
+                    FROM parameter_version_files pvf
+                    JOIN parameter_versions pv ON pv.id = pvf.parameter_version_id
+                    WHERE pv.parameter_id = %s AND pv.is_dev = FALSE
+                    AND pv.version = (
+                        SELECT MAX(version) FROM parameter_versions
+                        WHERE parameter_id = %s AND is_dev = FALSE
+                    )
+                """, (source_param_id, source_param_id))
+                file_mappings = cur.fetchall()
+
+            if not file_mappings:
+                raise HTTPException(status_code=400, detail="Source parameter has no files to fork")
+
+            # Create new parameter
+            cur.execute("""
+                INSERT INTO parameters (owner_id, name, description)
+                VALUES (%s, %s, %s)
+                RETURNING id
+            """, (target_owner_id, name, source['description']))
+            new_param_id = cur.fetchone()['id']
+
+            # Copy files as version 1 and build mapping list
+            copied_files = []
+            for fm in file_mappings:
+                cur.execute("""
+                    SELECT path, content FROM files
+                    WHERE parameter_id = %s AND file_type_id = %s AND version = %s
+                """, (source_param_id, fm['file_type_id'], fm['file_version']))
+                file_row = cur.fetchone()
+
+                cur.execute("""
+                    INSERT INTO files (parameter_id, file_type_id, version, path, content)
+                    VALUES (%s, %s, 1, %s, %s)
+                """, (new_param_id, fm['file_type_id'], file_row['path'], file_row['content']))
+
+                copied_files.append(fm['file_type_id'])
+
+            # Create stable v1
+            cur.execute("""
+                INSERT INTO parameter_versions (parameter_id, version, is_dev)
+                VALUES (%s, 1, FALSE)
+                RETURNING id
+            """, (new_param_id,))
+            v1_id = cur.fetchone()['id']
+
+            # Link v1 to the copied files (all at version 1)
+            for file_type_id in copied_files:
+                cur.execute("""
+                    INSERT INTO parameter_version_files (parameter_version_id, file_type_id, file_version)
+                    VALUES (%s, %s, 1)
+                """, (v1_id, file_type_id))
+
+            conn.commit()
+
+            log_replay("POST", f"/parameters/{owner}/{name}/fork", body=body.model_dump())
+
+            return {
+                "source": f"{owner}/{name}",
+                "forked_to": f"{body.target_owner}/{name}",
+                "files_copied": len(copied_files)
+            }
+    except HTTPException:
+        raise
+    except psycopg2.Error as e:
+        raise HTTPException(status_code=500, detail=str(e))
+    finally:
+        conn.close()
+
+
 # Replay
 async def replay_entries(entries: list[dict] | None = None) -> list[dict]:
     """
@@ -491,6 +635,15 @@ async def replay_entries(entries: list[dict] | None = None) -> list[dict]:
                 if m:
                     owner, name = m.groups()
                     result = await publish_version(owner, name)
+                    results.append({"path": path, "timestamp": entry.get("timestamp"), "status": "ok", "result": result})
+                    continue
+
+                # /parameters/{owner}/{name}/fork
+                m = re.match(r'^/parameters/([^/]+)/([^/]+)/fork$', path)
+                if m:
+                    owner, name = m.groups()
+                    body = ForkRequest(**entry["body"])
+                    result = await fork_parameter(owner, name, body)
                     results.append({"path": path, "timestamp": entry.get("timestamp"), "status": "ok", "result": result})
                     continue
 

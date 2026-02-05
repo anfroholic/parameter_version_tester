@@ -134,7 +134,13 @@ Typical usage:
 
 All edits made in the Parameter Editor are pushed to `:dev`. The dev version is fully mutable — any file can be changed to any content at any time. This includes "rolling back" by simply overwriting with previous content.
 
-Promotion from `dev` to a stable version is **explicit and intentional**. When a stable version is created, it pulls the current state from `:dev` and freezes it.
+Promotion from `dev` to a stable version is **explicit and intentional**. When a stable version is created, its file map is a *merge* of dev over the current latest: any file type that was touched in dev uses the dev file version; every other file type carries forward unchanged from the previous latest. Dependencies declared in dev are resolved and frozen at the moment of publishing.
+
+### Request Logging & Replay
+
+Every mutating request (`file-versions` and `publish`) is automatically recorded to `replay.json` with its timestamp, method, path, and body. Read-only requests are not logged, and logging is suppressed while a replay is in progress to prevent the log from growing.
+
+A replay endpoint replays every entry in the log in order, returning a summary of how many succeeded or failed. This makes it possible to rebuild the full post-load state of the registry from a clean `/load` without manually re-issuing each write.
 
 ---
 

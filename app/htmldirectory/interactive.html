@@ -54,6 +54,43 @@
             color: var(--text-secondary);
         }
 
+        .header-actions {
+            display: flex;
+            gap: 10px;
+            margin-top: 12px;
+        }
+
+        .header-btn {
+            padding: 8px 18px;
+            background: var(--accent);
+            border: none;
+            color: white;
+            cursor: pointer;
+            border-radius: 4px;
+            font-size: 0.9rem;
+            font-weight: bold;
+            transition: background 0.2s;
+            text-decoration: none;
+        }
+
+        .header-btn:hover {
+            background: var(--accent-light);
+        }
+
+        .header-btn:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+        }
+
+        .header-btn.replay {
+            background: var(--success);
+            color: #1a1a2e;
+        }
+
+        .header-btn.replay:hover {
+            background: #3db8a8;
+        }
+
         .stats-bar {
             display: flex;
             gap: 20px;
@@ -531,7 +568,10 @@
         <header>
             <h1>Parameter Registry</h1>
             <p>A versioned package management system for Parametersss</p>
-            <a href="/load"><button>Load Parameters</button></a>
+            <div class="header-actions">
+                <button class="header-btn" id="load-btn">Load Parameters</button>
+                <button class="header-btn replay" id="replay-btn">Replay</button>
+            </div>
             <div class="stats-bar" id="stats-bar">
                 <div class="stat">
                     <div class="stat-value" id="stat-parameters">-</div>
@@ -563,9 +603,8 @@
             <div class="query-examples">
                 <h4>Example Queries (click to use):</h4>
                 <div class="example-queries" id="example-queries">
-                    <span class="example-query">evezor/Parameter:latest</span>
-                    <span class="example-query">evezor/Parameter:1</span>
-                    <span class="example-query">evezor/GuiButton:latest[py]</span>
+                    <span class="example-query">evezor/AnalogInput:latest</span>
+                    <span class="example-query">evezor/AnalogInput:dev</span>
                 </div>
             </div>
 
@@ -647,6 +686,10 @@
                 document.getElementById('stat-versions').textContent = stats.stable_versions + stats.dev_versions;
                 document.getElementById('stat-files').textContent = stats.files;
                 document.getElementById('stat-deps').textContent = stats.dependencies;
+
+                if (stats.parameters > 0) {
+                    document.getElementById('load-btn').disabled = true;
+                }
             } catch (e) {
                 console.error('Failed to load stats:', e);
             }
@@ -807,6 +850,18 @@
             return div.innerHTML;
         }
 
+        // Owners
+        let allOwners = [];
+
+        async function loadOwners() {
+            try {
+                const res = await fetch(`${API_BASE}/owners`);
+                allOwners = await res.json();
+            } catch (e) {
+                console.error('Failed to load owners:', e);
+            }
+        }
+
         // Browse Tab
         let allParameters = [];
 
@@ -870,6 +925,11 @@
                 const stableVersions = data.versions.filter(v => !v.is_dev).map(v => v.version);
                 const nextVersion = stableVersions.length > 0 ? Math.max(...stableVersions) + 1 : 1;
 
+                const otherOwners = allOwners.filter(o => o.username !== owner);
+                const ownerOptionsHtml = otherOwners.map(o =>
+                    `<option value="${o.username}">${o.username}</option>`
+                ).join('');
+
                 body.innerHTML = `
                     <p>${data.description || 'No description'}</p>
                     <h3 style="margin: 20px 0 10px">Versions</h3>
@@ -888,8 +948,19 @@
                         <button class="query-btn" onclick="queryParameter('${owner}', '${name}')">
                             Query Latest
                         </button>
+                        ${otherOwners.length > 0 ? `<button class="cancel-btn" style="padding: 8px 16px; color: var(--text-primary);" onclick="toggleForkOptions()">Fork</button>` : ''}
                     </div>
-                    <div id="publish-msg" style="margin-top: 10px;"></div>
+                    ${otherOwners.length > 0 ? `
+                    <div id="fork-options" style="display:none; margin-top: 15px; padding: 12px; background: var(--bg-primary); border-radius: 4px;">
+                        <label style="color: var(--text-secondary); font-size: 0.9rem;">Fork to owner:</label>
+                        <div style="display:flex; gap:8px; margin-top:8px; align-items:center">
+                            <select id="fork-target-owner" style="padding:8px; background: var(--bg-secondary); border: 2px solid var(--border); border-radius: 4px; color: var(--text-primary); font-size: 0.9rem;">
+                                ${ownerOptionsHtml}
+                            </select>
+                            <button class="save-btn" onclick="confirmFork('${owner}', '${name}')">Confirm</button>
+                        </div>
+                    </div>` : ''}
+                    <div id="modal-msg" style="margin-top: 10px;"></div>
                 `;
             } catch (e) {
                 body.innerHTML = `<p class="error">${e.message}</p>`;
@@ -905,7 +976,7 @@
 
         async function publishFromModal(owner, name) {
             const btn = document.getElementById('publish-btn');
-            const msgDiv = document.getElementById('publish-msg');
+            const msgDiv = document.getElementById('modal-msg');
             const originalText = btn.textContent;
             btn.disabled = true;
             btn.textContent = 'Publishing...';
@@ -926,6 +997,42 @@
             } catch (e) {
                 btn.disabled = false;
                 btn.textContent = originalText;
+                msgDiv.innerHTML = `<span class="error-msg">${e.message}</span>`;
+            }
+        }
+
+        function toggleForkOptions() {
+            const opts = document.getElementById('fork-options');
+            opts.style.display = opts.style.display === 'none' ? 'block' : 'none';
+        }
+
+        async function confirmFork(owner, name) {
+            const targetOwner = document.getElementById('fork-target-owner').value;
+            const msgDiv = document.getElementById('modal-msg');
+
+            if (!targetOwner) {
+                msgDiv.innerHTML = '<span class="error-msg">Please select a target owner</span>';
+                return;
+            }
+
+            msgDiv.innerHTML = '<span style="color: var(--text-secondary)">Forking...</span>';
+
+            try {
+                const res = await fetch(`${API_BASE}/parameters/${owner}/${name}/fork`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ target_owner: targetOwner })
+                });
+
+                if (!res.ok) {
+                    const error = await res.json();
+                    throw new Error(error.detail || 'Fork failed');
+                }
+
+                const result = await res.json();
+                msgDiv.innerHTML = `<span class="success-msg">Forked to ${result.forked_to} (${result.files_copied} file(s))</span>`;
+                loadParameters();
+            } catch (e) {
                 msgDiv.innerHTML = `<span class="error-msg">${e.message}</span>`;
             }
         }
@@ -1003,10 +1110,18 @@
             if (params.length === 0) return;
 
             const examples = document.getElementById('example-queries');
-            const sampleParams = params.slice(0, 3);
+            const exampleList = [];
 
-            examples.innerHTML = sampleParams.map(p =>
-                `<span class="example-query">${p.owner}/${p.name}:latest</span>`
+            for (const p of params) {
+                if (exampleList.length >= 4) break;
+                exampleList.push(`${p.owner}/${p.name}:latest`);
+                if (p.has_dev && exampleList.length < 4) {
+                    exampleList.push(`${p.owner}/${p.name}:dev`);
+                }
+            }
+
+            examples.innerHTML = exampleList.map(q =>
+                `<span class="example-query">${q}</span>`
             ).join('');
 
             // Re-attach click handlers
@@ -1018,8 +1133,49 @@
             });
         }
 
+        // Replay
+        document.getElementById('replay-btn').addEventListener('click', async () => {
+            const btn = document.getElementById('replay-btn');
+            btn.disabled = true;
+            btn.textContent = 'Replaying...';
+
+            try {
+                const res = await fetch(`${API_BASE}/replay`, { method: 'POST' });
+                const result = await res.json();
+                const failed = result.failed > 0 ? ` (${result.failed} failed)` : '';
+                btn.textContent = `Done: ${result.succeeded}/${result.total}${failed}`;
+            } catch (e) {
+                btn.textContent = 'Error';
+            }
+
+            setTimeout(() => { btn.textContent = 'Replay'; btn.disabled = false; }, 3000);
+        });
+
+        // Load Parameters
+        document.getElementById('load-btn').addEventListener('click', async () => {
+            const btn = document.getElementById('load-btn');
+            btn.disabled = true;
+            btn.textContent = 'Loading...';
+
+            try {
+                const res = await fetch(`${API_BASE}/load`, { method: 'POST' });
+                if (!res.ok) {
+                    const error = await res.json();
+                    throw new Error(error.detail || 'Load failed');
+                }
+                btn.textContent = 'Loaded';
+                loadStats();
+                loadParameters();
+            } catch (e) {
+                btn.textContent = 'Load Parameters';
+                btn.disabled = false;
+                console.error('Load failed:', e);
+            }
+        });
+
         // Initialize
         loadStats();
+        loadOwners();
         loadParameters();
     </script>
 </body>

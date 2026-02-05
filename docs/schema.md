@@ -16,9 +16,6 @@ erDiagram
     owners {
         serial id PK
         text username UK
-        text display_name
-        text email
-        timestamptz created_at
     }
 
     parameters {
