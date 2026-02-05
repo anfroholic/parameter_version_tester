@@ -1,2 +1,2 @@
-Parameter
-FileReceiver
+evezor/Parameter
+evezor/FileReceiver

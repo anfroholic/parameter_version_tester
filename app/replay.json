@@ -74,5 +74,31 @@
     "body": {
       "target_owner": "andrew"
     }
+  },
+  {
+    "timestamp": "2026-02-05T06:04:28.719134+00:00",
+    "method": "POST",
+    "path": "/parameters/evezor/NewTest",
+    "body": null
+  },
+  {
+    "timestamp": "2026-02-05T06:19:19.279605+00:00",
+    "method": "POST",
+    "path": "/parameters/evezor/NewTest/file-versions",
+    "body": {
+      "files": [
+        {
+          "file_type": "dependencies",
+          "content": "Parameter",
+          "change_note": null
+        }
+      ]
+    }
+  },
+  {
+    "timestamp": "2026-02-05T06:20:00.581094+00:00",
+    "method": "POST",
+    "path": "/parameters/evezor/NewTest/publish",
+    "body": null
   }
 ]

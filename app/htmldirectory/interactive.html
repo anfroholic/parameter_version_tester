@@ -629,6 +629,19 @@
                 <input type="text" class="search-input" id="search-input"
                        placeholder="Search parameters..." style="flex:1;">
             </div>
+            <div style="display:flex; justify-content:flex-end; margin-bottom:15px;">
+                <button class="save-btn" id="new-param-btn">+ New Parameter</button>
+            </div>
+            <div id="new-param-form" style="display:none; margin-bottom:20px; padding:15px; background: var(--bg-primary); border-radius:4px;">
+                <input type="text" id="new-param-name" placeholder="Parameter name"
+                       style="width:100%; padding:10px; background:var(--bg-secondary); border:2px solid var(--border); border-radius:4px; color:var(--text-primary); font-size:1rem; margin-bottom:10px;">
+                <div style="display:flex; gap:10px; align-items:center;">
+                    <button class="save-btn" id="new-param-submit">Create</button>
+                    <button class="cancel-btn" id="new-param-cancel">Cancel</button>
+                    <span style="color: var(--text-secondary); font-size:0.85rem;">Owner: evezor</span>
+                </div>
+                <div id="new-param-msg" style="margin-top:8px;"></div>
+            </div>
             <div class="parameters-grid" id="parameters-grid">
                 <p class="loading">Loading parameters...</p>
             </div>
@@ -918,6 +931,48 @@
 
         document.getElementById('search-input').addEventListener('input', filterParameters);
         document.getElementById('owner-filter').addEventListener('change', filterParameters);
+
+        // New Parameter
+        document.getElementById('new-param-btn').addEventListener('click', () => {
+            const form = document.getElementById('new-param-form');
+            form.style.display = form.style.display === 'none' ? 'block' : 'none';
+        });
+
+        document.getElementById('new-param-cancel').addEventListener('click', () => {
+            document.getElementById('new-param-form').style.display = 'none';
+            document.getElementById('new-param-msg').innerHTML = '';
+        });
+
+        document.getElementById('new-param-submit').addEventListener('click', async () => {
+            const name = document.getElementById('new-param-name').value.trim();
+            const msgDiv = document.getElementById('new-param-msg');
+
+            if (!name) {
+                msgDiv.innerHTML = '<span class="error-msg">Please enter a parameter name</span>';
+                return;
+            }
+
+            msgDiv.innerHTML = '<span style="color: var(--text-secondary)">Creating...</span>';
+
+            try {
+                const res = await fetch(`${API_BASE}/parameters/evezor/${encodeURIComponent(name)}`, {
+                    method: 'POST'
+                });
+
+                if (!res.ok) {
+                    const error = await res.json();
+                    throw new Error(error.detail || 'Failed to create parameter');
+                }
+
+                const result = await res.json();
+                msgDiv.innerHTML = `<span class="success-msg">Created ${result.parameter} (${result.files_created} files)</span>`;
+                document.getElementById('new-param-name').value = '';
+                loadParameters();
+                loadStats();
+            } catch (e) {
+                msgDiv.innerHTML = `<span class="error-msg">${e.message}</span>`;
+            }
+        });
 
         async function showParameterDetail(owner, name) {
             const modal = document.getElementById('param-modal');

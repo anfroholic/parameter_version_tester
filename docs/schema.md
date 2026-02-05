@@ -216,17 +216,31 @@ sequenceDiagram
 
 ## Versioning Model
 
+There are two independent version axes. Understanding both is key to how the system works.
+
+### Two-Layer Versioning
+
+**File versions** live in the `files` table and are append-only. Each `(parameter, file_type)` pair has its own incrementing counter. A new file version is created every time content is POSTed — the previous version is never touched or overwritten.
+
+**Parameter versions** are snapshots that *point at* specific file versions. Each stable parameter version holds a frozen, complete mapping of every file type → the file version that was current at publish time. The dev parameter version holds a *sparse*, mutable mapping — only the file types that have been edited since the last publish.
+
+When `:dev` is resolved, the sparse dev mapping is merged over the latest stable mapping. Dev wins for any file type it contains; latest stable fills in everything else. Immediately after a publish, dev has no mappings, so resolving `:dev` returns the same result as `:latest`.
+
+### Static Snapshot
+
+This diagram shows the pointer state at a moment in time — v3 is latest stable, dev has touched `js` (now at v3) but not `py` or `md`.
+
 ```mermaid
 flowchart LR
     subgraph "Parameter: Floe"
         subgraph "Parameter Versions"
-            DEV[":dev"]
-            V1[":1"]
-            V2[":2"]
-            V3[":3 (latest)"]
+            DEV[":dev (sparse)"]
+            V1[":1 (frozen)"]
+            V2[":2 (frozen)"]
+            V3[":3 latest (frozen)"]
         end
 
-        subgraph "File Versions"
+        subgraph "File Versions (append-only)"
             JS1["js v1"]
             JS2["js v2"]
             JS3["js v3"]
@@ -237,9 +251,7 @@ flowchart LR
         end
     end
 
-    DEV -.->|mutable| JS3
-    DEV -.->|mutable| PY2
-    DEV -.->|mutable| MD2
+    DEV -.->|"sparse — only touched types"| JS3
 
     V1 -->|frozen| JS1
     V1 -->|frozen| PY1
@@ -252,6 +264,74 @@ flowchart LR
     V3 -->|frozen| JS2
     V3 -->|frozen| PY2
     V3 -->|frozen| MD2
+```
+
+### Full Lifecycle: Edit → Resolve → Publish
+
+This sequence shows what happens when a developer edits a single file type, resolves `:dev` (triggering the merge), and then publishes.
+
+```mermaid
+sequenceDiagram
+    participant Dev as Developer
+    participant API as FastAPI
+    participant DB as PostgreSQL
+
+    Note over Dev,DB: Starting state — v3 is latest, dev is empty (just published)
+
+    Dev->>API: POST /parameters/evezor/Floe/file-versions
+    Note over Dev: Body: {files: [{file_type: "js", content: "..."}]}
+
+    activate API
+    API->>DB: Lookup MAX(version) for (Floe, js) → js v3 exists
+    API->>DB: INSERT files — js v4, path inherited from js v3
+    API->>DB: UPSERT dev mapping — js → v4
+    API-->>Dev: {created: [{file_type: "js", new_version: 4}]}
+    deactivate API
+
+    Note over Dev,DB: Dev now has one mapping: js→v4. py and md are untouched.
+
+    Dev->>API: GET /resolve/evezor/Floe:dev
+    activate API
+    API->>DB: resolve_package — selector is 'dev'
+    DB-->>API: Merge dev {js→v4} over v3 {js→v2, py→v2, md→v2}
+    Note over DB: Result: js v4 + py v2 + md v2
+    API-->>Dev: ResolvedPackage with 3 files
+    deactivate API
+
+    Dev->>API: POST /parameters/evezor/Floe/publish
+    activate API
+    API->>DB: publish_parameter(Floe)
+    Note over DB: 1. new_version = MAX(3) + 1 = 4
+    Note over DB: 2. Snapshot merged map → v4 {js→v4, py→v2, md→v2}
+    Note over DB: 3. Freeze dependencies
+    Note over DB: 4. DELETE dev mappings — dev is clean again
+    API-->>Dev: {published_version: 4}
+    deactivate API
+
+    Note over Dev,DB: v4 is now latest. Dev is empty. Resolving :dev returns v4's files.
+```
+
+### Adding a Brand-New File Type
+
+When a file type has never existed on a parameter, `POST /file-versions` starts it at version 1 and sets the path to the file type name. The new type appears only in the dev mapping until the next publish, at which point it becomes part of the frozen stable snapshot.
+
+```mermaid
+sequenceDiagram
+    participant Dev as Developer
+    participant API as FastAPI
+    participant DB as PostgreSQL
+
+    Note over Dev,DB: "config" has never been used on this parameter
+
+    Dev->>API: POST /parameters/evezor/Floe/file-versions
+    Note over Dev: Body: {files: [{file_type: "config", content: "..."}]}
+
+    API->>DB: Lookup MAX(version) for (Floe, config) → none found
+    API->>DB: INSERT files — config v1, path = "config"
+    API->>DB: UPSERT dev mapping — config → v1
+    API-->>Dev: {created: [{file_type: "config", new_version: 1}]}
+
+    Note over Dev,DB: Dev mapping now includes config→v1.<br/>Resolving :dev merges it in. Latest stable does not have config.
 ```
 
 ## Dependency Resolution

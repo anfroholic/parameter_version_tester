@@ -1,2 +1,2 @@
-Parameter
-I2C
+evezor/Parameter
+evezor/I2C

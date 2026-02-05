@@ -338,6 +338,81 @@ async def get_parameter(owner: str, name: str):
         conn.close()
 
 
+@app.post("/parameters/{owner}/{name}")
+async def create_parameter(owner: str, name: str):
+    """
+    Create a new parameter with a v1 containing one file per registered file type,
+    each with placeholder content.
+    """
+    conn = get_db_connection()
+    try:
+        with conn.cursor() as cur:
+            # Resolve owner
+            cur.execute("SELECT id FROM owners WHERE username = %s", (owner,))
+            owner_row = cur.fetchone()
+            if not owner_row:
+                raise HTTPException(status_code=404, detail=f"Owner '{owner}' not found")
+            owner_id = owner_row['id']
+
+            # Ensure parameter doesn't already exist
+            cur.execute(
+                "SELECT id FROM parameters WHERE owner_id = %s AND name = %s",
+                (owner_id, name)
+            )
+            if cur.fetchone():
+                raise HTTPException(status_code=409, detail=f"Parameter '{owner}/{name}' already exists")
+
+            # Create parameter
+            cur.execute("""
+                INSERT INTO parameters (owner_id, name)
+                VALUES (%s, %s)
+                RETURNING id
+            """, (owner_id, name))
+            parameter_id = cur.fetchone()['id']
+
+            # Get all file types
+            cur.execute("SELECT id, name FROM file_types ORDER BY name")
+            file_types = cur.fetchall()
+
+            # Create file v1 for each file type with placeholder content
+            for ft in file_types:
+                cur.execute("""
+                    INSERT INTO files (parameter_id, file_type_id, version, path, content)
+                    VALUES (%s, %s, 1, %s, %s)
+                """, (parameter_id, ft['id'], ft['name'], 'new parameter'))
+
+            # Create stable v1
+            cur.execute("""
+                INSERT INTO parameter_versions (parameter_id, version, is_dev)
+                VALUES (%s, 1, FALSE)
+                RETURNING id
+            """, (parameter_id,))
+            v1_id = cur.fetchone()['id']
+
+            # Link all file types (version 1) to v1
+            for ft in file_types:
+                cur.execute("""
+                    INSERT INTO parameter_version_files (parameter_version_id, file_type_id, file_version)
+                    VALUES (%s, %s, 1)
+                """, (v1_id, ft['id']))
+
+            conn.commit()
+
+            log_replay("POST", f"/parameters/{owner}/{name}")
+
+            return {
+                "parameter": f"{owner}/{name}",
+                "version": 1,
+                "files_created": len(file_types)
+            }
+    except HTTPException:
+        raise
+    except psycopg2.Error as e:
+        raise HTTPException(status_code=500, detail=str(e))
+    finally:
+        conn.close()
+
+
 # File Versioning
 @app.post("/parameters/{owner}/{name}/file-versions")
 async def create_file_versions(owner: str, name: str, body: FileVersionBatch):
@@ -462,6 +537,20 @@ async def publish_version(owner: str, name: str):
             param = cur.fetchone()
             if not param:
                 raise HTTPException(status_code=404, detail=f"Parameter '{owner}/{name}' not found")
+
+            # Guard: require at least one dev file mapping before publishing
+            cur.execute("""
+                SELECT pvf.file_type_id
+                FROM parameter_version_files pvf
+                JOIN parameter_versions pv ON pv.id = pvf.parameter_version_id
+                WHERE pv.parameter_id = %s AND pv.is_dev = TRUE
+                LIMIT 1
+            """, (param['id'],))
+            if not cur.fetchone():
+                raise HTTPException(
+                    status_code=400,
+                    detail=f"Parameter '{owner}/{name}' has no dev files to publish"
+                )
 
             cur.execute("SELECT publish_parameter(%s) AS new_version", (param['id'],))
             new_version = cur.fetchone()['new_version']
@@ -644,6 +733,14 @@ async def replay_entries(entries: list[dict] | None = None) -> list[dict]:
                     owner, name = m.groups()
                     body = ForkRequest(**entry["body"])
                     result = await fork_parameter(owner, name, body)
+                    results.append({"path": path, "timestamp": entry.get("timestamp"), "status": "ok", "result": result})
+                    continue
+
+                # /parameters/{owner}/{name} (create new parameter)
+                m = re.match(r'^/parameters/([^/]+)/([^/]+)$', path)
+                if m:
+                    owner, name = m.groups()
+                    result = await create_parameter(owner, name)
                     results.append({"path": path, "timestamp": entry.get("timestamp"), "status": "ok", "result": result})
                     continue
 

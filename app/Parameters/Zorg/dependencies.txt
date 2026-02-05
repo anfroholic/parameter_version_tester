@@ -1,2 +1,2 @@
-Parameter
-FileSender
+evezor/Parameter
+evezor/FileSender
